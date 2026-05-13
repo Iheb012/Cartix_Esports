@@ -1,0 +1,105 @@
+package controllers;
+
+
+import javafx.fxml.FXML;
+import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
+import javafx.scene.control.FlowPane;
+import javafx.scene.layout.Region;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
+import javafx.geometry.Pos;
+import javafx.geometry.Priority;
+
+public class TeamsController {
+
+    @FXML private FlowPane teamsGrid;
+    @FXML private TextField searchField;
+
+    private static final String[][] TEAMS = {
+            {"Team Nexus","NXS","Valorant","1","51","18","6","Full","#388FFF"},
+            {"Iron Wolves","IW","CS2","2","44","22","5","Recruiting","#8F3FFF"},
+            {"Red Shift","RS","Valorant","3","41","25","6","Full","#E34A4A"},
+            {"Storm Grid","SG","LoL","4","38","28","5","Recruiting","#FFC01A"},
+            {"Dark Pulse","DP","Dota 2","5","35","31","6","Full","#1DB876"},
+            {"Phantom FC","PFC","Apex","6","30","36","4","Recruiting","#E56719"},
+    };
+
+    @FXML public void initialize() { loadTeams(TEAMS); }
+
+    private void loadTeams(String[][] data) {
+        teamsGrid.getChildren().clear();
+        for (String[] t : data) teamsGrid.getChildren().add(buildCard(t));
+    }
+
+    private VBox buildCard(String[] t) {
+        VBox card = new VBox(0);
+        card.setPrefWidth(360); card.setPrefHeight(190);
+        card.setStyle("-fx-background-color: #1C1C29; -fx-background-radius: 14;");
+        // top stripe
+        Label stripe = new Label(); stripe.setPrefWidth(360); stripe.setPrefHeight(4);
+        stripe.setStyle("-fx-background-color: "+t[8]+"; -fx-background-radius: 14 14 0 0;");
+        VBox body = new VBox(8); body.setStyle("-fx-padding: 14;");
+        // header row
+        HBox hdr = new HBox(10); hdr.setAlignment(javafx.geometry.Pos.CENTER_LEFT);
+        Label badge = new Label(t[1]); badge.setStyle("-fx-background-color: "+t[8]+"33; -fx-background-radius: 10; -fx-text-fill: "+t[8]+"; -fx-font-size: 12px; -fx-font-weight: bold; -fx-min-width: 44; -fx-min-height: 44; -fx-alignment: center;");
+        VBox info = new VBox(2);
+        info.getChildren().addAll(new Label(t[0]) {{ setStyle("-fx-text-fill: white; -fx-font-size: 15px; -fx-font-weight: bold;"); }},
+                new Label(t[2]) {{ setStyle("-fx-text-fill: #949499; -fx-font-size: 10px;"); }});
+        Region spacer = new Region(); HBox.setHgrow(spacer, Priority.ALWAYS);
+        Label rankBadge = new Label("#"+t[3]+" Rank"); rankBadge.setStyle("-fx-background-color: "+t[8]+"22; -fx-text-fill: "+t[8]+"; -fx-font-size: 9px; -fx-font-weight: bold; -fx-background-radius: 6; -fx-padding: 4 8;");
+        hdr.getChildren().addAll(badge, info, spacer, rankBadge);
+        // divider
+        Label div = new Label(); div.setPrefWidth(332); div.setPrefHeight(1); div.setStyle("-fx-background-color: #2E2E44;");
+        // stats row
+        HBox stats = new HBox(10); stats.setAlignment(javafx.geometry.Pos.CENTER_LEFT);
+        stats.getChildren().addAll(
+                new Label("W") {{ setStyle("-fx-text-fill: #949499; -fx-font-size: 10px;"); }},
+                new Label(t[4]) {{ setStyle("-fx-text-fill: #1DB876; -fx-font-size: 14px; -fx-font-weight: bold;"); }},
+                new Label("L") {{ setStyle("-fx-text-fill: #949499; -fx-font-size: 10px;"); }},
+                new Label(t[5]) {{ setStyle("-fx-text-fill: #E34A4A; -fx-font-size: 14px; -fx-font-weight: bold;"); }},
+                new Label(t[6]+"/6 players") {{ setStyle("-fx-text-fill: #949499; -fx-font-size: 11px;"); }}
+        );
+        Region spacer2 = new Region(); HBox.setHgrow(spacer2, Priority.ALWAYS);
+        boolean rec = t[7].equals("Recruiting");
+        Label status = new Label(t[7]); status.setStyle("-fx-background-color: "+(rec?"rgba(29,184,118,0.15)":"rgba(56,143,255,0.12)")+"; -fx-text-fill: "+(rec?"#1DB876":"#388FFF")+"; -fx-font-size: 9px; -fx-font-weight: bold; -fx-background-radius: 6; -fx-padding: 4 8;");
+        stats.getChildren().addAll(spacer2, status);
+        // buttons
+        HBox btns = new HBox(10);
+        Button view = new Button("View Team"); view.setPrefWidth(160); view.setPrefHeight(32); view.setStyle("-fx-background-color: #388FFF; -fx-text-fill: white; -fx-font-size: 12px; -fx-font-weight: bold; -fx-background-radius: 8; -fx-cursor: hand;");
+        Button join = new Button(rec ? "Apply to join" : "View Roster"); join.setPrefWidth(162); join.setPrefHeight(32); join.setStyle("-fx-background-color: #111119; -fx-text-fill: #949499; -fx-font-size: 12px; -fx-background-radius: 8; -fx-border-color: #2E2E44; -fx-border-radius: 8; -fx-cursor: hand;");
+        btns.getChildren().addAll(view, join);
+        body.getChildren().addAll(hdr, div, stats, btns);
+        card.getChildren().addAll(stripe, body);
+        return card;
+    }
+
+    @FXML public void onSearch() {
+        String q = searchField.getText().toLowerCase();
+        if (q.isEmpty()) { loadTeams(TEAMS); return; }
+        java.util.List<String[]> filtered = new java.util.ArrayList<>();
+        for (String[] t : TEAMS) if (t[0].toLowerCase().contains(q) || t[2].toLowerCase().contains(q)) filtered.add(t);
+        loadTeams(filtered.toArray(new String[0][]));
+    }
+    @FXML public void filterAll()        { loadTeams(TEAMS); }
+    @FXML public void filterMine()       { loadTeams(new String[][]{TEAMS[0]}); }
+    @FXML public void filterRecruiting() { java.util.List<String[]> r=new java.util.ArrayList<>();for(String[]t:TEAMS)if(t[7].equals("Recruiting"))r.add(t);loadTeams(r.toArray(new String[0][])); }
+    @FXML public void filterTop()        { loadTeams(new String[][]{TEAMS[0],TEAMS[1],TEAMS[2]}); }
+    @FXML public void onCreateTeam()     { System.out.println("Create team dialog"); }
+    @FXML public void onInvitePlayer()   { System.out.println("Invite player dialog"); }
+    @FXML public void onManageTeam()     { System.out.println("Manage team dialog"); }
+
+    private void navigate(String fxml) {
+        try { Parent root = FXMLLoader.load(getClass().getResource("/views/"+fxml)); Stage s=(Stage)teamsGrid.getScene().getWindow(); s.setScene(new Scene(root,1440,960)); } catch(Exception e){e.printStackTrace();}
+    }
+    @FXML public void navDashboard()   { navigate("Dashboard.fxml"); }
+    @FXML public void navPlayers()     { navigate("Players.fxml"); }
+    @FXML public void navMatches()     { navigate("Matches.fxml"); }
+    @FXML public void navTeams()       { navigate("Teams.fxml"); }
+    @FXML public void navTournaments() { navigate("Tournaments.fxml"); }
+    @FXML public void navAnalytics()   { navigate("Analytics.fxml"); }
+    @FXML public void navSettings()    { navigate("Settings.fxml"); }
+}
