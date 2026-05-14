@@ -1,0 +1,361 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane fx:id="rootPane" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.esport.controllers.MemberShopController" style="-fx-background-color: #08090f; -fx-font-family: 'Segoe UI Emoji', 'Segoe UI', 'System', sans-serif;">
+
+    <top>
+        <HBox fx:id="topBar" alignment="CENTER_LEFT" prefHeight="52" spacing="10" style="-fx-background-color: #0d0f1a; -fx-padding: 0 24; -fx-border-color: rgba(255,255,255,0.06); -fx-border-width: 0 0 1 0;">
+            <Label text="🎮" style="-fx-font-size: 24;" />
+            <Label text="Cartix" textFill="#e8eaf6" style="-fx-font-size: 20; -fx-font-weight: bold;" /><Label text=" - Esport Shop" textFill="#6b7394" style="-fx-font-size: 16;" />
+            <Region HBox.hgrow="ALWAYS" />
+            <Label fx:id="lblWelcome" text="👋 Bienvenue, Membre" textFill="#6b7394" style="-fx-font-size: 14; -fx-font-weight: bold;" />
+            <StackPane>
+                <Button fx:id="btnNotifications" text="🔔" onAction="#goToNotifications" style="-fx-background-color: transparent; -fx-text-fill: #6b7394; -fx-font-size: 18; -fx-padding: 4 8; -fx-cursor: hand; -fx-background-radius: 8;" />
+                <Label fx:id="lblNotifBadge" text="0" visible="false" style="-fx-background-color: #ff4d6d; -fx-text-fill: white; -fx-font-size: 10; -fx-font-weight: bold; -fx-background-radius: 10; -fx-padding: 1 5; -fx-min-width: 18; -fx-min-height: 18;" StackPane.alignment="TOP_RIGHT" translateX="4" translateY="-4" />
+            </StackPane>
+            <Button fx:id="btnThemeToggle" text="🌙" onAction="#toggleTheme" style="-fx-background-color: transparent; -fx-text-fill: #6b7394; -fx-font-size: 18; -fx-padding: 4 8; -fx-cursor: hand; -fx-background-radius: 8;" />
+        </HBox>
+    </top>
+
+    <left>
+        <VBox fx:id="sidebar" prefWidth="200" spacing="2" style="-fx-background-color: #0d0f1a; -fx-padding: 20 10; -fx-border-color: rgba(255,255,255,0.06); -fx-border-width: 0 1 0 0;">
+            <Label text="🎮 Cartix" textFill="#e8eaf6" style="-fx-font-size: 18; -fx-font-weight: bold; -fx-padding: 0 0 20 8;" />
+            <Label text="MENU" textFill="#6b7394" style="-fx-font-size: 10; -fx-font-weight: bold; -fx-padding: 0 0 4 8; -fx-letter-spacing: 2;" />
+
+            <Button text="📊  Dashboard" onAction="#sidebarPlaceholder" style="-fx-background-color: transparent; -fx-text-fill: #6b7394; -fx-font-size: 13; -fx-font-weight: bold; -fx-background-radius: 8; -fx-padding: 10 12; -fx-cursor: hand; -fx-alignment: CENTER_LEFT; -fx-max-width: Infinity;" />
+            <Button text="👥  Players" onAction="#sidebarPlaceholder" style="-fx-background-color: transparent; -fx-text-fill: #6b7394; -fx-font-size: 13; -fx-font-weight: bold; -fx-background-radius: 8; -fx-padding: 10 12; -fx-cursor: hand; -fx-alignment: CENTER_LEFT; -fx-max-width: Infinity;" />
+            <Button text="⚔️  Matches" onAction="#sidebarPlaceholder" style="-fx-background-color: transparent; -fx-text-fill: #6b7394; -fx-font-size: 13; -fx-font-weight: bold; -fx-background-radius: 8; -fx-padding: 10 12; -fx-cursor: hand; -fx-alignment: CENTER_LEFT; -fx-max-width: Infinity;" />
+            <Button text="👥  Teams" onAction="#sidebarPlaceholder" style="-fx-background-color: transparent; -fx-text-fill: #6b7394; -fx-font-size: 13; -fx-font-weight: bold; -fx-background-radius: 8; -fx-padding: 10 12; -fx-cursor: hand; -fx-alignment: CENTER_LEFT; -fx-max-width: Infinity;" />
+            <Button text="🏆  Tournaments" onAction="#sidebarPlaceholder" style="-fx-background-color: transparent; -fx-text-fill: #6b7394; -fx-font-size: 13; -fx-font-weight: bold; -fx-background-radius: 8; -fx-padding: 10 12; -fx-cursor: hand; -fx-alignment: CENTER_LEFT; -fx-max-width: Infinity;" />
+            <Button text="🌐  Community Hub" onAction="#sidebarPlaceholder" style="-fx-background-color: transparent; -fx-text-fill: #6b7394; -fx-font-size: 13; -fx-font-weight: bold; -fx-background-radius: 8; -fx-padding: 10 12; -fx-cursor: hand; -fx-alignment: CENTER_LEFT; -fx-max-width: Infinity;" />
+            <Button text="🛒  Product Shop" onAction="#goToAccueil" style="-fx-background-color: #4d78ff; -fx-text-fill: white; -fx-font-size: 13; -fx-font-weight: bold; -fx-background-radius: 8; -fx-padding: 10 12; -fx-cursor: hand; -fx-alignment: CENTER_LEFT; -fx-max-width: Infinity;" />
+            <Button text="🤝  Sponsor" onAction="#sidebarPlaceholder" style="-fx-background-color: transparent; -fx-text-fill: #6b7394; -fx-font-size: 13; -fx-font-weight: bold; -fx-background-radius: 8; -fx-padding: 10 12; -fx-cursor: hand; -fx-alignment: CENTER_LEFT; -fx-max-width: Infinity;" />
+        </VBox>
+    </left>
+
+    <center>
+            <VBox fx:id="centerContent" spacing="10" style="-fx-padding: 10 20 20 20;">
+                <!-- Navigation -->
+                <HBox fx:id="navBar" spacing="8" alignment="CENTER_LEFT" style="-fx-background-color: #1a2a4a; -fx-background-radius: 12; -fx-padding: 10 20; -fx-border-color: rgba(77,120,255,0.15); -fx-border-radius: 12;">
+                    <Button fx:id="btnAccueil" text="🏠 Accueil" onAction="#goToAccueil" style="-fx-background-color: #4d78ff; -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 14; -fx-background-radius: 8; -fx-padding: 8 16; -fx-cursor: hand;" />
+                    <Button fx:id="btnCommandes" text="📦 Mes Commandes" onAction="#goToCommandes" style="-fx-background-color: transparent; -fx-text-fill: #6b7394; -fx-font-weight: bold; -fx-font-size: 14; -fx-background-radius: 8; -fx-padding: 8 16; -fx-cursor: hand;" />
+                    <Button fx:id="btnPaiement" text="💳 Paiement" onAction="#goToPaiement" style="-fx-background-color: transparent; -fx-text-fill: #6b7394; -fx-font-weight: bold; -fx-font-size: 14; -fx-background-radius: 8; -fx-padding: 8 16; -fx-cursor: hand;" />
+                    <Button fx:id="btnFactures" text="📄 Factures" onAction="#goToFacture" style="-fx-background-color: transparent; -fx-text-fill: #6b7394; -fx-font-weight: bold; -fx-font-size: 14; -fx-background-radius: 8; -fx-padding: 8 16; -fx-cursor: hand;" />
+                    <Button fx:id="btnLivraison" text="🚚 Livraison" onAction="#goToLivraison" style="-fx-background-color: transparent; -fx-text-fill: #6b7394; -fx-font-weight: bold; -fx-font-size: 14; -fx-background-radius: 8; -fx-padding: 8 16; -fx-cursor: hand;" />
+                    <Button fx:id="btnConfigurateur" text="🎮 Config" onAction="#goToConfigurateur" style="-fx-background-color: transparent; -fx-text-fill: #6b7394; -fx-font-weight: bold; -fx-font-size: 14; -fx-background-radius: 8; -fx-padding: 8 16; -fx-cursor: hand;" />
+                    <Button fx:id="btnNegociateur" text="🤝 Négociateur" onAction="#goToNegociateur" style="-fx-background-color: transparent; -fx-text-fill: #6b7394; -fx-font-weight: bold; -fx-font-size: 14; -fx-background-radius: 8; -fx-padding: 8 16; -fx-cursor: hand;" />
+                    <Button fx:id="btnEmail" text="✉️ Email" onAction="#goToEmail" style="-fx-background-color: transparent; -fx-text-fill: #6b7394; -fx-font-weight: bold; -fx-font-size: 14; -fx-background-radius: 8; -fx-padding: 8 16; -fx-cursor: hand;" />
+                </HBox>
+
+                <StackPane fx:id="contentStack" VBox.vgrow="ALWAYS">
+                    <!-- Page Accueil -->
+                    <VBox fx:id="pageAccueil" spacing="15" VBox.vgrow="ALWAYS" style="-fx-padding: 20;">
+                        <TextField fx:id="searchField" promptText="🔍 Rechercher un produit..." style="-fx-background-color: #1a2a4a; -fx-text-fill: #e8eaf6; -fx-prompt-text-fill: #6b7394; -fx-border-color: rgba(77,120,255,0.15); -fx-border-radius: 10; -fx-background-radius: 10; -fx-padding: 12 16; -fx-font-size: 14;" />
+
+                        <!-- Flash Deal Banner -->
+                        <VBox fx:id="flashBanner" spacing="8" style="-fx-background-color: linear-gradient(to right, #1a2a4a, #2a1a3a); -fx-background-radius: 12; -fx-padding: 14 20; -fx-border-color: #ff4d6d; -fx-border-radius: 12; -fx-border-width: 1.5;">
+                            <HBox spacing="12" alignment="CENTER_LEFT">
+                                <Label text="🎁" style="-fx-font-size: 28;" />
+                                <VBox spacing="4">
+                                    <Label text="OFFRE FLASH !" textFill="#ff4d6d" style="-fx-font-size: 18; -fx-font-weight: bold;" />
+                                    <Label fx:id="lblFlashDesc" text="-20% sur les souris Razer" textFill="#e8eaf6" style="-fx-font-size: 14; -fx-font-weight: bold;" />
+                                </VBox>
+                                <Region HBox.hgrow="ALWAYS" />
+                                <VBox alignment="CENTER_RIGHT" spacing="2">
+                                    <Label text="⏰ Plus que :" textFill="#6b7394" style="-fx-font-size: 13;" />
+                                    <Label fx:id="lblFlashTimer" text="00 : 00 : 00" textFill="#ff4d6d" style="-fx-font-size: 22; -fx-font-weight: bold; -fx-font-family: 'Courier New', monospace;" />
+                                </VBox>
+                            </HBox>
+                        </VBox>
+
+                        <HBox spacing="15" VBox.vgrow="ALWAYS">
+                            <VBox spacing="10" HBox.hgrow="ALWAYS">
+                                <Label fx:id="lblTotalProducts" text="📦 0 produits disponibles" textFill="#6b7394" style="-fx-font-size: 14;" />
+                                <ScrollPane fx:id="productsScroll" fitToWidth="true" VBox.vgrow="ALWAYS" style="-fx-background: transparent; -fx-background-color: transparent;">
+                                    <FlowPane fx:id="productsGrid" hgap="25" vgap="25" alignment="TOP_LEFT" style="-fx-background-color: transparent;" />
+                                </ScrollPane>
+                            </VBox>
+                            <!-- Panier card -->
+                            <VBox fx:id="panierCard" spacing="10" prefWidth="380" maxWidth="380" style="-fx-background-color: #1a2a4a; -fx-background-radius: 12; -fx-padding: 20; -fx-border-color: rgba(77,120,255,0.15); -fx-border-radius: 12;">
+                                <Label text="🛒 MON PANIER" textFill="#e8eaf6" style="-fx-font-size: 18; -fx-font-weight: bold;" />
+                                <TableView fx:id="panierTable" VBox.vgrow="ALWAYS" style="-fx-background-color: transparent; -fx-control-inner-background: transparent; -fx-text-fill: #e8eaf6; -fx-border-color: rgba(77,120,255,0.15); -fx-border-radius: 10; -fx-background-radius: 10;">
+                                    <columns>
+                                        <TableColumn fx:id="colPanierNom" text="📦 Produit" prefWidth="150" />
+                                        <TableColumn fx:id="colPanierPrix" text="💰 Prix" prefWidth="60" />
+                                        <TableColumn fx:id="colPanierQte" text="🔢 Qté" prefWidth="60" />
+                                        <TableColumn fx:id="colPanierTotal" text="💵 Total" prefWidth="70" />
+                                    </columns>
+                                </TableView>
+                                <HBox alignment="CENTER_RIGHT" spacing="10">
+                                    <Label text="🧾 Total:" textFill="#e8eaf6" style="-fx-font-size: 16;" />
+                                    <Label fx:id="lblTotalPanier" text="0.00 TND" textFill="#ff4d6d" style="-fx-font-size: 18; -fx-font-weight: bold;" />
+                                    <Label fx:id="lblNbArticles" text="📦 0 art." textFill="#6b7394" style="-fx-font-size: 13;" />
+                                </HBox>
+                                <VBox spacing="8" style="-fx-background-color: rgba(77,120,255,0.08); -fx-background-radius: 10; -fx-padding: 12; -fx-border-color: rgba(77,120,255,0.15); -fx-border-radius: 10;">
+                                    <Label text="🎟️ CODE PROMO" textFill="#e8eaf6" style="-fx-font-size: 13; -fx-font-weight: bold;" />
+                                    <HBox spacing="8" alignment="CENTER_LEFT">
+                                        <TextField fx:id="tfCodePromo" promptText="Entrez votre code" style="-fx-background-color: #161a2e; -fx-text-fill: #e8eaf6; -fx-prompt-text-fill: #6b7394; -fx-border-color: rgba(77,120,255,0.2); -fx-border-radius: 8; -fx-background-radius: 8; -fx-padding: 8 12; -fx-font-size: 13;" HBox.hgrow="ALWAYS" />
+                                        <Button fx:id="btnAppliquerPromo" text="Appliquer" onAction="#appliquerCodePromo" style="-fx-background-color: #4d78ff; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 8; -fx-padding: 8 16; -fx-cursor: hand; -fx-font-size: 13;" />
+                                    </HBox>
+                                    <Label fx:id="lblReduction" text="" textFill="#22d98a" style="-fx-font-size: 13; -fx-font-weight: bold;" />
+                                </VBox>
+                                <VBox fx:id="iaPredictiveBox" spacing="8" visible="false" managed="false" style="-fx-background-color: rgba(168,85,247,0.08); -fx-background-radius: 10; -fx-padding: 12; -fx-border-color: rgba(168,85,247,0.2); -fx-border-radius: 10;">
+                                    <Label text="🧠 IA PRÉDICTIVE" textFill="#a855f7" style="-fx-font-size: 13; -fx-font-weight: bold;" />
+                                    <Label fx:id="lblIaAnalyse" wrapText="true" textFill="#e8eaf6" style="-fx-font-size: 12;" />
+                                    <VBox fx:id="iaSuggestionsList" spacing="6" />
+                                    <Label fx:id="lblIaTotal" textFill="#e8eaf6" style="-fx-font-size: 12; -fx-font-weight: bold;" />
+                                    <HBox spacing="8" alignment="CENTER_RIGHT">
+                                        <Button text="➕ Ajouter tout" onAction="#ajouterIaSuggestions" style="-fx-background-color: #a855f7; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 8; -fx-padding: 6 14; -fx-cursor: hand; -fx-font-size: 12;" />
+                                        <Button text="❌ Ignorer" onAction="#ignorerIaSuggestions" style="-fx-background-color: transparent; -fx-text-fill: #6b7394; -fx-font-weight: bold; -fx-font-size: 12; -fx-background-radius: 8; -fx-padding: 6 14; -fx-cursor: hand; -fx-border-color: #6b7394; -fx-border-radius: 8;" />
+                                    </HBox>
+                                </VBox>
+                                <HBox spacing="10" alignment="CENTER_RIGHT">
+                                    <Button text="🗑️ Vider" onAction="#viderPanier" style="-fx-background-color: #ff4d6d; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 8; -fx-padding: 8 16; -fx-cursor: hand;" />
+                                    <Button text="✅ Passer commande →" onAction="#passerCommande" style="-fx-background-color: #22d98a; -fx-text-fill: #08090f; -fx-font-weight: bold; -fx-background-radius: 8; -fx-padding: 8 16; -fx-cursor: hand;" />
+                                </HBox>
+                            </VBox>
+                        </HBox>
+                    </VBox>
+
+                    <!-- Page Commandes -->
+                    <VBox fx:id="pageCommandes" spacing="15" style="-fx-padding: 20;" visible="false" managed="false">
+                        <VBox style="-fx-background-color: #1a2a4a; -fx-background-radius: 12; -fx-padding: 25; -fx-border-color: rgba(77,120,255,0.15); -fx-border-radius: 12;" spacing="15">
+                            <Label text="📦 MES COMMANDES" textFill="#e8eaf6" style="-fx-font-size: 20; -fx-font-weight: bold;" />
+                            <TableView fx:id="commandesTable" style="-fx-background-color: #1a2a4a; -fx-border-color: rgba(77,120,255,0.15); -fx-border-radius: 10; -fx-background-radius: 10;">
+                                <columns>
+                                    <TableColumn fx:id="colCmdId" text="🆔 N°" prefWidth="80" />
+                                    <TableColumn fx:id="colCmdDate" text="📅 Date" prefWidth="150" />
+                                    <TableColumn fx:id="colCmdTotal" text="💰 Total" prefWidth="120" />
+                                    <TableColumn fx:id="colCmdStatut" text="📌 Statut" prefWidth="150" />
+                                    <TableColumn fx:id="colCmdAction" text="⚙️ Action" prefWidth="100" />
+                                </columns>
+                            </TableView>
+                        </VBox>
+                    </VBox>
+
+                    <!-- Page Paiement -->
+                    <VBox fx:id="pagePaiement" spacing="15" style="-fx-padding: 20;" visible="false" managed="false">
+                        <VBox spacing="20" maxWidth="650">
+                            <!-- Section Montant -->
+                                <VBox style="-fx-background-color: #1a2a4a; -fx-background-radius: 12; -fx-padding: 20; -fx-border-color: rgba(77,120,255,0.15); -fx-border-radius: 12;" spacing="12">
+                                    <Label text="💳 Paiement" textFill="#e8eaf6" style="-fx-font-size: 18; -fx-font-weight: bold;" />
+                                    <HBox spacing="15" alignment="CENTER_LEFT">
+                                        <VBox spacing="5" HBox.hgrow="ALWAYS">
+                                            <Label text="Montant à payer" textFill="#6b7394" style="-fx-font-size: 13;" />
+                                            <TextField fx:id="tfMontantPaiement" promptText="0.00 TND" style="-fx-background-color: #161a2e; -fx-text-fill: #e8eaf6; -fx-prompt-text-fill: #6b7394; -fx-border-color: rgba(255,255,255,0.1); -fx-border-radius: 8; -fx-background-radius: 8; -fx-padding: 10;" />
+                                        </VBox>
+                                        <VBox spacing="5" HBox.hgrow="ALWAYS">
+                                            <Label text="Description" textFill="#6b7394" style="-fx-font-size: 13;" />
+                                            <TextField fx:id="tfDescPaiement" promptText="Achat sur Cartix" style="-fx-background-color: #161a2e; -fx-text-fill: #e8eaf6; -fx-prompt-text-fill: #6b7394; -fx-border-color: rgba(255,255,255,0.1); -fx-border-radius: 8; -fx-background-radius: 8; -fx-padding: 10;" />
+                                        </VBox>
+                                        <VBox spacing="5" HBox.hgrow="ALWAYS">
+                                            <Label text="Commande existante" textFill="#6b7394" style="-fx-font-size: 13;" />
+                                            <ComboBox fx:id="cbPaiementCommande" promptText="Choisir" style="-fx-background-color: #161a2e; -fx-text-fill: #e8eaf6; -fx-border-color: rgba(255,255,255,0.1); -fx-border-radius: 8; -fx-background-radius: 8; -fx-padding: 10;" />
+                                        </VBox>
+                                    </HBox>
+                                </VBox>
+
+                                <!-- Section Carte -->
+                                <VBox style="-fx-background-color: #1a2a4a; -fx-background-radius: 12; -fx-padding: 20; -fx-border-color: rgba(77,120,255,0.15); -fx-border-radius: 12;" spacing="12">
+                                    <Label text="💳 Informations de la carte" textFill="#4d78ff" style="-fx-font-size: 15; -fx-font-weight: bold;" />
+                                    <VBox spacing="5">
+                                        <Label text="Numéro de carte" textFill="#6b7394" style="-fx-font-size: 13;" />
+                                        <TextField fx:id="tfCardNumber" promptText="1234 5678 9012 3456" style="-fx-background-color: #161a2e; -fx-text-fill: #e8eaf6; -fx-prompt-text-fill: #6b7394; -fx-border-color: rgba(255,255,255,0.1); -fx-border-radius: 8; -fx-background-radius: 8; -fx-padding: 10;" />
+                                    </VBox>
+                                    <HBox spacing="15">
+                                        <VBox spacing="5" HBox.hgrow="ALWAYS">
+                                            <Label text="Date d'expiration" textFill="#6b7394" style="-fx-font-size: 13;" />
+                                            <TextField fx:id="tfCardExpiry" promptText="MM/AA" style="-fx-background-color: #161a2e; -fx-text-fill: #e8eaf6; -fx-prompt-text-fill: #6b7394; -fx-border-color: rgba(255,255,255,0.1); -fx-border-radius: 8; -fx-background-radius: 8; -fx-padding: 10;" />
+                                        </VBox>
+                                        <VBox spacing="5" HBox.hgrow="ALWAYS">
+                                            <Label text="CVV" textFill="#6b7394" style="-fx-font-size: 13;" />
+                                            <TextField fx:id="tfCardCvv" promptText="123" style="-fx-background-color: #161a2e; -fx-text-fill: #e8eaf6; -fx-prompt-text-fill: #6b7394; -fx-border-color: rgba(255,255,255,0.1); -fx-border-radius: 8; -fx-background-radius: 8; -fx-padding: 10;" />
+                                        </VBox>
+                                    </HBox>
+                                    <VBox spacing="5">
+                                        <Label text="Titulaire de la carte" textFill="#6b7394" style="-fx-font-size: 13;" />
+                                        <TextField fx:id="tfCardHolder" promptText="Jean Dupont" style="-fx-background-color: #161a2e; -fx-text-fill: #e8eaf6; -fx-prompt-text-fill: #6b7394; -fx-border-color: rgba(255,255,255,0.1); -fx-border-radius: 8; -fx-background-radius: 8; -fx-padding: 10;" />
+                                    </VBox>
+                                </VBox>
+
+                                <!-- Section Payer -->
+                                <HBox alignment="CENTER" spacing="15" style="-fx-background-color: #1a2a4a; -fx-background-radius: 12; -fx-padding: 15 20; -fx-border-color: rgba(77,120,255,0.15); -fx-border-radius: 12;">
+                                    <ProgressIndicator fx:id="progressPaiement" visible="false" prefWidth="24" prefHeight="24" />
+                                    <Button text="💳 Payer maintenant" onAction="#lancerPaiement" style="-fx-background-color: #4d78ff; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 8; -fx-padding: 12 40; -fx-cursor: hand; -fx-font-size: 14;" />
+                                    <Label fx:id="lblStatutPaiement" textFill="#22d98a" />
+                                </HBox>
+                            </VBox>
+                    </VBox>
+
+                    <!-- Page Facture -->
+                    <VBox fx:id="pageFacture" spacing="15" style="-fx-padding: 20;" visible="false" managed="false">
+                        <VBox style="-fx-background-color: #1a2a4a; -fx-background-radius: 12; -fx-padding: 25; -fx-border-color: rgba(77,120,255,0.15); -fx-border-radius: 12;" spacing="20">
+                            <Label text="📄 GÉNÉRATION DE FACTURE" textFill="#e8eaf6" style="-fx-font-size: 20; -fx-font-weight: bold;" />
+                            <Label text="📋 Sélectionnez une commande:" textFill="#6b7394" style="-fx-font-size: 14; -fx-font-weight: bold;" />
+                            <ComboBox fx:id="cbFactureCommande" promptText="Choisir une commande" style="-fx-background-color: #161a2e; -fx-text-fill: #e8eaf6; -fx-border-color: rgba(255,255,255,0.1); -fx-border-radius: 8; -fx-background-radius: 8; -fx-padding: 10;" />
+                            <Button text="📑 Générer la facture PDF" onAction="#genererFacture" style="-fx-background-color: #4d78ff; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 8; -fx-padding: 12 30; -fx-cursor: hand;" />
+                            <Label fx:id="lblStatutFacture" textFill="#22d98a" />
+                        </VBox>
+                    </VBox>
+
+                    <!-- Page Livraison -->
+                    <VBox fx:id="pageLivraison" spacing="15" style="-fx-padding: 20;" visible="false" managed="false">
+                        <VBox style="-fx-background-color: #1a2a4a; -fx-background-radius: 12; -fx-padding: 25; -fx-border-color: rgba(77,120,255,0.15); -fx-border-radius: 12;" spacing="20">
+                            <Label text="🚚 SUIVI DE LIVRAISON" textFill="#e8eaf6" style="-fx-font-size: 20; -fx-font-weight: bold;" />
+                            <Label text="📋 Sélectionnez une commande:" textFill="#6b7394" style="-fx-font-size: 14; -fx-font-weight: bold;" />
+                            <ComboBox fx:id="cbLivraisonCommande" promptText="Choisir une commande" style="-fx-background-color: #161a2e; -fx-text-fill: #e8eaf6; -fx-border-color: rgba(255,255,255,0.1); -fx-border-radius: 8; -fx-background-radius: 8; -fx-padding: 10;" />
+
+                            <VBox fx:id="livraisonCard" spacing="15" visible="false" managed="false" style="-fx-background-color: #0d0f1a; -fx-background-radius: 12; -fx-padding: 25; -fx-border-color: rgba(77,120,255,0.2); -fx-border-radius: 12;">
+                                <!-- Steps -->
+                                <HBox spacing="0" alignment="CENTER">
+                                    <VBox fx:id="step1" spacing="6" alignment="CENTER" HBox.hgrow="ALWAYS">
+                                        <Label text="✅" style="-fx-font-size: 28;" alignment="CENTER" />
+                                        <Label text="Commandée" style="-fx-font-size: 11; -fx-font-weight: bold;" textFill="#6b7394" alignment="CENTER" />
+                                    </VBox>
+                                    <VBox fx:id="step2" spacing="6" alignment="CENTER" HBox.hgrow="ALWAYS">
+                                        <Label text="🚚" style="-fx-font-size: 28;" alignment="CENTER" />
+                                        <Label text="Expédiée" style="-fx-font-size: 11; -fx-font-weight: bold;" textFill="#6b7394" alignment="CENTER" />
+                                    </VBox>
+                                    <VBox fx:id="step3" spacing="6" alignment="CENTER" HBox.hgrow="ALWAYS">
+                                        <Label text="📦" style="-fx-font-size: 28;" alignment="CENTER" />
+                                        <Label text="En livraison" style="-fx-font-size: 11; -fx-font-weight: bold;" textFill="#6b7394" alignment="CENTER" />
+                                    </VBox>
+                                    <VBox fx:id="step4" spacing="6" alignment="CENTER" HBox.hgrow="ALWAYS">
+                                        <Label text="🏠" style="-fx-font-size: 28;" alignment="CENTER" />
+                                        <Label text="Livrée" style="-fx-font-size: 11; -fx-font-weight: bold;" textFill="#6b7394" alignment="CENTER" />
+                                    </VBox>
+                                </HBox>
+
+                                <!-- Progress Bar -->
+                                <StackPane prefHeight="12" style="-fx-background-color: #161a2e; -fx-background-radius: 6; -fx-border-color: rgba(255,255,255,0.06); -fx-border-radius: 6;">
+                                    <Region fx:id="progressFill" style="-fx-background-color: #4d78ff; -fx-background-radius: 6;" />
+                                </StackPane>
+
+                                <!-- Status label -->
+                                <Label fx:id="lblLivraisonStatut" textFill="#4d78ff" style="-fx-font-size: 14; -fx-font-weight: bold;" />
+                            </VBox>
+
+                            <Button text="🔄 Actualiser" onAction="#actualiserLivraison" style="-fx-background-color: #4d78ff; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 8; -fx-padding: 10 24; -fx-cursor: hand;" />
+                        </VBox>
+                    </VBox>
+
+                    <!-- Page Email -->
+                    <VBox fx:id="pageEmail" spacing="15" style="-fx-padding: 20;" visible="false" managed="false">
+                        <VBox style="-fx-background-color: #1a2a4a; -fx-background-radius: 12; -fx-padding: 25; -fx-border-color: rgba(77,120,255,0.15); -fx-border-radius: 12;" spacing="15">
+                            <Label text="✉️ ENVOI D'EMAIL" textFill="#e8eaf6" style="-fx-font-size: 20; -fx-font-weight: bold;" />
+<Label text="👤 Destinataire:" textFill="#6b7394" style="-fx-font-size: 14; -fx-font-weight: bold;" />
+                             <TextField fx:id="tfEmailDest" promptText="client@email.com" style="-fx-background-color: #161a2e; -fx-text-fill: #e8eaf6; -fx-prompt-text-fill: #6b7394; -fx-border-color: rgba(255,255,255,0.1); -fx-border-radius: 8; -fx-background-radius: 8; -fx-padding: 12;" />
+                             <Label text="📌 Sujet:" textFill="#6b7394" style="-fx-font-size: 14; -fx-font-weight: bold;" />
+                             <TextField fx:id="tfEmailSujet" promptText="Votre commande sur Cartix" style="-fx-background-color: #161a2e; -fx-text-fill: #e8eaf6; -fx-prompt-text-fill: #6b7394; -fx-border-color: rgba(255,255,255,0.1); -fx-border-radius: 8; -fx-background-radius: 8; -fx-padding: 12;" />
+                             <Label text="💬 Message:" textFill="#6b7394" style="-fx-font-size: 14; -fx-font-weight: bold;" />
+                            <TextArea fx:id="taEmailContenu" promptText="Contenu du message..." prefHeight="150" style="-fx-background-color: #161a2e; -fx-text-fill: #e8eaf6; -fx-prompt-text-fill: #6b7394; -fx-border-color: rgba(255,255,255,0.1); -fx-border-radius: 8; -fx-background-radius: 8; -fx-padding: 12;" />
+                            <HBox alignment="CENTER" spacing="15">
+                                <ProgressIndicator fx:id="progressEmail" visible="false" />
+                                <Button text="✉️ Envoyer l'email" onAction="#envoyerEmail" style="-fx-background-color: #22d98a; -fx-text-fill: #08090f; -fx-font-weight: bold; -fx-background-radius: 8; -fx-padding: 12 30; -fx-cursor: hand;" />
+                            </HBox>
+                            <Label fx:id="lblStatutEmail" textFill="#22d98a" />
+                        </VBox>
+                    </VBox>
+
+                    <!-- Page Configurateur -->
+                    <VBox fx:id="pageConfigurateur" spacing="15" style="-fx-padding: 20;" visible="false" managed="false">
+                        <ScrollPane fx:id="configScroll" fitToWidth="true" VBox.vgrow="ALWAYS" style="-fx-background: transparent; -fx-background-color: transparent;">
+                            <VBox spacing="15">
+                        <VBox style="-fx-background-color: #1a2a4a; -fx-background-radius: 12; -fx-padding: 25; -fx-border-color: rgba(77,120,255,0.15); -fx-border-radius: 12;" spacing="15">
+                            <Label text="🎮 CONFIGURATEUR DE SETUP GAMER - IA" textFill="#e8eaf6" style="-fx-font-size: 20; -fx-font-weight: bold;" />
+
+                            <Label text="💰 Quel est ton budget total ?" textFill="#6b7394" style="-fx-font-size: 14; -fx-font-weight: bold;" />
+                            <HBox spacing="10">
+                                <TextField fx:id="tfBudget" promptText="Ex: 1500" prefWidth="200" style="-fx-background-color: #161a2e; -fx-text-fill: #e8eaf6; -fx-prompt-text-fill: #6b7394; -fx-border-color: rgba(255,255,255,0.1); -fx-border-radius: 8; -fx-background-radius: 8; -fx-padding: 10; -fx-font-size: 14;" />
+                                <Label text="TND" textFill="#6b7394" style="-fx-font-size: 14; -fx-font-weight: bold;" />
+                            </HBox>
+
+                            <Button fx:id="btnGenererSetup" text="🤖 CRÉER MON SETUP" onAction="#genererSetup" style="-fx-background-color: #4d78ff; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 8; -fx-padding: 14 40; -fx-cursor: hand; -fx-font-size: 15;" />
+                            <ProgressIndicator fx:id="progressSetup" visible="false" prefWidth="24" prefHeight="24" />
+                        </VBox>
+
+                        <!-- Result card -->
+                        <VBox fx:id="setupResultCard" spacing="15" visible="false" managed="false" style="-fx-background-color: #0d0f1a; -fx-background-radius: 12; -fx-padding: 25; -fx-border-color: rgba(77,120,255,0.2); -fx-border-radius: 12;">
+                            <Label text="📋 CONFIGURATION IA PROPOSÉE" textFill="#e8eaf6" style="-fx-font-size: 18; -fx-font-weight: bold;" />
+
+                            <!-- PC Section -->
+                            <Label fx:id="lblSetupPC" textFill="#22d98a" style="-fx-font-size: 14; -fx-font-weight: bold;" />
+                            <VBox fx:id="setupPCList" spacing="6" />
+
+                            <!-- Peripherals Section -->
+                            <Label fx:id="lblSetupPeriph" textFill="#4d78ff" style="-fx-font-size: 14; -fx-font-weight: bold;" />
+                            <VBox fx:id="setupPeriphList" spacing="6" />
+
+                            <!-- Screen Section -->
+                            <Label fx:id="lblSetupScreen" textFill="#ffa500" style="-fx-font-size: 14; -fx-font-weight: bold;" />
+                            <HBox fx:id="setupScreenRow" spacing="10" />
+
+                            <!-- Chair Section -->
+                            <Label fx:id="lblSetupChaise" textFill="#a855f7" style="-fx-font-size: 14; -fx-font-weight: bold;" />
+                            <HBox fx:id="setupChaiseRow" spacing="10" />
+
+                            <!-- Budget bar -->
+                            <Label text="📊 RÉPARTITION DU BUDGET :" textFill="#e8eaf6" style="-fx-font-size: 14; -fx-font-weight: bold;" />
+                            <VBox fx:id="budgetBarContainer" spacing="6" />
+
+                            <!-- Total / remaining -->
+                            <Label fx:id="lblSetupTotal" textFill="#22d98a" style="-fx-font-size: 14; -fx-font-weight: bold;" />
+
+                            <!-- Actions -->
+                            <HBox spacing="12">
+                                <Button text="✅ AJOUTER TOUT AU PANIER" onAction="#ajouterSetupAuPanier" style="-fx-background-color: #22d98a; -fx-text-fill: #08090f; -fx-font-weight: bold; -fx-background-radius: 8; -fx-padding: 12 24; -fx-cursor: hand; -fx-font-size: 14;" />
+                                <Button text="🔄 Nouvelle configuration" onAction="#resetConfigurateur" style="-fx-background-color: transparent; -fx-text-fill: #6b7394; -fx-font-weight: bold; -fx-font-size: 13; -fx-background-radius: 8; -fx-padding: 12 24; -fx-cursor: hand; -fx-border-color: #6b7394; -fx-border-radius: 8;" />
+                            </HBox>
+                        </VBox>
+                        </VBox>
+                        </ScrollPane>
+                    </VBox>
+
+                    <!-- Page Notifications -->
+                    <VBox fx:id="pageNotifications" spacing="15" style="-fx-padding: 20;" visible="false" managed="false">
+                        <VBox style="-fx-background-color: #1a2a4a; -fx-background-radius: 12; -fx-padding: 25; -fx-border-color: rgba(77,120,255,0.15); -fx-border-radius: 12;" spacing="15">
+                            <HBox alignment="CENTER_LEFT" spacing="10">
+                                <Label text="🔔" style="-fx-font-size: 24;" />
+                                <Label text="NOTIFICATIONS" textFill="#e8eaf6" style="-fx-font-size: 20; -fx-font-weight: bold;" />
+                                <Region HBox.hgrow="ALWAYS" />
+                                <Button text="🗑️ Tout effacer" onAction="#viderNotifications" style="-fx-background-color: transparent; -fx-text-fill: #ff4d6d; -fx-font-weight: bold; -fx-font-size: 13; -fx-background-radius: 8; -fx-padding: 6 14; -fx-cursor: hand; -fx-border-color: #ff4d6d; -fx-border-radius: 8;" />
+                            </HBox>
+                            <ScrollPane fx:id="notifScroll" fitToWidth="true" VBox.vgrow="ALWAYS" style="-fx-background: transparent; -fx-background-color: transparent;">
+                                <VBox fx:id="notificationsList" spacing="6" />
+                            </ScrollPane>
+                        </VBox>
+                    </VBox>
+
+                    <!-- Page Négociateur -->
+                    <VBox fx:id="pageNegociateur" spacing="15" VBox.vgrow="ALWAYS" style="-fx-padding: 20;" visible="false" managed="false">
+                        <VBox VBox.vgrow="ALWAYS" style="-fx-background-color: #1a2a4a; -fx-background-radius: 12; -fx-padding: 25; -fx-border-color: rgba(77,120,255,0.15); -fx-border-radius: 12;" spacing="10">
+                            <Label text="🛒 MON PANIER + ASSISTANT NÉGOCIATEUR IA" textFill="#e8eaf6" style="-fx-font-size: 20; -fx-font-weight: bold;" />
+                            <ScrollPane fitToWidth="true" VBox.vgrow="SOMETIMES" style="-fx-background: transparent; -fx-background-color: transparent;">
+                                <VBox fx:id="negociateurCartList" spacing="6" />
+                            </ScrollPane>
+                            <HBox alignment="CENTER_RIGHT" spacing="10">
+                                <Label text="🧾 Total:" textFill="#e8eaf6" style="-fx-font-size: 16;" />
+                                <Label fx:id="lblNegociateurTotal" text="0.00 TND" textFill="#ff4d6d" style="-fx-font-size: 18; -fx-font-weight: bold;" />
+                                <Label fx:id="lblNegociateurNbArticles" text="📦 0 art." textFill="#6b7394" style="-fx-font-size: 13;" />
+                            </HBox>
+                            <Separator style="-fx-background-color: rgba(77,120,255,0.15); -fx-pref-height: 1;" />
+                            <Label text="🤝 IA NÉGOCIATEUR" textFill="#a855f7" style="-fx-font-size: 16; -fx-font-weight: bold;" />
+                            <Label fx:id="lblNegociateurMsg" wrapText="true" textFill="#e8eaf6" style="-fx-font-size: 14; -fx-padding: 10 0;" />
+                            <ScrollPane fitToWidth="true" VBox.vgrow="ALWAYS" style="-fx-background: transparent; -fx-background-color: transparent;">
+                                <VBox fx:id="offersContainer" spacing="10" />
+                            </ScrollPane>
+                            <HBox spacing="12" alignment="CENTER">
+                                <Button text="✅ Passer commande sans offre" onAction="#goToAccueil" style="-fx-background-color: transparent; -fx-text-fill: #6b7394; -fx-font-weight: bold; -fx-background-radius: 8; -fx-padding: 10 20; -fx-cursor: hand; -fx-font-size: 14; -fx-border-color: #6b7394; -fx-border-radius: 8;" />
+                                <Button text="🤝 Négocier avec l'IA" onAction="#genererOffresNegociateur" style="-fx-background-color: #a855f7; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 8; -fx-padding: 10 24; -fx-cursor: hand; -fx-font-size: 14;" />
+                            </HBox>
+                        </VBox>
+                    </VBox>
+
+                    <VBox fx:id="toastContainer" spacing="8" alignment="TOP_RIGHT" translateX="-10" translateY="10" mouseTransparent="false" pickOnBounds="false" StackPane.alignment="TOP_RIGHT" />
+                </StackPane>
+            </VBox>
+    </center>
+</BorderPane>

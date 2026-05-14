@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.Circle?>
+
+<BorderPane xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.esport.controllers.AdminCommandesController" style="-fx-background-color: #08090f; -fx-font-family: 'Segoe UI Emoji', 'Segoe UI', 'System', sans-serif;">
+
+    <top>
+        <HBox alignment="CENTER_LEFT" prefHeight="52" spacing="10" style="-fx-background-color: #0d0f1a; -fx-padding: 0 24; -fx-border-color: rgba(255,255,255,0.06); -fx-border-width: 0 0 1 0;">
+            <Label text="🛒 Cartix" textFill="#4d78ff" style="-fx-font-size: 20; -fx-font-weight: bold;" />
+            <Label text="- Administration" textFill="#6b7394" style="-fx-font-size: 14; -fx-padding: 0 0 2 2;" />
+            <Region HBox.hgrow="ALWAYS" />
+            <Button text="🔄 Rafraîchir" onAction="#rafraichir" style="-fx-background-color: #22d98a; -fx-text-fill: #08090f; -fx-font-weight: bold; -fx-background-radius: 8; -fx-padding: 8 16; -fx-cursor: hand;" />
+        </HBox>
+    </top>
+
+    <left>
+        <VBox prefWidth="180" style="-fx-background-color: #0d0f1a; -fx-border-color: rgba(255,255,255,0.06); -fx-border-width: 0 1 0 0;" />
+    </left>
+
+    <center>
+        <StackPane>
+            <Circle radius="150" fill="rgba(77,120,255,0.06)" translateX="185" translateY="95" StackPane.alignment="TOP_LEFT" />
+            <Circle radius="240" fill="rgba(34,217,138,0.04)" translateX="460" translateY="120" StackPane.alignment="BOTTOM_LEFT" />
+
+            <VBox spacing="15" style="-fx-padding: 20;">
+                <HBox spacing="15" alignment="CENTER_LEFT" style="-fx-background-color: #1a2a4a; -fx-background-radius: 12; -fx-padding: 15 20; -fx-border-color: rgba(77,120,255,0.15); -fx-border-radius: 12;">
+                    <Label text="📦 GESTION DES COMMANDES" textFill="#e8eaf6" style="-fx-font-size: 20; -fx-font-weight: bold;" />
+                </HBox>
+
+                <!-- Stats -->
+                <HBox spacing="10">
+                    <VBox style="-fx-background-color: #1a2a4a; -fx-background-radius: 12; -fx-padding: 12; -fx-border-color: rgba(77,120,255,0.15); -fx-border-radius: 12;" HBox.hgrow="ALWAYS">
+                        <Label text="📊 Total" textFill="#6b7394" style="-fx-font-size: 11;" />
+                        <Label fx:id="lblTotal" text="0" textFill="#e8eaf6" style="-fx-font-size: 22; -fx-font-weight: bold;" />
+                    </VBox>
+                    <VBox style="-fx-background-color: #1a2a4a; -fx-background-radius: 12; -fx-padding: 12; -fx-border-color: rgba(255,165,0,0.15); -fx-border-radius: 12;" HBox.hgrow="ALWAYS">
+                        <Label text="🟡 En attente" textFill="#6b7394" style="-fx-font-size: 11;" />
+                        <Label fx:id="lblEnAttente" text="0" textFill="#ffa500" style="-fx-font-size: 22; -fx-font-weight: bold;" />
+                    </VBox>
+                    <VBox style="-fx-background-color: #1a2a4a; -fx-background-radius: 12; -fx-padding: 12; -fx-border-color: rgba(34,217,138,0.15); -fx-border-radius: 12;" HBox.hgrow="ALWAYS">
+                        <Label text="🟢 Payées" textFill="#6b7394" style="-fx-font-size: 11;" />
+                        <Label fx:id="lblPayee" text="0" textFill="#22d98a" style="-fx-font-size: 22; -fx-font-weight: bold;" />
+                    </VBox>
+                    <VBox style="-fx-background-color: #1a2a4a; -fx-background-radius: 12; -fx-padding: 12; -fx-border-color: rgba(52,152,219,0.15); -fx-border-radius: 12;" HBox.hgrow="ALWAYS">
+                        <Label text="🔵 Expédiées" textFill="#6b7394" style="-fx-font-size: 11;" />
+                        <Label fx:id="lblExpediee" text="0" textFill="#3498db" style="-fx-font-size: 22; -fx-font-weight: bold;" />
+                    </VBox>
+                    <VBox style="-fx-background-color: #1a2a4a; -fx-background-radius: 12; -fx-padding: 12; -fx-border-color: rgba(168,85,247,0.15); -fx-border-radius: 12;" HBox.hgrow="ALWAYS">
+                        <Label text="🟣 En cours" textFill="#6b7394" style="-fx-font-size: 11;" />
+                        <Label fx:id="lblEnCours" text="0" textFill="#a855f7" style="-fx-font-size: 22; -fx-font-weight: bold;" />
+                    </VBox>
+                    <VBox style="-fx-background-color: #1a2a4a; -fx-background-radius: 12; -fx-padding: 12; -fx-border-color: rgba(34,197,94,0.15); -fx-border-radius: 12;" HBox.hgrow="ALWAYS">
+                        <Label text="🟢 Livrées" textFill="#6b7394" style="-fx-font-size: 11;" />
+                        <Label fx:id="lblLivree" text="0" textFill="#22c55e" style="-fx-font-size: 22; -fx-font-weight: bold;" />
+                    </VBox>
+                    <VBox style="-fx-background-color: #1a2a4a; -fx-background-radius: 12; -fx-padding: 12; -fx-border-color: rgba(255,77,109,0.15); -fx-border-radius: 12;" HBox.hgrow="ALWAYS">
+                        <Label text="🔴 Annulées" textFill="#6b7394" style="-fx-font-size: 11;" />
+                        <Label fx:id="lblAnnulee" text="0" textFill="#ff4d6d" style="-fx-font-size: 22; -fx-font-weight: bold;" />
+                    </VBox>
+                    <VBox style="-fx-background-color: #1a2a4a; -fx-background-radius: 12; -fx-padding: 12; -fx-border-color: rgba(77,120,255,0.15); -fx-border-radius: 12;" HBox.hgrow="ALWAYS">
+                        <Label text="💰 Chiffre d'affaires" textFill="#6b7394" style="-fx-font-size: 11;" />
+                        <Label fx:id="lblCA" text="0 TND" textFill="#4d78ff" style="-fx-font-size: 22; -fx-font-weight: bold;" />
+                    </VBox>
+                </HBox>
+
+                <!-- Table -->
+                <VBox style="-fx-background-color: #1a2a4a; -fx-background-radius: 12; -fx-padding: 15; -fx-border-color: rgba(77,120,255,0.15); -fx-border-radius: 12;" spacing="10" VBox.vgrow="ALWAYS">
+                    <Label text="📋 Liste des commandes" textFill="#e8eaf6" style="-fx-font-size: 16; -fx-font-weight: bold;" />
+                    <TableView fx:id="commandesTable" VBox.vgrow="ALWAYS" style="-fx-background-color: #1a2a4a; -fx-control-inner-background: #1a2a4a; -fx-selection-bar: #4d78ff; -fx-selection-bar-non-focused: #2a3a5a; -fx-table-cell-border-color: rgba(77,120,255,0.08); -fx-border-color: rgba(77,120,255,0.15); -fx-border-radius: 10; -fx-background-radius: 10;">
+                        <columns>
+                            <TableColumn fx:id="colId" text="🆔 N°" prefWidth="60" />
+                            <TableColumn fx:id="colClient" text="👤 Client" prefWidth="200" />
+                            <TableColumn fx:id="colDate" text="📅 Date" prefWidth="140" />
+                            <TableColumn fx:id="colTotal" text="💰 Total" prefWidth="120" />
+                            <TableColumn fx:id="colStatut" text="📌 Statut" prefWidth="140" />
+                        </columns>
+                    </TableView>
+
+                    <HBox spacing="10" alignment="CENTER_RIGHT">
+                        <Button text="✅ Confirmer" onAction="#confirmerCommande" style="-fx-background-color: #22d98a; -fx-text-fill: #08090f; -fx-font-weight: bold; -fx-background-radius: 8; -fx-padding: 10 24; -fx-cursor: hand;" />
+                        <Button text="🚚 Livrer" onAction="#livrerCommande" style="-fx-background-color: #4d78ff; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 8; -fx-padding: 10 24; -fx-cursor: hand;" />
+                        <Button text="❌ Annuler" onAction="#annulerCommande" style="-fx-background-color: #ff4d6d; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 8; -fx-padding: 10 24; -fx-cursor: hand;" />
+                    </HBox>
+                </VBox>
+            </VBox>
+        </StackPane>
+    </center>
+</BorderPane>

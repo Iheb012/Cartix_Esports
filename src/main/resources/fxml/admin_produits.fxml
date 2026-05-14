@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.Circle?>
+
+<BorderPane xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.esport.controllers.AdminProduitsController" style="-fx-background-color: #08090f; -fx-font-family: 'Segoe UI Emoji', 'Segoe UI', 'System', sans-serif;">
+
+    <top>
+        <HBox alignment="CENTER_LEFT" prefHeight="52" spacing="10" style="-fx-background-color: #0d0f1a; -fx-padding: 0 24; -fx-border-color: rgba(255,255,255,0.06); -fx-border-width: 0 0 1 0;">
+            <Label text="🛒 Cartix" textFill="#4d78ff" style="-fx-font-size: 20; -fx-font-weight: bold;" />
+            <Label text="- Administration" textFill="#6b7394" style="-fx-font-size: 14; -fx-padding: 0 0 2 2;" />
+            <Region HBox.hgrow="ALWAYS" />
+            <Label text="📦 Gestion des produits" textFill="#6b7394" style="-fx-font-size: 13;" />
+        </HBox>
+    </top>
+
+    <left>
+        <VBox prefWidth="180" style="-fx-background-color: #0d0f1a; -fx-border-color: rgba(255,255,255,0.06); -fx-border-width: 0 1 0 0;" />
+    </left>
+
+    <center>
+        <StackPane>
+            <Circle radius="150" fill="rgba(77,120,255,0.06)" translateX="185" translateY="95" StackPane.alignment="TOP_LEFT" />
+            <Circle radius="240" fill="rgba(255,77,109,0.04)" translateX="460" translateY="120" StackPane.alignment="BOTTOM_LEFT" />
+
+            <VBox spacing="15" style="-fx-padding: 20 20 20 20;">
+                <!-- Header -->
+                <HBox spacing="15" alignment="CENTER_LEFT" style="-fx-background-color: #1a2a4a; -fx-background-radius: 12; -fx-padding: 15 20; -fx-border-color: rgba(77,120,255,0.15); -fx-border-radius: 12;">
+                    <Label text="📦 GESTION DES PRODUITS" textFill="#e8eaf6" style="-fx-font-size: 20; -fx-font-weight: bold;" />
+                    <Region HBox.hgrow="ALWAYS" />
+                    <Button text="📦 Commandes" onAction="#openCommandes" style="-fx-background-color: #4d78ff; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 8; -fx-padding: 10 20; -fx-cursor: hand;" />
+                    <Button text="➕ Nouveau produit" onAction="#ajouterProduit" style="-fx-background-color: #22d98a; -fx-text-fill: #08090f; -fx-font-weight: bold; -fx-background-radius: 8; -fx-padding: 10 20; -fx-cursor: hand;" />
+                </HBox>
+
+                <!-- Search -->
+                <TextField fx:id="searchField" promptText="🔍 Rechercher par nom ou catégorie..." style="-fx-background-color: #1a2a4a; -fx-text-fill: #e8eaf6; -fx-prompt-text-fill: #6b7394; -fx-border-color: rgba(77,120,255,0.15); -fx-border-radius: 10; -fx-background-radius: 10; -fx-padding: 12 16; -fx-font-size: 13;" />
+
+                <!-- Stats -->
+                <HBox spacing="15">
+                    <VBox style="-fx-background-color: #1a2a4a; -fx-background-radius: 12; -fx-padding: 15; -fx-border-color: rgba(77,120,255,0.15); -fx-border-radius: 12;" HBox.hgrow="ALWAYS">
+                        <Label text="📦 Total produits" textFill="#6b7394" style="-fx-font-size: 13;" />
+                        <Label fx:id="lblTotalProduits" text="0" textFill="#e8eaf6" style="-fx-font-size: 28; -fx-font-weight: bold;" />
+                    </VBox>
+                    <VBox style="-fx-background-color: #1a2a4a; -fx-background-radius: 12; -fx-padding: 15; -fx-border-color: rgba(77,120,255,0.15); -fx-border-radius: 12;" HBox.hgrow="ALWAYS">
+                        <Label text="⚠️ Stock bas (&lt;5)" textFill="#6b7394" style="-fx-font-size: 13;" />
+                        <Label fx:id="lblStockBas" text="0" textFill="#ff4d6d" style="-fx-font-size: 28; -fx-font-weight: bold;" />
+                    </VBox>
+                    <VBox style="-fx-background-color: #1a2a4a; -fx-background-radius: 12; -fx-padding: 15; -fx-border-color: rgba(77,120,255,0.15); -fx-border-radius: 12;" HBox.hgrow="ALWAYS">
+                        <Label text="💰 Valeur du stock" textFill="#6b7394" style="-fx-font-size: 13;" />
+                        <Label fx:id="lblValeurStock" text="0 TND" textFill="#22d98a" style="-fx-font-size: 28; -fx-font-weight: bold;" />
+                    </VBox>
+                </HBox>
+
+                <!-- Table -->
+                <VBox style="-fx-background-color: #1a2a4a; -fx-background-radius: 12; -fx-padding: 15; -fx-border-color: rgba(77,120,255,0.15); -fx-border-radius: 12;" spacing="10" VBox.vgrow="ALWAYS">
+                    <Label text="📋 Liste des produits" textFill="#e8eaf6" style="-fx-font-size: 16; -fx-font-weight: bold;" />
+                    <TableView fx:id="produitsTable" VBox.vgrow="ALWAYS" style="-fx-background-color: #1a2a4a; -fx-control-inner-background: #1a2a4a; -fx-selection-bar: #4d78ff; -fx-selection-bar-non-focused: #2a3a5a; -fx-table-cell-border-color: rgba(77,120,255,0.08); -fx-border-color: rgba(77,120,255,0.15); -fx-border-radius: 10; -fx-background-radius: 10;">
+                        <columns>
+                            <TableColumn fx:id="colId" text="🆔 ID" prefWidth="60" />
+                            <TableColumn fx:id="colNom" text="📛 Nom" prefWidth="200" />
+                            <TableColumn fx:id="colPrix" text="💰 Prix (TND)" prefWidth="100" />
+                            <TableColumn fx:id="colStock" text="📦 Stock" prefWidth="80" />
+                            <TableColumn fx:id="colCategorie" text="🏷️ Catégorie" prefWidth="120" />
+                        </columns>
+                    </TableView>
+                    <HBox spacing="10" alignment="CENTER_RIGHT">
+                        <Button text="✏️ Modifier" onAction="#modifierProduit" style="-fx-background-color: #4d78ff; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 8; -fx-padding: 8 20; -fx-cursor: hand;" />
+                        <Button text="🗑️ Supprimer" onAction="#supprimerProduit" style="-fx-background-color: #ff4d6d; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 8; -fx-padding: 8 20; -fx-cursor: hand;" />
+                        <Button text="🔄 Rafraîchir" onAction="#rafraichir" style="-fx-background-color: #22d98a; -fx-text-fill: #08090f; -fx-font-weight: bold; -fx-background-radius: 8; -fx-padding: 8 20; -fx-cursor: hand;" />
+                    </HBox>
+                </VBox>
+            </VBox>
+        </StackPane>
+    </center>
+</BorderPane>
