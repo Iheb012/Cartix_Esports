@@ -1,19 +1,23 @@
 package Controllers;
 
+import javafx.application.Platform;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import models.ExternalTournament;
 import models.Joueur;
 import models.Tournoi;
 import models.User;
-import services.JoueurService;
-import services.TournoiService;
+import services.*;
 import utils.Session;
 
 import java.sql.Date;
@@ -35,16 +39,29 @@ public class TournamentsController {
     @FXML private ComboBox<String> hostFormat;
     @FXML private ComboBox<Integer> hostSize;
 
+    // External Tournaments
+    @FXML private TableView<ExternalTournament> externalTable;
+    @FXML private TableColumn<ExternalTournament, String> colSource;
+    @FXML private TableColumn<ExternalTournament, String> colExtName;
+    @FXML private TableColumn<ExternalTournament, String> colExtGame;
+    @FXML private TableColumn<ExternalTournament, String> colExtDate;
+    @FXML private TableColumn<ExternalTournament, String> colExtPrize;
+    @FXML private TableColumn<ExternalTournament, String> colExtLocation;
+    @FXML private TableColumn<ExternalTournament, Void> colExtLink;
+    @FXML private ComboBox<String> extGameSelector;
+
     private TournoiService tournoiService;
     private JoueurService joueurService;
+
     private int currentUserId;
     private List<Tournoi> allTournois;
     private Tournoi currentSelectedTournament;
-
+    private PandaScoreApiService pandaScoreService;
     @FXML
     public void initialize() {
         tournoiService = new TournoiService();
         joueurService = new JoueurService();
+        pandaScoreService = new PandaScoreApiService();
 
         User currentUser = Session.getInstance().getCurrentUser();
         if (currentUser != null) {
@@ -53,18 +70,74 @@ public class TournamentsController {
             currentUserId = 1;
         }
 
-        // Initialisation des ComboBox
         hostGame.getItems().addAll("Valorant", "CS2", "League of Legends", "Rocket League", "Dota2", "Fortnite", "Apex");
         hostFormat.getItems().addAll("Single Elimination", "Double Elimination", "Round Robin");
         hostSize.getItems().addAll(4, 8, 16, 32, 64);
 
+        if (extGameSelector != null) {
+            extGameSelector.setValue("valorant");
+            extGameSelector.setOnAction(e -> loadExternalTournaments());
+        }
+
+        setupExternalTable();
         loadTournaments();
+        loadExternalTournaments();
+    }
+
+    private void setupExternalTable() {
+        colSource.setCellValueFactory(new PropertyValueFactory<>("source"));
+        colExtName.setCellValueFactory(new PropertyValueFactory<>("name"));
+        colExtGame.setCellValueFactory(new PropertyValueFactory<>("game"));
+        colExtDate.setCellValueFactory(new PropertyValueFactory<>("startDate"));
+        colExtPrize.setCellValueFactory(new PropertyValueFactory<>("prizePool"));
+        colExtLocation.setCellValueFactory(new PropertyValueFactory<>("location"));
+
+        colExtLink.setCellFactory(col -> new TableCell<>() {
+            private final Button linkBtn = new Button("Open");
+            {
+                linkBtn.setStyle("-fx-background-color: #388FFF; -fx-text-fill: white; -fx-background-radius: 4; -fx-padding: 4 8;");
+                linkBtn.setOnAction(e -> {
+                    ExternalTournament t = getTableView().getItems().get(getIndex());
+                    String url = t.getUrl();
+                    if (url != null && !url.isEmpty() && !url.equals("#") && url.startsWith("http")) {
+                        try {
+                            // Ouvre dans le navigateur par défaut
+                            java.awt.Desktop.getDesktop().browse(java.net.URI.create(url));
+                        } catch (Exception ex) {
+                            System.err.println("Erreur: " + ex.getMessage());
+                            showAlert("Erreur", "Impossible d'ouvrir: " + url);
+                        }
+                    } else {
+                        showAlert("Info", "Lien non disponible");
+                    }
+                });
+            }
+            @Override
+            protected void updateItem(Void item, boolean empty) {
+                super.updateItem(item, empty);
+                setGraphic(empty ? null : linkBtn);
+            }
+        });
+    }
+
+    @FXML
+    public void loadExternalTournaments() {
+        if (extGameSelector == null) return;
+        String game = extGameSelector.getValue();
+        if (game == null) game = "valorant";
+
+        String finalGame = game;
+
+        new Thread(() -> {
+            List<ExternalTournament> tournaments = pandaScoreService.getUpcomingTournaments(finalGame);
+            ObservableList<ExternalTournament> finalList = FXCollections.observableArrayList(tournaments);
+            Platform.runLater(() -> externalTable.setItems(finalList));
+        }).start();
     }
 
     private void loadTournaments() {
         try {
             allTournois = tournoiService.getAll();
-
             tournamentsBox.getChildren().clear();
             myTourneysBox.getChildren().clear();
 
@@ -75,7 +148,6 @@ public class TournamentsController {
                     tournamentsBox.getChildren().add(createTournamentCard(t, false));
                 }
             }
-
             System.out.println("✅ " + allTournois.size() + " tournois chargés");
         } catch (Exception e) {
             e.printStackTrace();
@@ -203,26 +275,21 @@ public class TournamentsController {
 
     private void displayBracket(Tournoi t) {
         bracketContent.getChildren().clear();
-
         VBox bracketContainer = new VBox(15);
         bracketContainer.setAlignment(Pos.TOP_CENTER);
 
         HBox infoBox = new HBox(20);
         infoBox.setAlignment(Pos.CENTER);
         infoBox.setStyle("-fx-background-color: #1C1C29; -fx-background-radius: 10; -fx-padding: 10;");
-
         Label teamsLabel = new Label("👥 " + t.getNbInscrits() + " / " + t.getMaxEquipe() + " joueurs");
         teamsLabel.setStyle("-fx-text-fill: white; -fx-font-size: 12px;");
-
         Label statusLabel = new Label("📌 " + t.getStatut());
         statusLabel.setStyle("-fx-text-fill: #FFB830; -fx-font-size: 12px;");
-
         infoBox.getChildren().addAll(teamsLabel, statusLabel);
         bracketContainer.getChildren().add(infoBox);
 
         try {
             List<Joueur> inscrits = tournoiService.getJoueursInscrits(t.getId());
-
             if (inscrits.isEmpty()) {
                 Label emptyLabel = new Label("Aucun joueur inscrit pour le moment.");
                 emptyLabel.setStyle("-fx-text-fill: #949499; -fx-font-size: 12px;");
@@ -231,35 +298,27 @@ public class TournamentsController {
                 Label inscritsTitle = new Label("📋 Joueurs inscrits (" + inscrits.size() + ")");
                 inscritsTitle.setStyle("-fx-text-fill: #388FFF; -fx-font-size: 14px; -fx-font-weight: bold;");
                 bracketContainer.getChildren().add(inscritsTitle);
-
                 VBox playersList = new VBox(5);
                 playersList.setStyle("-fx-padding: 10;");
-
                 for (Joueur j : inscrits) {
                     HBox playerRow = new HBox(10);
                     playerRow.setAlignment(Pos.CENTER_LEFT);
                     playerRow.setStyle("-fx-background-color: #1C1C29; -fx-background-radius: 6; -fx-padding: 6 10;");
-
                     Label pseudoLabel = new Label("🎮 " + j.getPseudo());
                     pseudoLabel.setStyle("-fx-text-fill: white; -fx-font-size: 12px;");
-
                     Label gameLabel = new Label(j.getGame());
                     gameLabel.setStyle("-fx-text-fill: #388FFF; -fx-font-size: 10px;");
-
                     playerRow.getChildren().addAll(pseudoLabel, gameLabel);
                     playersList.getChildren().add(playerRow);
                 }
                 bracketContainer.getChildren().add(playersList);
-
                 if (inscrits.size() >= 4) {
                     HBox roundsBox = new HBox(40);
                     roundsBox.setAlignment(Pos.CENTER);
                     roundsBox.setStyle("-fx-padding: 20 0 0 0;");
-
                     VBox quarterFinal = createRoundBox("Quarts de finale", 4);
                     VBox semiFinal = createRoundBox("Demi-finales", 2);
                     VBox finale = createRoundBox("Finale", 1);
-
                     roundsBox.getChildren().addAll(quarterFinal, semiFinal, finale);
                     bracketContainer.getChildren().add(roundsBox);
                 }
@@ -270,29 +329,24 @@ public class TournamentsController {
             errorLabel.setStyle("-fx-text-fill: #FF4D6A; -fx-font-size: 12px;");
             bracketContainer.getChildren().add(errorLabel);
         }
-
         bracketContent.getChildren().add(bracketContainer);
     }
 
     private VBox createRoundBox(String title, int matchCount) {
         VBox box = new VBox(10);
         box.setAlignment(Pos.TOP_CENTER);
-
         Label titleLabel = new Label(title);
         titleLabel.setStyle("-fx-text-fill: #388FFF; -fx-font-size: 14px; -fx-font-weight: bold;");
         box.getChildren().add(titleLabel);
-
         for (int i = 0; i < matchCount; i++) {
             VBox matchCard = new VBox(5);
             matchCard.setStyle("-fx-background-color: #1C1C29; -fx-background-radius: 8; -fx-padding: 8; -fx-min-width: 160;");
             matchCard.setAlignment(Pos.CENTER);
-
             Label matchLabel = new Label("Match " + (i + 1));
             matchLabel.setStyle("-fx-text-fill: white; -fx-font-size: 11px;");
             matchCard.getChildren().add(matchLabel);
             box.getChildren().add(matchCard);
         }
-
         return box;
     }
 
@@ -300,17 +354,13 @@ public class TournamentsController {
         Dialog<Tournoi> dialog = new Dialog<>();
         dialog.setTitle("Modifier le tournoi");
         dialog.setHeaderText("Modifier: " + t.getNom());
-
         ButtonType saveButtonType = new ButtonType("Sauvegarder", ButtonBar.ButtonData.OK_DONE);
         dialog.getDialogPane().getButtonTypes().addAll(saveButtonType, ButtonType.CANCEL);
-
         TextField nomField = new TextField(t.getNom());
         TextField jeuField = new TextField(t.getJeu());
-
         VBox content = new VBox(10);
         content.getChildren().addAll(new Label("Nom:"), nomField, new Label("Jeu:"), jeuField);
         dialog.getDialogPane().setContent(content);
-
         dialog.setResultConverter(dialogButton -> {
             if (dialogButton == saveButtonType) {
                 t.setNom(nomField.getText());
@@ -319,7 +369,6 @@ public class TournamentsController {
             }
             return null;
         });
-
         dialog.showAndWait().ifPresent(result -> {
             try {
                 tournoiService.update(result);
@@ -336,7 +385,6 @@ public class TournamentsController {
         confirm.setTitle("Confirmation");
         confirm.setHeaderText(null);
         confirm.setContentText("Supprimer le tournoi '" + t.getNom() + "' ?");
-
         confirm.showAndWait().ifPresent(response -> {
             if (response == ButtonType.OK) {
                 try {
@@ -355,13 +403,11 @@ public class TournamentsController {
             showAlert("Tournoi complet", "Désolé, ce tournoi n'a plus de places disponibles.");
             return;
         }
-
         if (t.getMotDePasse() != null && !t.getMotDePasse().isEmpty()) {
             TextInputDialog dialog = new TextInputDialog();
             dialog.setTitle("Mot de passe requis");
             dialog.setHeaderText("Tournoi protégé par mot de passe");
             dialog.setContentText("Entrez le mot de passe pour rejoindre:");
-
             dialog.showAndWait().ifPresent(password -> {
                 if (password.equals(t.getMotDePasse())) {
                     registerForTournament(t);
@@ -376,27 +422,19 @@ public class TournamentsController {
 
     private void registerForTournament(Tournoi t) {
         try {
-            // Récupérer l'utilisateur connecté
             User currentUser = Session.getInstance().getCurrentUser();
             if (currentUser == null) {
                 showAlert("Erreur", "Vous devez être connecté");
                 return;
             }
-
-            // Récupérer le joueur correspondant à cet utilisateur
             Joueur joueur = joueurService.getByUserId(currentUser.getId());
-
             if (joueur == null) {
                 showAlert("Erreur", "Aucun profil joueur trouvé pour cet utilisateur");
                 return;
             }
-
-            // Inscrire le joueur
             tournoiService.inscrireJoueur(t.getId(), joueur.getId());
-
             loadTournaments();
             showAlert("Succès", joueur.getPseudo() + " a rejoint le tournoi " + t.getNom());
-
             if (currentSelectedTournament != null && currentSelectedTournament.getId() == t.getId()) {
                 displayBracket(t);
             }
@@ -413,7 +451,6 @@ public class TournamentsController {
         alert.showAndWait();
     }
 
-    // Filtres
     @FXML public void filterAll() { loadTournaments(); }
 
     @FXML public void filterLive() {
@@ -460,7 +497,6 @@ public class TournamentsController {
         } catch (Exception e) { e.printStackTrace(); }
     }
 
-    // Navigation
     private void navigate(String fxml) {
         try {
             Parent root = FXMLLoader.load(getClass().getResource("/" + fxml));

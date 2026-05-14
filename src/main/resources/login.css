@@ -1,0 +1,273 @@
+/* ============================================================
+   cartix.css  — JavaFX-compatible CSS (JavaFX 17/21/26)
+   NO adjacent selectors (+), NO :not(), NO CSS variables
+   ============================================================ */
+
+/* ── Root background ── */
+.root-pane {
+    -fx-background-color: #0d0e1f;
+}
+
+/* ── Navbar ── */
+.navbar {
+    -fx-background-color: transparent;
+}
+
+/* Logo: two diagonal bars like the Figma design */
+.logo-icon {
+    -fx-background-color: linear-gradient(from 0% 0% to 100% 100%, #c8ccff, #5b5ef4);
+    -fx-shape: "M0,30 L8,0 L14,0 L6,30 Z M10,30 L18,0 L24,0 L16,30 Z";
+}
+
+.logo-text {
+    -fx-text-fill: #e8e8f0;
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-font-family: "Segoe UI";
+}
+
+/* ── Orbs ── */
+.orb-1 {
+    -fx-fill: radial-gradient(center 50% 50%, radius 100%,
+    rgba(80,90,200,0.55) 0%,
+    transparent 100%);
+}
+
+.orb-2 {
+    -fx-fill: radial-gradient(center 50% 50%, radius 100%,
+    rgba(48,22,110,0.90) 0%,
+    transparent 100%);
+}
+
+/* ── Left panel ── */
+.left-panel {
+    -fx-background-color: transparent;
+}
+
+.headline {
+    -fx-text-fill: #ffffff;
+    -fx-font-size: 44px;
+    -fx-font-weight: bold;
+    -fx-font-family: "Segoe UI";
+}
+
+.subtext {
+    -fx-text-fill: #888899;
+    -fx-font-size: 13px;
+    -fx-font-family: "Segoe UI";
+}
+
+.feat-dot {
+    -fx-fill: rgba(70,80,180,0.28);
+    -fx-stroke: rgba(100,110,210,0.50);
+    -fx-stroke-width: 1.5;
+}
+
+.feature-text {
+    -fx-text-fill: #aaaacc;
+    -fx-font-size: 13px;
+    -fx-font-family: "Segoe UI";
+}
+
+/* ── Stats ── */
+.stat-num {
+    -fx-text-fill: #ffffff;
+    -fx-font-size: 30px;
+    -fx-font-weight: bold;
+    -fx-font-family: "Segoe UI";
+}
+
+.stat-label {
+    -fx-text-fill: #777799;
+    -fx-font-size: 11px;
+    -fx-font-family: "Segoe UI";
+}
+
+.stat-sep {
+    -fx-background-color: rgba(255,255,255,0.18);
+}
+
+/* ── Card ── */
+.card {
+    -fx-background-color: #0f1026;
+    -fx-background-radius: 14;
+    -fx-border-color: rgba(255,255,255,0.09);
+    -fx-border-width: 1;
+    -fx-border-radius: 14;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.65), 30, 0.1, 0, 6);
+}
+
+.card-title {
+    -fx-text-fill: #ffffff;
+    -fx-font-size: 26px;
+    -fx-font-weight: bold;
+    -fx-font-family: "Segoe UI";
+}
+
+.card-sub {
+    -fx-text-fill: #777799;
+    -fx-font-size: 13px;
+    -fx-font-family: "Segoe UI";
+}
+
+/* ── OAuth buttons ── */
+.btn-google {
+    -fx-background-color: #1a1b30;
+    -fx-text-fill: #ccccdd;
+    -fx-font-size: 12px;
+    -fx-font-family: "Segoe UI";
+    -fx-border-color: #2e2f4a;
+    -fx-border-width: 1;
+    -fx-border-radius: 8;
+    -fx-background-radius: 8;
+    -fx-padding: 9 6;
+    -fx-cursor: hand;
+    -fx-alignment: CENTER;
+}
+.btn-google:hover {
+    -fx-background-color: #222340;
+}
+
+.btn-discord {
+    -fx-background-color: #5865f2;
+    -fx-text-fill: #ffffff;
+    -fx-font-size: 12px;
+    -fx-font-weight: bold;
+    -fx-font-family: "Segoe UI";
+    -fx-border-color: transparent;
+    -fx-border-radius: 8;
+    -fx-background-radius: 8;
+    -fx-padding: 9 6;
+    -fx-cursor: hand;
+    -fx-alignment: CENTER;
+}
+.btn-discord:hover {
+    -fx-background-color: #6a76f5;
+}
+
+/* ── Divider ── */
+.divider-line {
+    -fx-stroke: #252640;
+    -fx-stroke-width: 1;
+}
+
+.divider-label {
+    -fx-text-fill: #555570;
+    -fx-font-size: 11px;
+    -fx-font-family: "Segoe UI";
+    -fx-background-color: #0f1026;
+    -fx-padding: 0 8;
+}
+
+/* ── Form labels ── */
+.field-label {
+    -fx-text-fill: #9090b0;
+    -fx-font-size: 12px;
+    -fx-font-weight: bold;
+    -fx-font-family: "Segoe UI";
+}
+
+/* ── Input fields ── */
+.input-field {
+    -fx-background-color: #131428;
+    -fx-border-color: #2a2b45;
+    -fx-border-width: 1;
+    -fx-border-radius: 8;
+    -fx-background-radius: 8;
+    -fx-text-fill: #e0e0f0;
+    -fx-prompt-text-fill: #44445a;
+    -fx-font-size: 13px;
+    -fx-font-family: "Segoe UI";
+    -fx-padding: 10 42 10 12;
+    -fx-pref-height: 42;
+}
+.input-field:focused {
+    -fx-border-color: #5b5ef4;
+    -fx-effect: dropshadow(gaussian, #5b5ef4, 8, 0.20, 0, 0);
+}
+
+/* ── Show/Hide button ── */
+.show-btn {
+    -fx-background-color: transparent;
+    -fx-text-fill: #5b8af4;
+    -fx-font-size: 12px;
+    -fx-font-weight: bold;
+    -fx-font-family: "Segoe UI";
+    -fx-border-color: transparent;
+    -fx-cursor: hand;
+    -fx-padding: 4 4;
+}
+.show-btn:hover {
+    -fx-text-fill: #7da8ff;
+}
+
+/* ── Remember me checkbox ── */
+.remember-check {
+    -fx-text-fill: #888899;
+    -fx-font-size: 12px;
+    -fx-font-family: "Segoe UI";
+}
+.remember-check .box {
+    -fx-background-color: #131428;
+    -fx-border-color: #2a2b45;
+    -fx-border-radius: 3;
+    -fx-background-radius: 3;
+    -fx-min-width: 15;
+    -fx-min-height: 15;
+}
+.remember-check:selected .box {
+    -fx-background-color: #5b5ef4;
+    -fx-border-color: #5b5ef4;
+}
+.remember-check .mark {
+    -fx-background-color: white;
+}
+
+/* ── Link buttons (Forgot / Create one free) ── */
+.link-btn {
+    -fx-background-color: transparent;
+    -fx-text-fill: #5b8af4;
+    -fx-font-size: 12px;
+    -fx-font-family: "Segoe UI";
+    -fx-border-color: transparent;
+    -fx-cursor: hand;
+    -fx-padding: 2 0;
+}
+.link-btn:hover {
+    -fx-underline: true;
+}
+
+/* ── Sign In button ── */
+.btn-signin {
+    -fx-background-color: linear-gradient(from 0% 0% to 100% 0%, #5b5ef4, #7b5bf4);
+    -fx-text-fill: #ffffff;
+    -fx-font-size: 15px;
+    -fx-font-weight: bold;
+    -fx-font-family: "Segoe UI";
+    -fx-border-color: transparent;
+    -fx-border-radius: 8;
+    -fx-background-radius: 8;
+    -fx-padding: 12 0;
+    -fx-cursor: hand;
+    -fx-effect: dropshadow(gaussian, #4040cc, 16, 0.30, 0, 3);
+}
+.btn-signin:hover {
+    -fx-background-color: linear-gradient(from 0% 0% to 100% 0%, #6a6df5, #8a6af5);
+}
+.btn-signin:pressed {
+    -fx-background-color: #4a4de0;
+}
+
+/* ── Card footer ── */
+.footer-label {
+    -fx-text-fill: #777799;
+    -fx-font-size: 12px;
+    -fx-font-family: "Segoe UI";
+}
+
+.tos-text {
+    -fx-text-fill: #44445a;
+    -fx-font-size: 10px;
+    -fx-font-family: "Segoe UI";
+    -fx-text-alignment: center;
+}
