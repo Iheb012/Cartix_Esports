@@ -1,0 +1,510 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.chart.BarChart?>
+<?import javafx.scene.chart.CategoryAxis?>
+<?import javafx.scene.chart.NumberAxis?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Rectangle?>
+
+<BorderPane prefHeight="900" prefWidth="1440" style="-fx-background-color: #08090f;" styleClass="root-pane" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.AdminController">
+    <!-- ═══════════════════════════════════════════
+         SIDEBAR
+    ════════════════════════════════════════════ -->
+    <left>
+        <VBox fx:id="sidebar" minWidth="220" prefWidth="220" style="-fx-background-color: #0d0f1a; -fx-border-color: rgba(255,255,255,0.06); -fx-border-width: 0 1 0 0;">
+
+            <!-- Logo -->
+            <HBox alignment="CENTER_LEFT" spacing="10" style="-fx-padding: 20 18 18 18; -fx-border-color: rgba(255,255,255,0.06); -fx-border-width: 0 0 1 0;">
+                <StackPane prefHeight="36" prefWidth="36" style="-fx-background-color: linear-gradient(from 0% 0% to 100% 100%, #4d78ff, #8b5cf6); -fx-background-radius: 8;">
+               <children>
+                  <ImageView fitHeight="55.0" fitWidth="62.0">
+                     <image>
+                         <Image url="@/logoteam.png" />
+                     </image>
+                  </ImageView>
+               </children>
+                </StackPane>
+                <VBox spacing="2">
+                    <Label style="-fx-text-fill: white; -fx-font-size: 20; -fx-font-weight: bold; -fx-letter-spacing: 2;" text="CARTIX" />
+                    <Label style="-fx-text-fill: #6b7394; -fx-font-size: 9; -fx-letter-spacing: 2;" text="ADMIN PANEL" />
+                </VBox>
+            </HBox>
+
+            <!-- Nav Items -->
+            <VBox fx:id="navContainer" spacing="1" style="-fx-padding: 16 8 8 8;" VBox.vgrow="ALWAYS">
+
+                <Label style="-fx-text-fill: #4a5070; -fx-font-size: 9; -fx-letter-spacing: 2; -fx-padding: 8 10 6 10;" text="OVERVIEW" />
+
+                <HBox fx:id="navDashboard" alignment="CENTER_LEFT" onMouseClicked="#onNavDashboard" spacing="10" style="-fx-padding: 9 10; -fx-background-radius: 8; -fx-background-color: rgba(77,120,255,0.15); -fx-border-color: rgba(77,120,255,0.2); -fx-border-radius: 8; -fx-cursor: hand;" styleClass="nav-item, nav-active">
+                    <Rectangle arcHeight="3" arcWidth="3" fill="#4d78ff" height="20" width="3" />
+                    <Label style="-fx-text-fill: #4d78ff; -fx-font-size: 13;" text="⊞" />
+                    <Label style="-fx-text-fill: white; -fx-font-size: 13; -fx-font-weight: bold;" text="Dashboard" />
+                </HBox>
+
+                <HBox fx:id="navUsers" alignment="CENTER_LEFT" onMouseClicked="#onNavUsers" onMouseEntered="#onNavHoverEnter" onMouseExited="#onNavHoverExit" spacing="10" style="-fx-padding: 9 10; -fx-background-radius: 8; -fx-background-color: transparent; -fx-cursor: hand;">
+                    <Label style="-fx-text-fill: #6b7394; -fx-font-size: 13;" text="👤" />
+                    <Label style="-fx-text-fill: #6b7394; -fx-font-size: 13;" text="User Management" />
+                </HBox>
+
+                <HBox fx:id="navPlayers" alignment="CENTER_LEFT" onMouseClicked="#onNavPlayers" onMouseEntered="#onNavHoverEnter" onMouseExited="#onNavHoverExit" spacing="10" style="-fx-padding: 9 10; -fx-background-radius: 8; -fx-background-color: transparent; -fx-cursor: hand;">
+                    <Label style="-fx-text-fill: #6b7394; -fx-font-size: 13;" text="🎮" />
+                    <Label style="-fx-text-fill: #6b7394; -fx-font-size: 13;" text="Players" />
+                </HBox>
+
+                <HBox fx:id="navMatches" alignment="CENTER_LEFT" onMouseClicked="#onNavMatches" onMouseEntered="#onNavHoverEnter" onMouseExited="#onNavHoverExit" spacing="10" style="-fx-padding: 9 10; -fx-background-radius: 8; -fx-background-color: transparent; -fx-cursor: hand;">
+                    <Label style="-fx-text-fill: #6b7394; -fx-font-size: 13;" text="▶" />
+                    <Label style="-fx-text-fill: #6b7394; -fx-font-size: 13;" text="Matches" />
+                    <Region HBox.hgrow="ALWAYS" />
+                    <Label style="-fx-background-color: #ff3b5c; -fx-text-fill: white; -fx-font-size: 9; -fx-font-weight: bold; -fx-padding: 2 5; -fx-background-radius: 10;" text="2" />
+                </HBox>
+
+                <HBox fx:id="navTeams" alignment="CENTER_LEFT" onMouseClicked="#onNavTeams" onMouseEntered="#onNavHoverEnter" onMouseExited="#onNavHoverExit" spacing="10" style="-fx-padding: 9 10; -fx-background-radius: 8; -fx-background-color: transparent; -fx-cursor: hand;">
+                    <Label style="-fx-text-fill: #6b7394; -fx-font-size: 13;" text="◈" />
+                    <Label style="-fx-text-fill: #6b7394; -fx-font-size: 13;" text="Teams" />
+                </HBox>
+
+                <HBox fx:id="navTournaments" alignment="CENTER_LEFT" onMouseClicked="#onNavTournaments" onMouseEntered="#onNavHoverEnter" onMouseExited="#onNavHoverExit" spacing="10" style="-fx-padding: 9 10; -fx-background-radius: 8; -fx-background-color: transparent; -fx-cursor: hand;">
+                    <Label style="-fx-text-fill: #6b7394; -fx-font-size: 13;" text="🏆" />
+                    <Label style="-fx-text-fill: #6b7394; -fx-font-size: 13;" text="Tournaments" />
+                </HBox>
+
+                <Label style="-fx-text-fill: #4a5070; -fx-font-size: 9; -fx-letter-spacing: 2; -fx-padding: 14 10 6 10;" text="ADMIN TOOLS" />
+
+                <HBox fx:id="navReports" alignment="CENTER_LEFT" onMouseClicked="#onNavReports" onMouseEntered="#onNavHoverEnter" onMouseExited="#onNavHoverExit" spacing="10" style="-fx-padding: 9 10; -fx-background-radius: 8; -fx-background-color: transparent; -fx-cursor: hand;">
+                    <Label style="-fx-text-fill: #6b7394; -fx-font-size: 13;" text="📊" />
+                    <Label style="-fx-text-fill: #6b7394; -fx-font-size: 13;" text="Reports" />
+                </HBox>
+
+                <HBox fx:id="navModeration" alignment="CENTER_LEFT" onMouseClicked="#onNavModeration" onMouseEntered="#onNavHoverEnter" onMouseExited="#onNavHoverExit" spacing="10" style="-fx-padding: 9 10; -fx-background-radius: 8; -fx-background-color: transparent; -fx-cursor: hand;">
+                    <Label style="-fx-text-fill: #6b7394; -fx-font-size: 13;" text="🛡" />
+                    <Label style="-fx-text-fill: #6b7394; -fx-font-size: 13;" text="Moderation" />
+                    <Region HBox.hgrow="ALWAYS" />
+                    <Label style="-fx-background-color: #ffb347; -fx-text-fill: #08090f; -fx-font-size: 9; -fx-font-weight: bold; -fx-padding: 2 5; -fx-background-radius: 10;" text="5" />
+                </HBox>
+
+                <HBox fx:id="navSettings" alignment="CENTER_LEFT" onMouseClicked="#onNavSettings" onMouseEntered="#onNavHoverEnter" onMouseExited="#onNavHoverExit" spacing="10" style="-fx-padding: 9 10; -fx-background-radius: 8; -fx-background-color: transparent; -fx-cursor: hand;">
+                    <Label style="-fx-text-fill: #6b7394; -fx-font-size: 13;" text="⚙" />
+                    <Label style="-fx-text-fill: #6b7394; -fx-font-size: 13;" text="Settings" />
+                </HBox>
+            </VBox>
+
+            <!-- Admin User Card -->
+            <VBox style="-fx-padding: 12; -fx-border-color: rgba(255,255,255,0.06); -fx-border-width: 1 0 0 0;">
+                <HBox alignment="CENTER_LEFT" spacing="10" style="-fx-padding: 10 8; -fx-background-color: #161a2e; -fx-background-radius: 8; -fx-border-color: rgba(255,255,255,0.06); -fx-border-radius: 8; -fx-cursor: hand;">
+                    <StackPane prefHeight="32" prefWidth="32" style="-fx-background-color: linear-gradient(from 0% 0% to 100% 100%, #ff4d6d, #be123c); -fx-background-radius: 16;">
+                        <Label style="-fx-text-fill: white; -fx-font-size: 11; -fx-font-weight: bold;" text="AD" />
+                    </StackPane>
+                    <VBox spacing="2">
+                        <Label style="-fx-text-fill: #e8eaf6; -fx-font-size: 12; -fx-font-weight: bold;" text="Admin " />
+                        <Label style="-fx-text-fill: #ff4d6d; -fx-font-size: 10;" text="Admin" />
+                    </VBox>
+                    <Region HBox.hgrow="ALWAYS" />
+                    <Label style="-fx-text-fill: #6b7394; -fx-font-size: 16;" text="⋯" />
+                </HBox>
+            </VBox>
+        </VBox>
+    </left>
+
+    <!-- ═══════════════════════════════════════════
+         MAIN CONTENT
+    ════════════════════════════════════════════ -->
+    <center>
+        <VBox style="-fx-background-color: #08090f;">
+
+            <!-- TOP BAR -->
+            <HBox fx:id="topBar" alignment="CENTER_LEFT" spacing="12" style="-fx-padding: 18 28 0 28; -fx-border-color: transparent;">
+                <VBox HBox.hgrow="ALWAYS" VBox.vgrow="ALWAYS">
+                    <Label fx:id="pageTitle" style="-fx-text-fill: white; -fx-font-size: 26; -fx-font-weight: bold;" text="Dashboard" />
+                    <Label fx:id="pageSubtitle" style="-fx-text-fill: #6b7394; -fx-font-size: 12;" text="Platform overview · Season 2026" />
+                </VBox>
+                <HBox alignment="CENTER_LEFT" spacing="10" style="-fx-background-color: #111524; -fx-border-color: rgba(255,255,255,0.06); -fx-border-radius: 8; -fx-background-radius: 8; -fx-padding: 7 12; -fx-pref-width: 200;">
+                    <Label style="-fx-text-fill: #6b7394; -fx-font-size: 12;" text="🔍" />
+                    <TextField fx:id="searchField" onKeyReleased="#onSearch" promptText="Search platform…" style="-fx-background-color: transparent; -fx-text-fill: #e8eaf6; -fx-prompt-text-fill: #6b7394; -fx-border-width: 0; -fx-font-size: 13; -fx-pref-width: 150;" />
+                </HBox>
+                <Button style="-fx-background-color: #111524; -fx-text-fill: #6b7394; -fx-border-color: rgba(255,255,255,0.1); -fx-border-radius: 8; -fx-background-radius: 8; -fx-padding: 7 12; -fx-cursor: hand;" text="🔔" />
+                <Button fx:id="actionBtn" onAction="#onActionBtn" style="-fx-background-color: #4d78ff; -fx-text-fill: white; -fx-font-weight: bold; -fx-border-width: 0; -fx-background-radius: 8; -fx-padding: 8 16; -fx-cursor: hand; -fx-font-size: 12;" text="+ New Entry" />
+            </HBox>
+
+            <!-- CONTENT STACK (pages swapped here) -->
+            <StackPane fx:id="contentStack" style="-fx-padding: 0;" VBox.vgrow="ALWAYS">
+
+                <!-- ─── DASHBOARD PAGE ─── -->
+                <ScrollPane fx:id="pageDashboard" fitToWidth="true" managed="true" style="-fx-background-color: transparent; -fx-background: transparent; -fx-border-width: 0;" visible="true">
+                    <VBox spacing="16" style="-fx-padding: 20 28 28 28; -fx-background-color: #08090f;">
+
+                        <!-- Stats Row -->
+                        <HBox spacing="14">
+                            <!-- Stat 1 -->
+                            <VBox fx:id="statCard1" spacing="4" style="-fx-background-color: #111524; -fx-border-color: rgba(255,255,255,0.06); -fx-border-radius: 12; -fx-background-radius: 12; -fx-padding: 16 18;" styleClass="stat-card" HBox.hgrow="ALWAYS">
+                                <Label style="-fx-text-fill: #6b7394; -fx-font-size: 10; -fx-letter-spacing: 1;" text="TOTAL USERS" />
+                                <Label style="-fx-text-fill: white; -fx-font-size: 28; -fx-font-weight: bold;" text="0" />
+                                <Label style="-fx-text-fill: #22d98a; -fx-font-size: 11;" text="↑ 0% this week" />
+                            </VBox>
+                            <!-- Stat 2 -->
+                            <VBox spacing="4" style="-fx-background-color: #111524; -fx-border-color: rgba(255,255,255,0.06); -fx-border-radius: 12; -fx-background-radius: 12; -fx-padding: 16 18;" HBox.hgrow="ALWAYS">
+                                <Label style="-fx-text-fill: #6b7394; -fx-font-size: 10; -fx-letter-spacing: 1;" text="ACTIVE TOURNAMENTS" />
+                                <Label style="-fx-text-fill: white; -fx-font-size: 28; -fx-font-weight: bold;" text="0" />
+                                <Label style="-fx-text-fill: #22d98a; -fx-font-size: 11;" text="↑ 0% this month" />
+                            </VBox>
+                            <!-- Stat 3 -->
+                            <VBox spacing="4" style="-fx-background-color: #111524; -fx-border-color: rgba(255,255,255,0.06); -fx-border-radius: 12; -fx-background-radius: 12; -fx-padding: 16 18;" HBox.hgrow="ALWAYS">
+                                <Label style="-fx-text-fill: #6b7394; -fx-font-size: 10; -fx-letter-spacing: 1;" text="LIVE MATCHES" />
+                                <Label style="-fx-text-fill: white; -fx-font-size: 28; -fx-font-weight: bold;" text="0" />
+                                <HBox alignment="CENTER_LEFT" spacing="6">
+                                    <Label style="-fx-text-fill: #ff3b5c; -fx-font-size: 9; -fx-font-weight: bold; -fx-background-color: rgba(255,59,92,0.12); -fx-padding: 2 6; -fx-background-radius: 10;" text="● LIVE" />
+                                </HBox>
+                            </VBox>
+                            <!-- Stat 4 -->
+                            <VBox spacing="4" style="-fx-background-color: #111524; -fx-border-color: rgba(255,255,255,0.06); -fx-border-radius: 12; -fx-background-radius: 12; -fx-padding: 16 18;" HBox.hgrow="ALWAYS">
+                                <Label style="-fx-text-fill: #6b7394; -fx-font-size: 10; -fx-letter-spacing: 1;" text="TOTAL PRIZE POOL" />
+                                <Label style="-fx-text-fill: white; -fx-font-size: 28; -fx-font-weight: bold;" text="0M" />
+                                <Label style="-fx-text-fill: #22d98a; -fx-font-size: 11;" text="↑ 0% YoY" />
+                            </VBox>
+                            <!-- Stat 5 -->
+                            <VBox spacing="4" style="-fx-background-color: #111524; -fx-border-color: rgba(255,255,255,0.06); -fx-border-radius: 12; -fx-background-radius: 12; -fx-padding: 16 18;" HBox.hgrow="ALWAYS">
+                                <Label style="-fx-text-fill: #6b7394; -fx-font-size: 10; -fx-letter-spacing: 1;" text="PENDING REPORTS" />
+                                <Label style="-fx-text-fill: #ff4d6d; -fx-font-size: 28; -fx-font-weight: bold;" text="0" />
+                                <Label style="-fx-text-fill: #ffb347; -fx-font-size: 11;" text="Needs attention" />
+                            </VBox>
+                        </HBox>
+
+                        <!-- Chart + Recent Activity -->
+                        <HBox spacing="16">
+                            <!-- Bar Chart -->
+                            <VBox spacing="0" style="-fx-background-color: #111524; -fx-border-color: rgba(255,255,255,0.06); -fx-border-radius: 12; -fx-background-radius: 12; -fx-padding: 18;" HBox.hgrow="ALWAYS">
+                                <HBox alignment="CENTER_LEFT">
+                                    <Label style="-fx-text-fill: #e8eaf6; -fx-font-size: 13; -fx-font-weight: bold;" text="User Registrations — Last 7 Days" />
+                                    <Region HBox.hgrow="ALWAYS" />
+                                    <Label style="-fx-text-fill: #4d78ff; -fx-font-size: 12; -fx-cursor: hand;" text="Weekly View" />
+                                </HBox>
+                                <BarChart fx:id="registrationsChart" prefHeight="200" prefWidth="600" style="-fx-background-color: transparent; -fx-border-width: 0; -fx-padding: 10 0 0 0;">
+                                    <xAxis>
+                                        <CategoryAxis style="-fx-tick-label-fill: #6b7394; -fx-font-size: 11;" />
+                                    </xAxis>
+                                    <yAxis>
+                                        <NumberAxis style="-fx-tick-label-fill: #6b7394; -fx-font-size: 11;" />
+                                    </yAxis>
+                                </BarChart>
+                            </VBox>
+
+                            <!-- Recent Activity -->
+                            <VBox minWidth="340" prefWidth="340" spacing="0" style="-fx-background-color: #111524; -fx-border-color: rgba(255,255,255,0.06); -fx-border-radius: 12; -fx-background-radius: 12; -fx-padding: 18;">
+                                <HBox alignment="CENTER_LEFT" style="-fx-padding: 0 0 12 0;">
+                                    <Label style="-fx-text-fill: #e8eaf6; -fx-font-size: 13; -fx-font-weight: bold;" text="Recent Activity" />
+                                    <Region HBox.hgrow="ALWAYS" />
+                                    <Label style="-fx-text-fill: #4d78ff; -fx-font-size: 12; -fx-cursor: hand;" text="View all →" />
+                                </HBox>
+                                <VBox fx:id="activityFeed" spacing="0" />
+                            </VBox>
+                        </HBox>
+
+                        <!-- Bottom Row: Top Users + Flagged + Quick Actions -->
+                        <HBox spacing="16">
+                            <!-- Top Users -->
+                            <VBox spacing="0" style="-fx-background-color: #111524; -fx-border-color: rgba(255,255,255,0.06); -fx-border-radius: 12; -fx-background-radius: 12; -fx-padding: 18;" HBox.hgrow="ALWAYS">
+                                <HBox alignment="CENTER_LEFT" style="-fx-padding: 0 0 12 0;">
+                                    <Label style="-fx-text-fill: #e8eaf6; -fx-font-size: 13; -fx-font-weight: bold;" text="Top Players" />
+                                    <Region HBox.hgrow="ALWAYS" />
+                                    <Label onMouseClicked="#onNavPlayers" style="-fx-text-fill: #4d78ff; -fx-font-size: 12; -fx-cursor: hand;" text="See all →" />
+                                </HBox>
+                                <VBox fx:id="topPlayersList" spacing="0" />
+                            </VBox>
+
+                            <!-- Flagged Reports -->
+                            <VBox minWidth="320" prefWidth="320" spacing="0" style="-fx-background-color: #111524; -fx-border-color: rgba(255,77,109,0.2); -fx-border-radius: 12; -fx-background-radius: 12; -fx-padding: 18;">
+                                <HBox alignment="CENTER_LEFT" style="-fx-padding: 0 0 12 0;">
+                                    <Label style="-fx-text-fill: #e8eaf6; -fx-font-size: 13; -fx-font-weight: bold;" text="🛡  Flagged Reports" />
+                                    <Region HBox.hgrow="ALWAYS" />
+                                    <Label style="-fx-text-fill: #ff4d6d; -fx-font-size: 11;" text="0 pending" />
+                                </HBox>
+                                <VBox fx:id="flaggedList" spacing="8" />
+                            </VBox>
+
+                            <!-- Quick Actions -->
+                            <VBox minWidth="200" prefWidth="200" spacing="10" style="-fx-background-color: #111524; -fx-border-color: rgba(255,255,255,0.06); -fx-border-radius: 12; -fx-background-radius: 12; -fx-padding: 18;">
+                                <Label style="-fx-text-fill: #e8eaf6; -fx-font-size: 13; -fx-font-weight: bold; -fx-padding: 0 0 4 0;" text="Quick Actions" />
+                                <Button maxWidth="Infinity" onAction="#onCreateTournament" style="-fx-background-color: #4d78ff; -fx-text-fill: white; -fx-font-size: 12; -fx-font-weight: bold; -fx-background-radius: 8; -fx-padding: 10 14; -fx-cursor: hand; -fx-border-width: 0;" text="+ Create Tournament" />
+                                <Button maxWidth="Infinity" onAction="#onBanUser" style="-fx-background-color: rgba(255,77,109,0.12); -fx-text-fill: #ff4d6d; -fx-font-size: 12; -fx-background-radius: 8; -fx-padding: 10 14; -fx-cursor: hand; -fx-border-color: rgba(255,77,109,0.2); -fx-border-radius: 8;" text="⚑  Ban User" />
+                                <Button maxWidth="Infinity" onAction="#onAnnouncement" style="-fx-background-color: rgba(255,179,71,0.12); -fx-text-fill: #ffb347; -fx-font-size: 12; -fx-background-radius: 8; -fx-padding: 10 14; -fx-cursor: hand; -fx-border-color: rgba(255,179,71,0.2); -fx-border-radius: 8;" text="📢  Send Announcement" />
+                                <Button maxWidth="Infinity" onAction="#onExportBackup" style="-fx-background-color: rgba(34,217,138,0.1); -fx-text-fill: #22d98a; -fx-font-size: 12; -fx-background-radius: 8; -fx-padding: 10 14; -fx-cursor: hand; -fx-border-color: rgba(34,217,138,0.2); -fx-border-radius: 8;" text="💾  Export DB Backup" />
+                                <Button maxWidth="Infinity" onAction="#onRefreshCache" style="-fx-background-color: #161a2e; -fx-text-fill: #6b7394; -fx-font-size: 12; -fx-background-radius: 8; -fx-padding: 10 14; -fx-cursor: hand; -fx-border-color: rgba(255,255,255,0.06); -fx-border-radius: 8;" text="⟳  Refresh Cache" />
+                            </VBox>
+                        </HBox>
+                    </VBox>
+                </ScrollPane>
+
+                <!-- ─── USER MANAGEMENT PAGE ─── -->
+                <ScrollPane fx:id="pageUsers" fitToWidth="true" managed="false" style="-fx-background-color: transparent; -fx-background: transparent; -fx-border-width: 0;" visible="false">
+                    <VBox spacing="16" style="-fx-padding: 20 28 28 28; -fx-background-color: #08090f;">
+
+                        <!-- Filter Bar -->
+                        <HBox alignment="CENTER_LEFT" spacing="10" style="-fx-background-color: #111524; -fx-border-color: rgba(255,255,255,0.06); -fx-border-radius: 12; -fx-background-radius: 12; -fx-padding: 14 18;">
+                            <Label style="-fx-text-fill: #6b7394; -fx-font-size: 12;" text="Filter:" />
+                            <ComboBox fx:id="filterRole" onAction="#onFilterChange" promptText="All Roles" style="-fx-background-color: #161a2e; -fx-text-fill: #e8eaf6; -fx-border-color: rgba(255,255,255,0.1); -fx-border-radius: 8; -fx-background-radius: 8;" />
+                            <ComboBox fx:id="filterStatus" onAction="#onFilterChange" promptText="All Status" style="-fx-background-color: #161a2e; -fx-text-fill: #e8eaf6; -fx-border-color: rgba(255,255,255,0.1); -fx-border-radius: 8; -fx-background-radius: 8;" />
+                            <ComboBox fx:id="filterGame" onAction="#onFilterChange" promptText="All Games" style="-fx-background-color: #161a2e; -fx-text-fill: #e8eaf6; -fx-border-color: rgba(255,255,255,0.1); -fx-border-radius: 8; -fx-background-radius: 8;" />
+                            <Region HBox.hgrow="ALWAYS" />
+                            <Label fx:id="userCountLabel" style="-fx-text-fill: #6b7394; -fx-font-size: 12;" text="120,482 users" />
+                            <Button onAction="#onExportUsers" style="-fx-background-color: #161a2e; -fx-text-fill: #6b7394; -fx-border-color: rgba(255,255,255,0.1); -fx-border-radius: 8; -fx-background-radius: 8; -fx-padding: 6 12; -fx-cursor: hand;" text="Export CSV" />
+                        </HBox>
+
+                        <!-- Users Table -->
+                        <VBox style="-fx-background-color: #111524; -fx-border-color: rgba(255,255,255,0.06); -fx-border-radius: 12; -fx-background-radius: 12; -fx-padding: 18;">
+                            <HBox alignment="CENTER_LEFT" style="-fx-padding: 0 0 14 0;">
+                                <Label style="-fx-text-fill: #e8eaf6; -fx-font-size: 13; -fx-font-weight: bold;" text="User Management" />
+                            </HBox>
+                            <TableView fx:id="usersTable" prefHeight="580" style="-fx-background-color: transparent; -fx-border-width: 0; -fx-table-cell-border-color: rgba(255,255,255,0.04);">
+                                <columns>
+                                    <TableColumn fx:id="colUserId" prefWidth="50" style="-fx-text-fill: #6b7394;" text="#" />
+                                    <TableColumn fx:id="colUserName" prefWidth="160" style="-fx-text-fill: #6b7394;" text="USERNAME" />
+                                    <TableColumn fx:id="colUserEmail" prefWidth="220" style="-fx-text-fill: #6b7394;" text="EMAIL" />
+                                    <TableColumn fx:id="colUserRole" prefWidth="100" style="-fx-text-fill: #6b7394;" text="ROLE" />
+                                    <TableColumn fx:id="colUserGame" prefWidth="100" style="-fx-text-fill: #6b7394;" text="GAME" />
+                                    <TableColumn fx:id="colUserJoined" prefWidth="110" style="-fx-text-fill: #6b7394;" text="JOINED" />
+                                    <TableColumn fx:id="colUserStatus" prefWidth="90" style="-fx-text-fill: #6b7394;" text="STATUS" />
+                                    <TableColumn fx:id="colUserActions" prefWidth="160" style="-fx-text-fill: #6b7394;" text="ACTIONS" />
+                                </columns>
+                                <placeholder>
+                                    <Label style="-fx-text-fill: #6b7394;" text="No users found" />
+                                </placeholder>
+                            </TableView>
+                        </VBox>
+                    </VBox>
+                </ScrollPane>
+
+                <!-- ─── PLAYERS PAGE ─── -->
+                <ScrollPane fx:id="pagePlayers" fitToWidth="true" managed="false" style="-fx-background-color: transparent; -fx-background: transparent; -fx-border-width: 0;" visible="false">
+                    <VBox spacing="16" style="-fx-padding: 20 28 28 28; -fx-background-color: #08090f;">
+                        <VBox style="-fx-background-color: #111524; -fx-border-color: rgba(255,255,255,0.06); -fx-border-radius: 12; -fx-background-radius: 12; -fx-padding: 18;">
+                            <HBox alignment="CENTER_LEFT" style="-fx-padding: 0 0 14 0;">
+                                <Label style="-fx-text-fill: #e8eaf6; -fx-font-size: 13; -fx-font-weight: bold;" text="Player Rankings" />
+                                <Region HBox.hgrow="ALWAYS" />
+                                <ComboBox fx:id="filterPlayerGame" onAction="#onFilterChange" promptText="All Games" style="-fx-background-color: #161a2e; -fx-text-fill: #e8eaf6; -fx-border-color: rgba(255,255,255,0.1); -fx-border-radius: 8; -fx-background-radius: 8;" />
+                            </HBox>
+                            <TableView fx:id="playersTable" prefHeight="600" style="-fx-background-color: transparent; -fx-border-width: 0; -fx-table-cell-border-color: rgba(255,255,255,0.04);">
+                                <columns>
+                                    <TableColumn fx:id="colRank" prefWidth="50" text="#" />
+                                    <TableColumn fx:id="colHandle" prefWidth="180" text="PLAYER" />
+                                    <TableColumn fx:id="colGame" prefWidth="100" text="GAME" />
+                                    <TableColumn fx:id="colTeam" prefWidth="140" text="TEAM" />
+                                    <TableColumn fx:id="colKda" prefWidth="80" text="KDA" />
+                                    <TableColumn fx:id="colWinRate" prefWidth="100" text="WIN RATE" />
+                                    <TableColumn fx:id="colMatches" prefWidth="90" text="MATCHES" />
+                                    <TableColumn fx:id="colRating" prefWidth="90" text="RATING" />
+                                    <TableColumn fx:id="colPlayerStatus" prefWidth="90" text="STATUS" />
+                                    <TableColumn fx:id="colPlayerActions" prefWidth="200" text="ACTIONS" />
+                                </columns>
+                                <placeholder>
+                                    <Label style="-fx-text-fill: #6b7394;" text="No players found" />
+                                </placeholder>
+                            </TableView>
+                        </VBox>
+                    </VBox>
+                </ScrollPane>
+
+                <!-- ─── MATCHES PAGE ─── -->
+                <ScrollPane fx:id="pageMatches" fitToWidth="true" managed="false" style="-fx-background-color: transparent; -fx-background: transparent; -fx-border-width: 0;" visible="false">
+                    <VBox spacing="16" style="-fx-padding: 20 28 28 28; -fx-background-color: #08090f;">
+
+                        <!-- Live Matches -->
+                        <VBox style="-fx-background-color: #111524; -fx-border-color: rgba(255,59,92,0.15); -fx-border-radius: 12; -fx-background-radius: 12; -fx-padding: 18;">
+                            <HBox alignment="CENTER_LEFT" spacing="10" style="-fx-padding: 0 0 14 0;">
+                                <Label style="-fx-text-fill: #e8eaf6; -fx-font-size: 13; -fx-font-weight: bold;" text="Live Matches" />
+                                <Label style="-fx-text-fill: #ff3b5c; -fx-font-size: 9; -fx-font-weight: bold; -fx-background-color: rgba(255,59,92,0.12); -fx-padding: 3 7; -fx-background-radius: 10;" text="● LIVE 2" />
+                            </HBox>
+                            <VBox fx:id="liveMatchesList" spacing="10" />
+                        </VBox>
+
+                        <!-- All Matches Table -->
+                        <VBox style="-fx-background-color: #111524; -fx-border-color: rgba(255,255,255,0.06); -fx-border-radius: 12; -fx-background-radius: 12; -fx-padding: 18;">
+                            <HBox alignment="CENTER_LEFT" style="-fx-padding: 0 0 14 0;">
+                                <Label style="-fx-text-fill: #e8eaf6; -fx-font-size: 13; -fx-font-weight: bold;" text="All Matches" />
+                                <Region HBox.hgrow="ALWAYS" />
+                                <Button onAction="#onScheduleMatch" style="-fx-background-color: #4d78ff; -fx-text-fill: white; -fx-font-size: 11; -fx-font-weight: bold; -fx-background-radius: 8; -fx-padding: 6 12; -fx-cursor: hand; -fx-border-width: 0;" text="+ Schedule Match" />
+                            </HBox>
+                            <TableView fx:id="matchesTable" prefHeight="400" style="-fx-background-color: transparent; -fx-border-width: 0; -fx-table-cell-border-color: rgba(255,255,255,0.04);">
+                                <columns>
+                                    <TableColumn fx:id="colMatchId" prefWidth="60" text="ID" />
+                                    <TableColumn fx:id="colMatchGame" prefWidth="100" text="GAME" />
+                                    <TableColumn fx:id="colTeam1" prefWidth="140" text="TEAM 1" />
+                                    <TableColumn fx:id="colScore" prefWidth="100" text="SCORE" />
+                                    <TableColumn fx:id="colTeam2" prefWidth="140" text="TEAM 2" />
+                                    <TableColumn fx:id="colMatchDate" prefWidth="130" text="DATE / TIME" />
+                                    <TableColumn fx:id="colMatchStatus" prefWidth="100" text="STATUS" />
+                                    <TableColumn fx:id="colMatchActions" prefWidth="160" text="ACTIONS" />
+                                </columns>
+                                <placeholder>
+                                    <Label style="-fx-text-fill: #6b7394;" text="No matches found" />
+                                </placeholder>
+                            </TableView>
+                        </VBox>
+                    </VBox>
+                </ScrollPane>
+
+                <!-- ─── TEAMS PAGE ─── -->
+                <ScrollPane fx:id="pageTeams" fitToWidth="true" managed="false" style="-fx-background-color: transparent; -fx-background: transparent; -fx-border-width: 0;" visible="false">
+                    <VBox spacing="16" style="-fx-padding: 20 28 28 28; -fx-background-color: #08090f;">
+                        <VBox style="-fx-background-color: #111524; -fx-border-color: rgba(255,255,255,0.06); -fx-border-radius: 12; -fx-background-radius: 12; -fx-padding: 18;">
+                            <HBox alignment="CENTER_LEFT" style="-fx-padding: 0 0 14 0;">
+                                <Label style="-fx-text-fill: #e8eaf6; -fx-font-size: 13; -fx-font-weight: bold;" text="Team Management" />
+                                <Region HBox.hgrow="ALWAYS" />
+                                <Button onAction="#onCreateTeam" style="-fx-background-color: #4d78ff; -fx-text-fill: white; -fx-font-size: 11; -fx-font-weight: bold; -fx-background-radius: 8; -fx-padding: 6 12; -fx-cursor: hand; -fx-border-width: 0;" text="+ Create Team" />
+                            </HBox>
+                            <TableView fx:id="teamsTable" prefHeight="600" style="-fx-background-color: transparent; -fx-border-width: 0; -fx-table-cell-border-color: rgba(255,255,255,0.04);">
+                                <columns>
+                                    <TableColumn fx:id="colTeamRank" prefWidth="50" text="#" />
+                                    <TableColumn fx:id="colTeamName" prefWidth="180" text="TEAM" />
+                                    <TableColumn fx:id="colTeamGame" prefWidth="100" text="GAME" />
+                                    <TableColumn fx:id="colTeamPlayers" prefWidth="90" text="PLAYERS" />
+                                    <TableColumn fx:id="colTeamWins" prefWidth="80" text="WINS" />
+                                    <TableColumn fx:id="colTeamWinRate" prefWidth="100" text="WIN RATE" />
+                                    <TableColumn fx:id="colTeamPrize" prefWidth="120" text="PRIZE WON" />
+                                    <TableColumn fx:id="colTeamStatus" prefWidth="100" text="STATUS" />
+                                    <TableColumn fx:id="colTeamActions" prefWidth="160" text="ACTIONS" />
+                                </columns>
+                                <placeholder>
+                                    <Label style="-fx-text-fill: #6b7394;" text="No teams found" />
+                                </placeholder>
+                            </TableView>
+                        </VBox>
+                    </VBox>
+                </ScrollPane>
+
+                <!-- ─── TOURNAMENTS PAGE ─── -->
+                <ScrollPane fx:id="pageTournaments" fitToWidth="true" managed="false" style="-fx-background-color: transparent; -fx-background: transparent; -fx-border-width: 0;" visible="false">
+                    <VBox spacing="16" style="-fx-padding: 20 28 28 28; -fx-background-color: #08090f;">
+                        <VBox style="-fx-background-color: #111524; -fx-border-color: rgba(255,255,255,0.06); -fx-border-radius: 12; -fx-background-radius: 12; -fx-padding: 18;">
+                            <HBox alignment="CENTER_LEFT" style="-fx-padding: 0 0 14 0;">
+                                <Label style="-fx-text-fill: #e8eaf6; -fx-font-size: 13; -fx-font-weight: bold;" text="Tournament Management" />
+                                <Region HBox.hgrow="ALWAYS" />
+                                <Button onAction="#onCreateTournament" style="-fx-background-color: #4d78ff; -fx-text-fill: white; -fx-font-size: 11; -fx-font-weight: bold; -fx-background-radius: 8; -fx-padding: 6 12; -fx-cursor: hand; -fx-border-width: 0;" text="+ Host Tournament" />
+                            </HBox>
+                            <TableView fx:id="tournamentsTable" prefHeight="600" style="-fx-background-color: transparent; -fx-border-width: 0; -fx-table-cell-border-color: rgba(255,255,255,0.04);">
+                                <columns>
+                                    <TableColumn fx:id="colTournId" prefWidth="50" text="#" />
+                                    <TableColumn fx:id="colTournName" prefWidth="200" text="TOURNAMENT" />
+                                    <TableColumn fx:id="colTournGame" prefWidth="100" text="GAME" />
+                                    <TableColumn fx:id="colTournTeams" prefWidth="80" text="TEAMS" />
+                                    <TableColumn fx:id="colTournPrize" prefWidth="120" text="PRIZE POOL" />
+                                    <TableColumn fx:id="colTournDate" prefWidth="120" text="START DATE" />
+                                    <TableColumn fx:id="colTournStatus" prefWidth="100" text="STATUS" />
+                                    <TableColumn fx:id="colTournActions" prefWidth="180" text="ACTIONS" />
+                                </columns>
+                                <placeholder>
+                                    <Label style="-fx-text-fill: #6b7394;" text="No tournaments found" />
+                                </placeholder>
+                            </TableView>
+                        </VBox>
+                    </VBox>
+                </ScrollPane>
+
+                <!-- ─── MODERATION PAGE ─── -->
+                <ScrollPane fx:id="pageModeration" fitToWidth="true" managed="false" style="-fx-background-color: transparent; -fx-background: transparent; -fx-border-width: 0;" visible="false">
+                    <VBox spacing="16" style="-fx-padding: 20 28 28 28; -fx-background-color: #08090f;">
+                        <VBox style="-fx-background-color: #111524; -fx-border-color: rgba(255,77,109,0.2); -fx-border-radius: 12; -fx-background-radius: 12; -fx-padding: 18;">
+                            <HBox alignment="CENTER_LEFT" style="-fx-padding: 0 0 14 0;">
+                                <Label style="-fx-text-fill: #e8eaf6; -fx-font-size: 13; -fx-font-weight: bold;" text="🛡  Moderation Queue" />
+                                <Region HBox.hgrow="ALWAYS" />
+                                <Label style="-fx-text-fill: #ff4d6d; -fx-font-size: 12;" text="5 pending" />
+                            </HBox>
+                            <TableView fx:id="moderationTable" prefHeight="600" style="-fx-background-color: transparent; -fx-border-width: 0; -fx-table-cell-border-color: rgba(255,255,255,0.04);">
+                                <columns>
+                                    <TableColumn fx:id="colRepId" prefWidth="50" text="#" />
+                                    <TableColumn fx:id="colRepType" prefWidth="120" text="TYPE" />
+                                    <TableColumn fx:id="colRepTarget" prefWidth="160" text="TARGET" />
+                                    <TableColumn fx:id="colRepReporter" prefWidth="160" text="REPORTER" />
+                                    <TableColumn fx:id="colRepReason" prefWidth="220" text="REASON" />
+                                    <TableColumn fx:id="colRepDate" prefWidth="120" text="DATE" />
+                                    <TableColumn fx:id="colRepSeverity" prefWidth="100" text="SEVERITY" />
+                                    <TableColumn fx:id="colRepActions" prefWidth="180" text="ACTIONS" />
+                                </columns>
+                                <placeholder>
+                                    <Label style="-fx-text-fill: #6b7394;" text="No reports pending" />
+                                </placeholder>
+                            </TableView>
+                        </VBox>
+                    </VBox>
+                </ScrollPane>
+
+                <!-- ─── SETTINGS PAGE ─── -->
+                <ScrollPane fx:id="pageSettings" fitToWidth="true" managed="false" style="-fx-background-color: transparent; -fx-background: transparent; -fx-border-width: 0;" visible="false">
+                    <VBox spacing="16" style="-fx-padding: 20 28 28 28; -fx-background-color: #08090f;">
+                        <HBox alignment="TOP_LEFT" spacing="16">
+                            <!-- Left settings menu -->
+                            <VBox prefWidth="200" spacing="2" style="-fx-background-color: #111524; -fx-border-color: rgba(255,255,255,0.06); -fx-border-radius: 12; -fx-background-radius: 12; -fx-padding: 12;">
+                                <Label style="-fx-text-fill: #4a5070; -fx-font-size: 9; -fx-letter-spacing: 2; -fx-padding: 4 8 8 8;" text="SETTINGS" />
+                                <Label style="-fx-text-fill: white; -fx-font-size: 13; -fx-background-color: rgba(77,120,255,0.15); -fx-background-radius: 8; -fx-padding: 8 12; -fx-cursor: hand;" text="General" />
+                                <Label style="-fx-text-fill: #6b7394; -fx-font-size: 13; -fx-padding: 8 12; -fx-cursor: hand;" text="Security" />
+                                <Label style="-fx-text-fill: #6b7394; -fx-font-size: 13; -fx-padding: 8 12; -fx-cursor: hand;" text="Notifications" />
+                                <Label style="-fx-text-fill: #6b7394; -fx-font-size: 13; -fx-padding: 8 12; -fx-cursor: hand;" text="API Keys" />
+                                <Label style="-fx-text-fill: #6b7394; -fx-font-size: 13; -fx-padding: 8 12; -fx-cursor: hand;" text="Platform Rules" />
+                                <Label style="-fx-text-fill: #6b7394; -fx-font-size: 13; -fx-padding: 8 12; -fx-cursor: hand;" text="Maintenance" />
+                            </VBox>
+
+                            <!-- Settings Form -->
+                            <VBox spacing="14" style="-fx-background-color: #111524; -fx-border-color: rgba(255,255,255,0.06); -fx-border-radius: 12; -fx-background-radius: 12; -fx-padding: 24;" HBox.hgrow="ALWAYS">
+                                <Label style="-fx-text-fill: white; -fx-font-size: 16; -fx-font-weight: bold;" text="General Settings" />
+                                <Separator style="-fx-background-color: rgba(255,255,255,0.06);" />
+
+                                <VBox spacing="6">
+                                    <Label style="-fx-text-fill: #6b7394; -fx-font-size: 11;" text="Platform Name" />
+                                    <TextField fx:id="settingPlatformName" style="-fx-background-color: #161a2e; -fx-text-fill: #e8eaf6; -fx-border-color: rgba(255,255,255,0.1); -fx-border-radius: 8; -fx-background-radius: 8; -fx-padding: 10 12; -fx-font-size: 13;" text="Cartix" />
+                                </VBox>
+                                <VBox spacing="6">
+                                    <Label style="-fx-text-fill: #6b7394; -fx-font-size: 11;" text="Season Name" />
+                                    <TextField fx:id="settingSeasonName" style="-fx-background-color: #161a2e; -fx-text-fill: #e8eaf6; -fx-border-color: rgba(255,255,255,0.1); -fx-border-radius: 8; -fx-background-radius: 8; -fx-padding: 10 12; -fx-font-size: 13;" text="Season 2025" />
+                                </VBox>
+                                <VBox spacing="6">
+                                    <Label style="-fx-text-fill: #6b7394; -fx-font-size: 11;" text="Max Teams per Tournament" />
+                                    <TextField fx:id="settingMaxTeams" style="-fx-background-color: #161a2e; -fx-text-fill: #e8eaf6; -fx-border-color: rgba(255,255,255,0.1); -fx-border-radius: 8; -fx-background-radius: 8; -fx-padding: 10 12; -fx-font-size: 13;" text="32" />
+                                </VBox>
+                                <HBox alignment="CENTER_LEFT" spacing="10">
+                                    <Label style="-fx-text-fill: #6b7394; -fx-font-size: 12;" text="Maintenance Mode" />
+                                    <CheckBox fx:id="settingMaintenance" style="-fx-text-fill: #e8eaf6;" />
+                                </HBox>
+                                <HBox alignment="CENTER_LEFT" spacing="10">
+                                    <Label style="-fx-text-fill: #6b7394; -fx-font-size: 12;" text="Allow New Registrations" />
+                                    <CheckBox fx:id="settingRegistrations" selected="true" style="-fx-text-fill: #e8eaf6;" />
+                                </HBox>
+                                <Separator style="-fx-background-color: rgba(255,255,255,0.06);" />
+                                <HBox spacing="10">
+                                    <Button onAction="#onSaveSettings" style="-fx-background-color: #4d78ff; -fx-text-fill: white; -fx-font-size: 13; -fx-font-weight: bold; -fx-background-radius: 8; -fx-padding: 10 20; -fx-cursor: hand; -fx-border-width: 0;" text="Save Changes" />
+                                    <Button onAction="#onResetSettings" style="-fx-background-color: #161a2e; -fx-text-fill: #6b7394; -fx-border-color: rgba(255,255,255,0.1); -fx-border-radius: 8; -fx-background-radius: 8; -fx-padding: 10 20; -fx-cursor: hand;" text="Reset to Default" />
+                                </HBox>
+                            </VBox>
+                        </HBox>
+                    </VBox>
+                </ScrollPane>
+
+            </StackPane>
+
+            <!-- STATUS BAR -->
+            <HBox alignment="CENTER_LEFT" spacing="16" style="-fx-background-color: #0d0f1a; -fx-border-color: rgba(255,255,255,0.06); -fx-border-width: 1 0 0 0; -fx-padding: 7 28;">
+                <Label style="-fx-text-fill: #22d98a; -fx-font-size: 11;" text="● System Online" />
+                <Label style="-fx-text-fill: #4a5070;" text="|" />
+                <Label style="-fx-text-fill: #6b7394; -fx-font-size: 11;" text="DB: Connected" />
+                <Label style="-fx-text-fill: #4a5070;" text="|" />
+                <Label fx:id="statusLabel" style="-fx-text-fill: #6b7394; -fx-font-size: 11;" text="Ready" />
+                <Region HBox.hgrow="ALWAYS" />
+                <Label fx:id="clockLabel" style="-fx-text-fill: #6b7394; -fx-font-size: 11;" text="08/05/2026 · 00:00" />
+                <Label style="-fx-text-fill: #4a5070; -fx-font-size: 11;" text="v2.5.0" />
+            </HBox>
+        </VBox>
+    </center>
+
+</BorderPane>
