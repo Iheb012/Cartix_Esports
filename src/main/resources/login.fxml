@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Circle?>
+<?import javafx.scene.shape.Line?>
+
+<BorderPane prefHeight="650" prefWidth="1060" styleClass="root-pane" stylesheets="@login.css" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.LoginController">
+
+    <!-- ===== NAVBAR ===== -->
+    <top>
+        <HBox alignment="CENTER_LEFT" prefHeight="52" spacing="10" styleClass="navbar">
+            <padding><Insets left="24" right="24" /></padding>
+            <ImageView fitHeight="63.0" fitWidth="73.0">
+                <image>
+                    <Image url="@logoteam.png" />
+                </image>
+            </ImageView>
+            <Label styleClass="logo-text" text="Cartix" />
+        </HBox>
+    </top>
+
+    <!-- ===== MAIN CONTENT ===== -->
+    <center>
+        <StackPane>
+            <Circle radius="150" styleClass="orb-1" translateX="185" translateY="95" StackPane.alignment="TOP_LEFT" />
+            <Circle radius="240" styleClass="orb-2" translateX="460" translateY="120" StackPane.alignment="BOTTOM_LEFT" />
+            <HBox>
+                <VBox styleClass="left-panel" HBox.hgrow="ALWAYS">
+                    <padding><Insets bottom="26" left="44" right="20" top="30" /></padding>
+                    <Label styleClass="headline" text="The ultimate" />
+                    <Label styleClass="headline" text="esports platform." />
+                    <Region prefHeight="14" />
+                    <Label styleClass="subtext" text="Track stats, host tournaments," />
+                    <Label styleClass="subtext" text="follow live matches and your favourite games." />
+                    <Region prefHeight="28" />
+                    <HBox alignment="CENTER_LEFT" spacing="14">
+                        <Circle radius="12" styleClass="feat-dot" />
+                        <Label styleClass="feature-text" text="Live tournament tracker" />
+                    </HBox>
+                    <Region prefHeight="12" />
+                    <HBox alignment="CENTER_LEFT" spacing="14">
+                        <Circle radius="12" styleClass="feat-dot" />
+                        <Label styleClass="feature-text" text="Host tournaments for your friend group" />
+                    </HBox>
+                    <Region prefHeight="12" />
+                    <HBox alignment="CENTER_LEFT" spacing="14">
+                        <Circle radius="12" styleClass="feat-dot" />
+                        <Label styleClass="feature-text" text="Player stats, KDA, win rates &amp; more" />
+                    </HBox>
+                    <Region prefHeight="12" />
+                    <HBox alignment="CENTER_LEFT" spacing="14">
+                        <Circle radius="12" styleClass="feat-dot" />
+                        <Label styleClass="feature-text" text="News, trends &amp; community highlights" />
+                    </HBox>
+                    <Region VBox.vgrow="ALWAYS" />
+
+                    <!-- ===== STATS ===== -->
+                    <HBox alignment="CENTER_LEFT">
+                        <VBox spacing="2">
+                            <Label fx:id="playersCountLabel" styleClass="stat-num" text="0K+" />
+                            <Label styleClass="stat-label" text="Players" />
+                        </VBox>
+                        <Pane prefHeight="46" prefWidth="1" styleClass="stat-sep">
+                            <HBox.margin><Insets left="16" right="16" /></HBox.margin>
+                        </Pane>
+                        <VBox spacing="2">
+                            <Label fx:id="tournamentsCountLabel" styleClass="stat-num" text="0K" />
+                            <Label styleClass="stat-label" text="Tournaments" />
+                        </VBox>
+                        <Pane prefHeight="46" prefWidth="1" styleClass="stat-sep">
+                            <HBox.margin><Insets left="16" right="16" /></HBox.margin>
+                        </Pane>
+                        <VBox spacing="2">
+                            <Label fx:id="liveCountLabel" styleClass="stat-num" text="0" />
+                            <Label styleClass="stat-label" text="Live now" />
+                        </VBox>
+                    </HBox>
+                </VBox>
+
+                <VBox alignment="TOP_CENTER" minWidth="360" prefWidth="380" HBox.hgrow="NEVER">
+                    <padding><Insets bottom="20" left="16" right="52" top="30" /></padding>
+                    <VBox styleClass="card">
+                        <padding><Insets bottom="22" left="26" right="26" top="28" /></padding>
+                        <Label styleClass="card-title" text="Welcome back" />
+                        <Region prefHeight="4" />
+                        <Label styleClass="card-sub" text="Sign in to your Cartix account" />
+                        <Region prefHeight="20" />
+
+                        <!-- ===== SOCIAL BUTTONS WITH ICONS ===== -->
+                        <HBox spacing="10">
+                            <Button maxWidth="Infinity" onAction="#handleGoogle" styleClass="btn-google" HBox.hgrow="ALWAYS">
+                                <graphic>
+                                    <HBox alignment="CENTER" spacing="8">
+                                        <Label mouseTransparent="true" styleClass="btn-social-text" text="Continue with" />
+                                        <ImageView fitHeight="18" fitWidth="18" preserveRatio="true">
+                                            <image><Image url="@google.jpg" /></image>
+                                        </ImageView>
+                                    </HBox>
+                                </graphic>
+                            </Button>
+                            <Button maxWidth="Infinity" onAction="#handleDiscord" styleClass="btn-discord" HBox.hgrow="ALWAYS">
+                                <graphic>
+                                    <HBox alignment="CENTER" spacing="8">
+                                        <Label mouseTransparent="true" styleClass="btn-social-text" text="Continue with" />
+                                        <ImageView fitHeight="18" fitWidth="18" preserveRatio="true">
+                                            <image><Image url="@discord.png" /></image>
+                                        </ImageView>
+                                    </HBox>
+                                </graphic>
+                            </Button>
+                        </HBox>
+
+                        <Region prefHeight="14" />
+                        <StackPane prefHeight="18">
+                            <Line endX="108" startX="0" styleClass="divider-line" translateX="2" StackPane.alignment="CENTER_LEFT" />
+                            <Label styleClass="divider-label" text="or sign in with email" StackPane.alignment="CENTER" />
+                            <Line endX="108" startX="0" styleClass="divider-line" translateX="-2" StackPane.alignment="CENTER_RIGHT" />
+                        </StackPane>
+                        <Region prefHeight="12" />
+                        <Label styleClass="field-label" text="Email address" />
+                        <Region prefHeight="6" />
+                        <TextField fx:id="emailField" maxWidth="Infinity" promptText="you@example.com" styleClass="input-field" />
+                        <Region prefHeight="12" />
+                        <Label styleClass="field-label" text="Password" />
+                        <Region prefHeight="6" />
+                        <StackPane>
+                            <PasswordField fx:id="passwordField" maxWidth="Infinity" promptText="••••••••••" styleClass="input-field" />
+                            <TextField fx:id="passwordVisible" managed="false" maxWidth="Infinity" promptText="Enter your password" styleClass="input-field" visible="false" />
+                            <Button fx:id="showBtn" onAction="#togglePassword" styleClass="show-btn" text="Show" StackPane.alignment="CENTER_RIGHT">
+                                <StackPane.margin><Insets right="10" /></StackPane.margin>
+                            </Button>
+                        </StackPane>
+                        <Region prefHeight="10" />
+                        <HBox alignment="CENTER_LEFT">
+                            <CheckBox fx:id="rememberMe" styleClass="remember-check" text="Remember me" />
+                            <Region HBox.hgrow="ALWAYS" />
+                            <Button onAction="#handleForgot" styleClass="link-btn" text="Forgot password?" />
+                        </HBox>
+                        <Region prefHeight="16" />
+                        <Button maxWidth="Infinity" onAction="#handleSignIn" styleClass="btn-signin" text="Sign in" />
+                        <Region prefHeight="12" />
+                        <HBox alignment="CENTER" spacing="4">
+                            <Label styleClass="footer-label" text="Don't have an account?" />
+                            <Button onAction="#handleCreate" styleClass="link-btn" text="Create one free" />
+                        </HBox>
+                        <Region prefHeight="8" />
+                        <Label maxWidth="Infinity" styleClass="tos-text" text="By signing in you agree to our Terms of Service and Privacy Policy" textAlignment="CENTER" wrapText="true" />
+                    </VBox>
+                </VBox>
+            </HBox>
+        </StackPane>
+    </center>
+</BorderPane>
