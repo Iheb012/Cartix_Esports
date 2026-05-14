@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ProgressBar?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+
+<HBox minHeight="720" minWidth="1280" prefHeight="1080" prefWidth="1920" style="-fx-background-color: #0F0F17;" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.MatchesController">
+
+    <!-- SIDEBAR -->
+    <VBox maxWidth="260" minWidth="220" prefWidth="236" style="-fx-background-color: #141420; -fx-padding: 16 0 0 0;">
+        <HBox alignment="CENTER_LEFT" spacing="12" style="-fx-padding: 0 18 18 18;">
+            <ImageView fitHeight="52" fitWidth="52" pickOnBounds="true" preserveRatio="true">
+                <image>
+                    <Image url="@logoteam.png" />
+                </image>
+            </ImageView>
+            <Label style="-fx-text-fill: white; -fx-font-size: 24px; -fx-font-weight: bold; -fx-effect: dropshadow(gaussian, rgba(0,24,72,0.9), 0, 0, 2, 2);" text="Cartix" />
+        </HBox>
+        <VBox spacing="4" style="-fx-padding: 0 8;">
+            <Button onAction="#navDashboard" prefHeight="36" prefWidth="204" style="-fx-background-color: transparent; -fx-text-fill: #949499; -fx-font-size: 13px; -fx-alignment: CENTER_LEFT; -fx-background-radius: 8; -fx-padding: 0 0 0 20;" text="Dashboard" />
+            <Button onAction="#navPlayers" prefHeight="36" prefWidth="204" style="-fx-background-color: transparent; -fx-text-fill: #949499; -fx-font-size: 13px; -fx-alignment: CENTER_LEFT; -fx-background-radius: 8; -fx-padding: 0 0 0 20;" text="Players" />
+            <Button onAction="#navMatches" prefHeight="36" prefWidth="204" style="-fx-background-color: rgba(56,143,255,0.15); -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 13px; -fx-alignment: CENTER_LEFT; -fx-background-radius: 8; -fx-padding: 0 0 0 17; -fx-border-color: transparent transparent transparent #388FFF; -fx-border-width: 0 0 0 3;" text="Matches" />
+            <Button onAction="#navTeams" prefHeight="36" prefWidth="204" style="-fx-background-color: transparent; -fx-text-fill: #949499; -fx-font-size: 13px; -fx-alignment: CENTER_LEFT; -fx-background-radius: 8; -fx-padding: 0 0 0 20;" text="Teams" />
+            <Button onAction="#navTournaments" prefHeight="36" prefWidth="204" style="-fx-background-color: transparent; -fx-text-fill: #949499; -fx-font-size: 13px; -fx-alignment: CENTER_LEFT; -fx-background-radius: 8; -fx-padding: 0 0 0 20;" text="Tournaments" />
+            <Button onAction="#navAnalytics" prefHeight="36" prefWidth="204" style="-fx-background-color: transparent; -fx-text-fill: #949499; -fx-font-size: 13px; -fx-alignment: CENTER_LEFT; -fx-background-radius: 8; -fx-padding: 0 0 0 20;" text="Analytics" />
+            <Button onAction="#navProduits" prefHeight="36" prefWidth="204" style="-fx-background-color: transparent; -fx-text-fill: #949499; -fx-font-size: 13px; -fx-alignment: CENTER_LEFT; -fx-background-radius: 8; -fx-padding: 0 0 0 20;" text="Produits" />
+            <Button onAction="#navSponsors" prefHeight="36" prefWidth="204" style="-fx-background-color: transparent; -fx-text-fill: #949499; -fx-font-size: 13px; -fx-alignment: CENTER_LEFT; -fx-background-radius: 8; -fx-padding: 0 0 0 20;" text="Sponsors" />
+        </VBox>
+        <Region VBox.vgrow="ALWAYS" />
+        <VBox spacing="8" style="-fx-padding: 0 12 18 12;">
+            <HBox fx:id="userBarButton" alignment="CENTER_LEFT" onMouseClicked="#toggleUserPanel" spacing="10" style="-fx-background-color: #1C1C29; -fx-background-radius: 10; -fx-padding: 10 14; -fx-cursor: hand;">
+                <Label style="-fx-background-color: #8F3FFF; -fx-background-radius: 16; -fx-text-fill: white; -fx-font-size: 11px; -fx-font-weight: bold; -fx-min-width: 32; -fx-min-height: 32; -fx-alignment: center;" text="IT" />
+                <VBox spacing="1">
+                    <Label style="-fx-text-fill: white; -fx-font-size: 12px; -fx-font-weight: bold;" text="test" />
+                    <Label style="-fx-text-fill: #949499; -fx-font-size: 10px;" text="Pro Member" />
+                </VBox>
+                <Region HBox.hgrow="ALWAYS" />
+                <Label fx:id="userBarChevron" style="-fx-text-fill: #6E6E78; -fx-font-size: 14px;" text="▲" />
+            </HBox>
+            <VBox fx:id="userFlyoutPanel" managed="false" spacing="6" style="-fx-background-color: #232334; -fx-background-radius: 12; -fx-padding: 12; -fx-border-color: #35354a; -fx-border-radius: 12; -fx-border-width: 1;" visible="false">
+                <Label style="-fx-text-fill: #949499; -fx-font-size: 10px; -fx-font-weight: bold;" text="ACCOUNT" />
+                <Button onAction="#onUserProfile" prefHeight="32" prefWidth="200" style="-fx-background-color: transparent; -fx-text-fill: white; -fx-font-size: 12px; -fx-alignment: CENTER_LEFT; -fx-padding: 0 0 0 8; -fx-cursor: hand;" text="View profile" />
+                <Button onAction="#onUserStatus" prefHeight="32" prefWidth="200" style="-fx-background-color: transparent; -fx-text-fill: white; -fx-font-size: 12px; -fx-alignment: CENTER_LEFT; -fx-padding: 0 0 0 8; -fx-cursor: hand;" text="Set custom status" />
+                <Separator style="-fx-background-color: #35354a;" />
+                <Button onAction="#navSettings" prefHeight="32" prefWidth="200" style="-fx-background-color: transparent; -fx-text-fill: #CCC; -fx-font-size: 12px; -fx-alignment: CENTER_LEFT; -fx-padding: 0 0 0 8; -fx-cursor: hand;" text="Settings" />
+                <Button onAction="#logout" prefHeight="32" prefWidth="200" style="-fx-background-color: transparent; -fx-text-fill: #F25555; -fx-font-size: 12px; -fx-alignment: CENTER_LEFT; -fx-padding: 0 0 0 8; -fx-cursor: hand;" text="Log out" />
+            </VBox>
+        </VBox>
+    </VBox>
+
+    <!-- MAIN -->
+    <VBox minWidth="0" HBox.hgrow="ALWAYS">
+
+        <!-- Header -->
+        <HBox alignment="CENTER_LEFT" spacing="16" style="-fx-background-color: #141420; -fx-padding: 16 28; -fx-border-color: transparent transparent #1E1E2E transparent; -fx-border-width: 0 0 1 0;">
+            <VBox>
+                <Label style="-fx-text-fill: white; -fx-font-size: 22px; -fx-font-weight: bold;" text="Match Center" />
+                <Label style="-fx-text-fill: #949499; -fx-font-size: 12px;" />
+            </VBox>
+            <Region HBox.hgrow="ALWAYS" />
+            <HBox alignment="CENTER_LEFT" spacing="8" style="-fx-background-color: #1C1C29; -fx-background-radius: 8; -fx-padding: 8 12; -fx-min-width: 240;">
+                <Label style="-fx-text-fill: #555; -fx-font-size: 13px;" text="Search" />
+                <TextField fx:id="searchField" onKeyReleased="#onSearch" prefWidth="200" promptText="Search teams, statut..." style="-fx-background-color: transparent; -fx-text-fill: white; -fx-prompt-text-fill: #555; -fx-font-size: 13px; -fx-border-color: transparent;" />
+            </HBox>
+            <ComboBox fx:id="statusFilter" onAction="#onStatusFilter" prefWidth="150" promptText="Filter status" style="-fx-background-color: #1C1C29; -fx-text-fill: white; -fx-font-size: 12px; -fx-background-radius: 8;" />
+            <ComboBox fx:id="sortCombo" onAction="#onSort" prefWidth="130" promptText="Sort by" style="-fx-background-color: #1C1C29; -fx-text-fill: white; -fx-font-size: 12px; -fx-background-radius: 8;" />
+        </HBox>
+
+        <!-- Stats Row -->
+        <HBox spacing="12" style="-fx-padding: 16 28 0 28;">
+            <VBox alignment="CENTER" minWidth="120" prefHeight="80" prefWidth="160" style="-fx-background-color: #1C1C29; -fx-background-radius: 12; -fx-padding: 12;">
+                <Label fx:id="statTotalVal" style="-fx-text-fill: #388FFF; -fx-font-size: 28px; -fx-font-weight: bold;" text="0" />
+                <Label style="-fx-text-fill: #949499; -fx-font-size: 11px;" text="Total Matches" />
+            </VBox>
+            <VBox alignment="CENTER" minWidth="120" prefHeight="80" prefWidth="160" style="-fx-background-color: #1C1C29; -fx-background-radius: 12; -fx-padding: 12;">
+                <Label fx:id="statLiveVal" style="-fx-text-fill: #F23333; -fx-font-size: 28px; -fx-font-weight: bold;" text="0" />
+                <Label style="-fx-text-fill: #949499; -fx-font-size: 11px;" text="Live Now" />
+            </VBox>
+            <VBox alignment="CENTER" minWidth="120" prefHeight="80" prefWidth="160" style="-fx-background-color: #1C1C29; -fx-background-radius: 12; -fx-padding: 12;">
+                <Label fx:id="statUpcomingVal" style="-fx-text-fill: #FFC01A; -fx-font-size: 28px; -fx-font-weight: bold;" text="0" />
+                <Label style="-fx-text-fill: #949499; -fx-font-size: 11px;" text="Upcoming" />
+            </VBox>
+            <VBox alignment="CENTER" minWidth="120" prefHeight="80" prefWidth="160" style="-fx-background-color: #1C1C29; -fx-background-radius: 12; -fx-padding: 12;">
+                <Label fx:id="statDoneVal" style="-fx-text-fill: #1DB876; -fx-font-size: 28px; -fx-font-weight: bold;" text="0" />
+                <Label style="-fx-text-fill: #949499; -fx-font-size: 11px;" text="Completed" />
+            </VBox>
+            <VBox alignment="CENTER" minWidth="120" prefHeight="80" prefWidth="160" style="-fx-background-color: #1C1C29; -fx-background-radius: 12; -fx-padding: 12;">
+                <Label fx:id="statWinRateVal" style="-fx-text-fill: #8F3FFF; -fx-font-size: 28px; -fx-font-weight: bold;" text="0%" />
+                <Label style="-fx-text-fill: #949499; -fx-font-size: 11px;" text="Win Rate" />
+            </VBox>
+            <Region HBox.hgrow="ALWAYS" />
+        </HBox>
+
+        <!-- Game picker -->
+        <HBox alignment="CENTER_LEFT" spacing="10" style="-fx-padding: 12 28 8 28;">
+            <Label style="-fx-text-fill: #949499; -fx-font-size: 12px; -fx-font-weight: bold;" text="Game" />
+            <HBox fx:id="matchGameBar" spacing="10" />
+        </HBox>
+
+        <!-- Body: center grid + right rail -->
+        <HBox spacing="0" style="-fx-padding: 8 0 0 0;" VBox.vgrow="ALWAYS">
+            <StackPane minWidth="0" HBox.hgrow="ALWAYS">
+                <HBox spacing="16" style="-fx-padding: 0 14 20 28;">
+                    <!-- Left: local matches -->
+                    <VBox maxWidth="420" minWidth="280" prefWidth="380" spacing="10">
+                        <Label style="-fx-text-fill: #388FFF; -fx-font-size: 12px; -fx-font-weight: bold;" text="Your matches" />
+                        <ScrollPane fitToWidth="true" minHeight="240" style="-fx-background: transparent; -fx-background-color: transparent;" VBox.vgrow="ALWAYS">
+                            <VBox fx:id="matchListBox" spacing="12" style="-fx-padding: 0 0 8 0;" />
+                        </ScrollPane>
+                    </VBox>
+                    <!-- Center: pro live + columns -->
+                    <VBox minWidth="480" spacing="12" HBox.hgrow="ALWAYS">
+                        <VBox minHeight="260" spacing="8" style="-fx-background-color: #18181F; -fx-background-radius: 14; -fx-padding: 12;" VBox.vgrow="ALWAYS">
+                            <Label style="-fx-text-fill: #8F3FFF; -fx-font-size: 13px; -fx-font-weight: bold;" text="Global live (PandaScore)" />
+                            <ScrollPane fitToWidth="true" style="-fx-background: transparent; -fx-background-color: transparent;" VBox.vgrow="ALWAYS">
+                                <VBox fx:id="proLiveBox" spacing="12" />
+                            </ScrollPane>
+                        </VBox>
+                        <HBox minHeight="220" spacing="12" VBox.vgrow="ALWAYS">
+                            <VBox minWidth="200" spacing="8" style="-fx-background-color: #1C1C29; -fx-background-radius: 12; -fx-padding: 12;" HBox.hgrow="ALWAYS">
+                                <Label style="-fx-text-fill: #FFC01A; -fx-font-size: 13px; -fx-font-weight: bold;" text="Upcoming" />
+                                <ScrollPane fitToWidth="true" style="-fx-background: transparent; -fx-background-color: transparent;" VBox.vgrow="ALWAYS">
+                                    <VBox fx:id="upcomingPreviewBox" spacing="8" />
+                                </ScrollPane>
+                            </VBox>
+                            <VBox maxWidth="400" minWidth="260" prefWidth="340" spacing="8" style="-fx-background-color: #161622; -fx-background-radius: 12; -fx-padding: 12;">
+                                <Label style="-fx-text-fill: #1DB876; -fx-font-size: 13px; -fx-font-weight: bold;" text="Recent results" />
+                                <ScrollPane fitToWidth="true" style="-fx-background: transparent; -fx-background-color: transparent;" VBox.vgrow="ALWAYS">
+                                    <VBox fx:id="recentPreviewBox" spacing="8" />
+                                </ScrollPane>
+                            </VBox>
+                        </HBox>
+
+                    </VBox>
+                </HBox>
+                <VBox fx:id="loadingOverlay" alignment="CENTER" style="-fx-background-color: rgba(15,15,23,0.82);" visible="true">
+                    <ImageView fx:id="loadingLogo" fitHeight="110" fitWidth="110" preserveRatio="true">
+                        <image>
+                            <Image url="@logoteam.png" />
+                        </image>
+                    </ImageView>
+                </VBox>
+            </StackPane>
+
+            <!-- Right Panel -->
+            <VBox maxWidth="440" minWidth="340" prefWidth="400" style="-fx-background-color: #141420; -fx-border-color: #1E1E2E transparent transparent transparent; -fx-border-width: 0 0 0 1;">
+                <ScrollPane fitToWidth="true" style="-fx-background: transparent; -fx-background-color: transparent;" VBox.vgrow="ALWAYS">
+                    <VBox spacing="14" style="-fx-padding: 16;">
+
+                        <VBox fx:id="formPanel" spacing="10" style="-fx-background-color: #1C1C29; -fx-background-radius: 12; -fx-padding: 16;">
+                            <Label fx:id="formTitle" style="-fx-text-fill: white; -fx-font-size: 14px; -fx-font-weight: bold;" text="New Match" />
+                            <Separator style="-fx-background-color: #252540;" />
+
+                            <Label style="-fx-text-fill: #949499; -fx-font-size: 11px;" text="Team 1" />
+                            <ComboBox fx:id="team1Combo" prefWidth="358" promptText="Select Team 1" style="-fx-background-color: #131428; -fx-text-fill: white; -fx-font-size: 13px; -fx-background-radius: 8;" />
+
+                            <Label style="-fx-text-fill: #949499; -fx-font-size: 11px;" text="Team 2" />
+                            <ComboBox fx:id="team2Combo" prefWidth="358" promptText="Select Team 2" style="-fx-background-color: #131428; -fx-text-fill: white; -fx-font-size: 13px; -fx-background-radius: 8;" />
+
+                            <Label style="-fx-text-fill: #949499; -fx-font-size: 11px;" text="Game (for Match Center filter)" />
+                            <ComboBox fx:id="gameCombo" prefWidth="358" promptText="Select game" style="-fx-background-color: #131428; -fx-text-fill: white; -fx-font-size: 13px; -fx-background-radius: 8;" />
+
+                            <Label style="-fx-text-fill: #949499; -fx-font-size: 11px;" text="Match Date" />
+                            <DatePicker fx:id="datePicker" prefWidth="358" style="-fx-background-color: #131428; -fx-font-size: 13px; -fx-background-radius: 8;" />
+
+                            <Label style="-fx-text-fill: #949499; -fx-font-size: 11px;" text="Status" />
+                            <ComboBox fx:id="statutCombo" prefWidth="358" style="-fx-background-color: #131428; -fx-text-fill: white; -fx-font-size: 13px; -fx-background-radius: 8;" />
+
+                            <Label style="-fx-text-fill: #949499; -fx-font-size: 11px;" text="Tournament ID" />
+                            <TextField fx:id="tournoiField" prefWidth="358" promptText="0 if none" style="-fx-background-color: #131428; -fx-border-color: #2A2B45; -fx-border-radius: 8; -fx-background-radius: 8; -fx-text-fill: white; -fx-font-size: 13px; -fx-padding: 8 12;" />
+
+                            <Label style="-fx-text-fill: #949499; -fx-font-size: 11px;" text="Reward / Prize" />
+                            <TextField fx:id="recompenseField" prefWidth="358" promptText="e.g. $500 cash prize" style="-fx-background-color: #131428; -fx-border-color: #2A2B45; -fx-border-radius: 8; -fx-background-radius: 8; -fx-text-fill: white; -fx-font-size: 13px; -fx-padding: 8 12;" />
+
+                            <Label fx:id="formError" style="-fx-text-fill: #F23333; -fx-font-size: 11px;" text="" />
+
+                            <HBox spacing="8">
+                                <Button fx:id="btnSave" onAction="#saveMatch" prefHeight="38" prefWidth="178" style="-fx-background-color: #388FFF; -fx-text-fill: white; -fx-font-size: 13px; -fx-font-weight: bold; -fx-background-radius: 8; -fx-cursor: hand;" text="Save Match" />
+                                <Button onAction="#clearForm" prefHeight="38" prefWidth="178" style="-fx-background-color: #252540; -fx-text-fill: #949499; -fx-font-size: 13px; -fx-background-radius: 8; -fx-cursor: hand;" text="Clear" />
+                            </HBox>
+                        </VBox>
+
+                        <VBox spacing="10" style="-fx-background-color: #1C1C29; -fx-background-radius: 12; -fx-padding: 16;">
+                            <Label fx:id="analyticsSectionTitle" style="-fx-text-fill: white; -fx-font-size: 14px; -fx-font-weight: bold;" text="Season Analytics" />
+                            <Label fx:id="analyticsGameInsight" style="-fx-text-fill: #949499; -fx-font-size: 10px;" wrapText="true" />
+                            <Separator style="-fx-background-color: #252540;" />
+                            <HBox spacing="24">
+                                <VBox alignment="CENTER" spacing="4">
+                                    <Label fx:id="analyticsWins" style="-fx-text-fill: #1DB876; -fx-font-size: 26px; -fx-font-weight: bold;" text="0W" />
+                                    <Label style="-fx-text-fill: #949499; -fx-font-size: 10px;" text="Wins" />
+                                </VBox>
+                                <VBox alignment="CENTER" spacing="4">
+                                    <Label fx:id="analyticsLosses" style="-fx-text-fill: #E34A4A; -fx-font-size: 26px; -fx-font-weight: bold;" text="0L" />
+                                    <Label style="-fx-text-fill: #949499; -fx-font-size: 10px;" text="Losses" />
+                                </VBox>
+                                <VBox alignment="CENTER" spacing="4">
+                                    <Label fx:id="analyticsTotal" style="-fx-text-fill: #FFC01A; -fx-font-size: 26px; -fx-font-weight: bold;" text="0" />
+                                    <Label style="-fx-text-fill: #949499; -fx-font-size: 10px;" text="Total" />
+                                </VBox>
+                            </HBox>
+                            <Label style="-fx-text-fill: #949499; -fx-font-size: 11px;" text="Win Rate" />
+                            <ProgressBar fx:id="winRateBar" prefWidth="358" progress="0.0" style="-fx-accent: #1DB876;" />
+                            <Label fx:id="winRateLabel" style="-fx-text-fill: #1DB876; -fx-font-size: 11px;" text="0% win rate" />
+                            <Separator style="-fx-background-color: #252540;" />
+                            <Label style="-fx-text-fill: #949499; -fx-font-size: 11px;" text="Breakdown by Status" />
+                            <VBox fx:id="analyticsBreakdown" spacing="6" />
+                        </VBox>
+
+                    </VBox>
+                </ScrollPane>
+            </VBox>
+        </HBox>
+    </VBox>
+</HBox>
