@@ -1,0 +1,270 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Priority?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.VBox?>
+
+<!-- Sponsors & événements: stats, liste, formulaire latéral -->
+<HBox prefHeight="960" prefWidth="1480" spacing="0"
+      style="-fx-background-color: linear-gradient(to bottom, #0a0518, #12081f);"
+      xmlns="http://javafx.com/javafx/21"
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="controllers.SponsorsController">
+
+    <!-- Sidebar -->
+    <VBox prefHeight="960" prefWidth="216"
+          style="-fx-background-color: rgba(18,10,32,0.95); -fx-border-color: rgba(139,92,246,0.15); -fx-border-width: 0 1 0 0; -fx-padding: 18 0 0 0;">
+        <HBox alignment="CENTER_LEFT" spacing="10" style="-fx-padding: 0 16 20 16;">
+            <Label style="-fx-background-color: linear-gradient(to bottom right, #8b5cf6, #ec4899); -fx-background-radius: 12; -fx-text-fill: white; -fx-font-size: 18px; -fx-font-weight: bold; -fx-min-width: 40; -fx-min-height: 40; -fx-alignment: center;"
+                   text="C"/>
+            <VBox spacing="2">
+                <Label style="-fx-text-fill: white; -fx-font-size: 15px; -fx-font-weight: bold;" text="Cartix"/>
+                <Label style="-fx-text-fill: #7c6a9e; -fx-font-size: 10px;" text="ESPORTS HUB"/>
+            </VBox>
+        </HBox>
+        <VBox spacing="4" style="-fx-padding: 0 10;">
+            <Button onAction="#navDashboard" prefHeight="40" prefWidth="196"
+                    style="-fx-background-color: transparent; -fx-text-fill: #9b8bb8; -fx-font-size: 13px; -fx-alignment: CENTER_LEFT; -fx-background-radius: 10; -fx-padding: 0 0 0 14;"
+                    text="⌂  Dashboard"/>
+            <Button onAction="#navPlayers" prefHeight="40" prefWidth="196"
+                    style="-fx-background-color: transparent; -fx-text-fill: #9b8bb8; -fx-font-size: 13px; -fx-alignment: CENTER_LEFT; -fx-background-radius: 10; -fx-padding: 0 0 0 14;"
+                    text="🎮  Players"/>
+            <Button onAction="#navMatches" prefHeight="40" prefWidth="196"
+                    style="-fx-background-color: transparent; -fx-text-fill: #9b8bb8; -fx-font-size: 13px; -fx-alignment: CENTER_LEFT; -fx-background-radius: 10; -fx-padding: 0 0 0 14;"
+                    text="▶  Matches"/>
+            <Button onAction="#navTeams" prefHeight="40" prefWidth="196"
+                    style="-fx-background-color: transparent; -fx-text-fill: #9b8bb8; -fx-font-size: 13px; -fx-alignment: CENTER_LEFT; -fx-background-radius: 10; -fx-padding: 0 0 0 14;"
+                    text="◈  Teams"/>
+            <Button onAction="#navTournaments" prefHeight="40" prefWidth="196"
+                    style="-fx-background-color: transparent; -fx-text-fill: #9b8bb8; -fx-font-size: 13px; -fx-alignment: CENTER_LEFT; -fx-background-radius: 10; -fx-padding: 0 0 0 14;"
+                    text="🏆  Tournaments"/>
+            <Button onAction="#navAnalytics" prefHeight="40" prefWidth="196"
+                    style="-fx-background-color: transparent; -fx-text-fill: #9b8bb8; -fx-font-size: 13px; -fx-alignment: CENTER_LEFT; -fx-background-radius: 10; -fx-padding: 0 0 0 14;"
+                    text="📊  Analytics"/>
+            <Button onAction="#navProduits" prefHeight="40" prefWidth="196"
+                    style="-fx-background-color: transparent; -fx-text-fill: #9b8bb8; -fx-font-size: 13px; -fx-alignment: CENTER_LEFT; -fx-background-radius: 10; -fx-padding: 0 0 0 14;"
+                    text="🛒  Produits"/>
+            <Button onAction="#navSponsors" prefHeight="44" prefWidth="196"
+                    style="-fx-background-color: rgba(139,92,246,0.22); -fx-text-fill: white; -fx-font-size: 13px; -fx-font-weight: bold; -fx-alignment: CENTER_LEFT; -fx-background-radius: 10; -fx-padding: 0 0 0 12; -fx-border-color: transparent transparent transparent #c084fc; -fx-border-width: 0 0 0 3;"
+                    text="✦  Sponsors"/>
+        </VBox>
+        <Region>
+            <VBox.vgrow>
+                <Priority fx:constant="ALWAYS"/>
+            </VBox.vgrow>
+        </Region>
+        <HBox alignment="CENTER_LEFT" spacing="10"
+              style="-fx-background-color: rgba(30,18,48,0.9); -fx-background-radius: 12; -fx-padding: 10 12 10 12;">
+            <Label style="-fx-background-color: linear-gradient(to bottom right, #a855f7, #6366f1); -fx-background-radius: 18; -fx-text-fill: white; -fx-font-size: 12px; -fx-font-weight: bold; -fx-min-width: 36; -fx-min-height: 36; -fx-alignment: center;"
+                   text="T"/>
+            <VBox spacing="1">
+                <Label style="-fx-text-fill: white; -fx-font-size: 12px; -fx-font-weight: bold;" text="test"/>
+                <Label style="-fx-text-fill: #9b8bb8; -fx-font-size: 10px;" text="Pro Member"/>
+            </VBox>
+        </HBox>
+    </VBox>
+
+    <!-- Center + rail -->
+    <HBox spacing="0">
+        <HBox.hgrow>
+            <Priority fx:constant="ALWAYS"/>
+        </HBox.hgrow>
+
+        <!-- ✅ FIXED: hbar="never" → hbarPolicy="NEVER" -->
+        <ScrollPane fitToWidth="true" hbarPolicy="NEVER"
+                    style="-fx-background: transparent; -fx-background-color: transparent; -fx-border-width: 0;">
+            <HBox.hgrow>
+                <Priority fx:constant="ALWAYS"/>
+            </HBox.hgrow>
+            <VBox spacing="0" style="-fx-padding: 22 26 32 26; -fx-max-width: 1080;">
+
+                <!-- Top bar -->
+                <HBox alignment="CENTER_LEFT" style="-fx-padding: 0 0 18 0;">
+                    <VBox spacing="4">
+                        <Label style="-fx-text-fill: white; -fx-font-size: 26px; -fx-font-weight: bold;"
+                               text="Sponsors &amp; Événements"/>
+                        <Label style="-fx-text-fill: #8b7aa8; -fx-font-size: 12px;"
+                               text="Découvrez les partenaires, inscrivez-vous aux événements Cartix"/>
+                    </VBox>
+                    <Region>
+                        <HBox.hgrow>
+                            <Priority fx:constant="ALWAYS"/>
+                        </HBox.hgrow>
+                    </Region>
+                    <HBox spacing="14" alignment="CENTER_RIGHT">
+                        <Label style="-fx-text-fill: #a78bfa; -fx-font-size: 12px; -fx-cursor: hand;"
+                               text="Tournois en ligne"/>
+                        <Label style="-fx-text-fill: #a78bfa; -fx-font-size: 12px; -fx-cursor: hand;" text="Actus"/>
+                    </HBox>
+                </HBox>
+
+                <!-- Stats (cartes style store: dégradé violet, bords arrondis) -->
+                <HBox fx:id="statsRow" spacing="12" style="-fx-padding: 0 0 22 0;">
+                    <VBox prefWidth="168" spacing="4"
+                          style="-fx-background-color: linear-gradient(to bottom right, rgba(76,29,149,0.55), rgba(15,8,28,0.96)); -fx-background-radius: 22; -fx-border-color: rgba(167,139,250,0.35); -fx-border-radius: 22; -fx-border-width: 1; -fx-padding: 16 18; -fx-effect: dropshadow(gaussian, rgba(124,58,237,0.35), 20, 0.2, 0, 6);">
+                        <Label style="-fx-text-fill: #c4b5fd; -fx-font-size: 10px; -fx-font-weight: bold;"
+                               text="SPONSORS"/>
+                        <Label fx:id="statSponsors"
+                               style="-fx-text-fill: white; -fx-font-size: 24px; -fx-font-weight: bold;" text="0"/>
+                        <Label style="-fx-text-fill: #bef264; -fx-font-size: 10px; -fx-font-weight: bold;" text="partenaires actifs"/>
+                    </VBox>
+                    <VBox prefWidth="168" spacing="4"
+                          style="-fx-background-color: linear-gradient(to bottom right, rgba(76,29,149,0.55), rgba(15,8,28,0.96)); -fx-background-radius: 22; -fx-border-color: rgba(167,139,250,0.35); -fx-border-radius: 22; -fx-border-width: 1; -fx-padding: 16 18; -fx-effect: dropshadow(gaussian, rgba(124,58,237,0.35), 20, 0.2, 0, 6);">
+                        <Label style="-fx-text-fill: #c4b5fd; -fx-font-size: 10px; -fx-font-weight: bold;"
+                               text="BUDGET POOL"/>
+                        <Label fx:id="statBudget"
+                               style="-fx-text-fill: white; -fx-font-size: 24px; -fx-font-weight: bold;" text="0 dt"/>
+                        <Label style="-fx-text-fill: #bef264; -fx-font-size: 10px; -fx-font-weight: bold;" text="alloué total"/>
+                    </VBox>
+                    <VBox prefWidth="168" spacing="4"
+                          style="-fx-background-color: linear-gradient(to bottom right, rgba(76,29,149,0.55), rgba(15,8,28,0.96)); -fx-background-radius: 22; -fx-border-color: rgba(167,139,250,0.35); -fx-border-radius: 22; -fx-border-width: 1; -fx-padding: 16 18; -fx-effect: dropshadow(gaussian, rgba(124,58,237,0.35), 20, 0.2, 0, 6);">
+                        <Label style="-fx-text-fill: #c4b5fd; -fx-font-size: 10px; -fx-font-weight: bold;"
+                               text="ÉVÉNEMENTS"/>
+                        <Label fx:id="statEvenements"
+                               style="-fx-text-fill: white; -fx-font-size: 24px; -fx-font-weight: bold;" text="0"/>
+                        <Label style="-fx-text-fill: #bef264; -fx-font-size: 10px; -fx-font-weight: bold;" text="publiés"/>
+                    </VBox>
+                    <VBox prefWidth="168" spacing="4"
+                          style="-fx-background-color: linear-gradient(to bottom right, rgba(76,29,149,0.55), rgba(15,8,28,0.96)); -fx-background-radius: 22; -fx-border-color: rgba(167,139,250,0.35); -fx-border-radius: 22; -fx-border-width: 1; -fx-padding: 16 18; -fx-effect: dropshadow(gaussian, rgba(124,58,237,0.35), 20, 0.2, 0, 6);">
+                        <Label style="-fx-text-fill: #c4b5fd; -fx-font-size: 10px; -fx-font-weight: bold;"
+                               text="MOYEN / SPONSOR"/>
+                        <Label fx:id="statMoyenne"
+                               style="-fx-text-fill: white; -fx-font-size: 24px; -fx-font-weight: bold;" text="0 dt"/>
+                        <Label style="-fx-text-fill: #a78bfa; -fx-font-size: 10px;" text="budget moyen"/>
+                    </VBox>
+                </HBox>
+
+                <!-- Tabs + list -->
+                <HBox spacing="8"
+                      style="-fx-background-color: rgba(18,10,32,0.85); -fx-background-radius: 16; -fx-border-color: rgba(167,139,250,0.2); -fx-border-radius: 16; -fx-padding: 6; -fx-max-width: 340;">
+                    <Button fx:id="tabSponsors" onAction="#showSponsors" prefHeight="38" prefWidth="152"
+                            style="-fx-background-color: linear-gradient(to right, #6d28d9, #a855f7); -fx-text-fill: white; -fx-font-size: 12px; -fx-font-weight: bold; -fx-background-radius: 14; -fx-cursor: hand;"
+                            text="Sponsors"/>
+                    <Button fx:id="tabEvenements" onAction="#showEvenements" prefHeight="38" prefWidth="152"
+                            style="-fx-background-color: transparent; -fx-text-fill: #9b8bb8; -fx-font-size: 12px; -fx-background-radius: 14; -fx-cursor: hand;"
+                            text="Événements"/>
+                </HBox>
+
+                <Region prefHeight="10"/>
+
+                <HBox fx:id="tableHeader"
+                      style="-fx-background-color: linear-gradient(to right, rgba(55,28,110,0.5), rgba(18,10,32,0.95)); -fx-background-radius: 18 18 0 0; -fx-border-color: rgba(167,139,250,0.28); -fx-border-width: 1 1 0 1; -fx-padding: 14 18; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.35), 12, 0, 0, 4);">
+                    <Label prefWidth="180" style="-fx-text-fill: #9b8bb8; -fx-font-size: 11px; -fx-font-weight: bold;"
+                           text="Nom"/>
+                    <Label prefWidth="130" style="-fx-text-fill: #9b8bb8; -fx-font-size: 11px; -fx-font-weight: bold;"
+                           text="Secteur"/>
+                    <Label prefWidth="120" style="-fx-text-fill: #9b8bb8; -fx-font-size: 11px; -fx-font-weight: bold;"
+                           text="Budget"/>
+                    <Label prefWidth="180" style="-fx-text-fill: #9b8bb8; -fx-font-size: 11px; -fx-font-weight: bold;"
+                           text="Contrat"/>
+                    <Label prefWidth="200" style="-fx-text-fill: #9b8bb8; -fx-font-size: 11px; -fx-font-weight: bold;"
+                           text="Actions"/>
+                </HBox>
+
+                <ScrollPane fitToWidth="true" maxHeight="900" minHeight="200"
+                            style="-fx-background: transparent; -fx-background-color: rgba(12,6,22,0.72); -fx-border-color: rgba(167,139,250,0.22); -fx-border-width: 0 1 1 1; -fx-background-radius: 0 0 18 18; -fx-border-radius: 0 0 18 18;">
+                    <VBox.vgrow>
+                        <Priority fx:constant="ALWAYS"/>
+                    </VBox.vgrow>
+                    <VBox fx:id="itemsList" spacing="10"/>
+                </ScrollPane>
+
+            </VBox>
+        </ScrollPane>
+
+        <!-- Panneau latéral : formulaire centré verticalement -->
+        <VBox alignment="CENTER" prefHeight="960" prefWidth="312" minWidth="300" maxWidth="340" spacing="0"
+              style="-fx-background-color: rgba(8,4,18,0.75); -fx-padding: 22 18 22 18; -fx-border-color: rgba(167,139,250,0.18); -fx-border-width: 0 0 0 1;">
+
+            <!-- Form panel -->
+            <VBox fx:id="formPanel" spacing="12"
+                  style="-fx-background-color: linear-gradient(to bottom right, rgba(58,28,110,0.45), rgba(12,6,24,0.96)); -fx-background-radius: 22; -fx-padding: 18; -fx-border-color: rgba(190,242,100,0.22); -fx-border-radius: 22; -fx-border-width: 1; -fx-effect: dropshadow(gaussian, rgba(124,58,237,0.4), 22, 0.15, 0, 8);">
+                <Label fx:id="formTitle"
+                       style="-fx-text-fill: white; -fx-font-size: 15px; -fx-font-weight: bold;"
+                       text="Nouveau sponsor"/>
+                <Label fx:id="formSubtitle"
+                       style="-fx-text-fill: #b4a3d4; -fx-font-size: 11px;"
+                       text="Remplissez les informations du sponsor partenaire." wrapText="true"/>
+
+                <VBox fx:id="sponsorFields" spacing="10">
+                    <Label style="-fx-text-fill: #9b8bb8; -fx-font-size: 10px;" text="Nom du sponsor"/>
+                    <TextField fx:id="fieldSponsorNom" prefHeight="34" promptText="ex. Razer"
+                               style="-fx-background-color: rgba(8,4,18,0.9); -fx-text-fill: white; -fx-background-radius: 12; -fx-border-color: rgba(167,139,250,0.35); -fx-border-radius: 12; -fx-padding: 0 12;"/>
+                    <Label style="-fx-text-fill: #9b8bb8; -fx-font-size: 10px;" text="Logo URL"/>
+                    <TextField fx:id="fieldLogoUrl" prefHeight="34" promptText="https://..."
+                               style="-fx-background-color: rgba(8,4,18,0.9); -fx-text-fill: white; -fx-background-radius: 12; -fx-border-color: rgba(167,139,250,0.35); -fx-border-radius: 12; -fx-padding: 0 12;"/>
+                    <Label style="-fx-text-fill: #9b8bb8; -fx-font-size: 10px;" text="Secteur"/>
+                    <ComboBox fx:id="fieldSecteur" prefHeight="34" prefWidth="260"
+                              style="-fx-background-color: rgba(8,4,18,0.9); -fx-background-radius: 12;"/>
+                    <Label style="-fx-text-fill: #9b8bb8; -fx-font-size: 10px;" text="Budget (dt)"/>
+                    <TextField fx:id="fieldBudget" prefHeight="34" promptText="0"
+                               style="-fx-background-color: rgba(8,4,18,0.9); -fx-text-fill: white; -fx-background-radius: 12; -fx-border-color: rgba(167,139,250,0.35); -fx-border-radius: 12; -fx-padding: 0 12;"/>
+                    <Label style="-fx-text-fill: #9b8bb8; -fx-font-size: 10px;" text="Contact"/>
+                    <TextField fx:id="fieldContact" prefHeight="34" promptText="email"
+                               style="-fx-background-color: rgba(8,4,18,0.9); -fx-text-fill: white; -fx-background-radius: 12; -fx-border-color: rgba(167,139,250,0.35); -fx-border-radius: 12; -fx-padding: 0 12;"/>
+
+                    <VBox fx:id="emailPreviewCard" spacing="8" managed="false" visible="false"
+                          style="-fx-background-color: rgba(12,6,28,0.88); -fx-background-radius: 14; -fx-border-color: rgba(190,242,100,0.28); -fx-border-radius: 14; -fx-border-width: 1; -fx-padding: 12 14;">
+                        <Label style="-fx-text-fill: #bef264; -fx-font-size: 10px; -fx-font-weight: bold;"
+                               text="APERÇU — E-MAIL DE CONFIRMATION"/>
+                        <Label fx:id="emailPreviewSubject" style="-fx-text-fill: white; -fx-font-size: 12px; -fx-font-weight: bold;" wrapText="true"/>
+                        <Label fx:id="emailPreviewSnippet" style="-fx-text-fill: #c4b5fd; -fx-font-size: 11px;" wrapText="true"/>
+                    </VBox>
+                </VBox>
+
+                <VBox fx:id="evenementFields" managed="false" spacing="10" visible="false">
+                    <Label style="-fx-text-fill: #c084fc; -fx-font-size: 11px; -fx-font-weight: bold;"
+                           text="Proposer un événement"/>
+                    <Label style="-fx-text-fill: #9b8bb8; -fx-font-size: 10px;" text="Nom de l'événement"/>
+                    <TextField fx:id="fieldEvNom" prefHeight="34" promptText="ex. Cartix LAN 2026"
+                               style="-fx-background-color: rgba(8,4,18,0.9); -fx-text-fill: white; -fx-background-radius: 12; -fx-border-color: rgba(167,139,250,0.35); -fx-border-radius: 12; -fx-padding: 0 12;"/>
+                    <Label style="-fx-text-fill: #9b8bb8; -fx-font-size: 10px;" text="Type"/>
+                    <ComboBox fx:id="fieldEvType" prefHeight="34" prefWidth="260"
+                              style="-fx-background-color: rgba(8,4,18,0.9); -fx-background-radius: 12;"/>
+                    <Label style="-fx-text-fill: #9b8bb8; -fx-font-size: 10px;" text="Date début (AAAA-MM-JJ)"/>
+                    <TextField fx:id="fieldEvDebut" prefHeight="34" promptText="2026-06-14"
+                               style="-fx-background-color: rgba(8,4,18,0.9); -fx-text-fill: white; -fx-background-radius: 12; -fx-border-color: rgba(167,139,250,0.35); -fx-border-radius: 12; -fx-padding: 0 12;"/>
+                    <Label style="-fx-text-fill: #9b8bb8; -fx-font-size: 10px;" text="Date fin (AAAA-MM-JJ)"/>
+                    <TextField fx:id="fieldEvFin" prefHeight="34" promptText="2026-06-16"
+                               style="-fx-background-color: rgba(8,4,18,0.9); -fx-text-fill: white; -fx-background-radius: 12; -fx-border-color: rgba(167,139,250,0.35); -fx-border-radius: 12; -fx-padding: 0 12;"/>
+                    <Label style="-fx-text-fill: #9b8bb8; -fx-font-size: 10px;" text="Lieu"/>
+                    <TextField fx:id="fieldEvLieu" prefHeight="34" promptText="Ville ou Online"
+                               style="-fx-background-color: rgba(8,4,18,0.9); -fx-text-fill: white; -fx-background-radius: 12; -fx-border-color: rgba(167,139,250,0.35); -fx-border-radius: 12; -fx-padding: 0 12;"/>
+                    <Label style="-fx-text-fill: #9b8bb8; -fx-font-size: 10px;" text="Budget (dt)"/>
+                    <TextField fx:id="fieldEvBudget" prefHeight="34" promptText="0"
+                               style="-fx-background-color: rgba(8,4,18,0.9); -fx-text-fill: white; -fx-background-radius: 12; -fx-border-color: rgba(167,139,250,0.35); -fx-border-radius: 12; -fx-padding: 0 12;"/>
+                    <Label style="-fx-text-fill: #9b8bb8; -fx-font-size: 10px;" text="Sponsor lié (optionnel)"/>
+                    <ComboBox fx:id="fieldEvSponsor" prefHeight="34" prefWidth="260"
+                              style="-fx-background-color: rgba(8,4,18,0.9); -fx-background-radius: 12;"/>
+                    <Label style="-fx-text-fill: #9b8bb8; -fx-font-size: 10px;" text="Organisateur — nom"/>
+                    <TextField fx:id="fieldOrgNom" prefHeight="34" promptText="Votre nom"
+                               style="-fx-background-color: rgba(8,4,18,0.9); -fx-text-fill: white; -fx-background-radius: 12; -fx-border-color: rgba(167,139,250,0.35); -fx-border-radius: 12; -fx-padding: 0 12;"/>
+                    <Label style="-fx-text-fill: #9b8bb8; -fx-font-size: 10px;" text="Organisateur — e-mail"/>
+                    <TextField fx:id="fieldOrgEmail" prefHeight="34" promptText="email"
+                               style="-fx-background-color: rgba(8,4,18,0.9); -fx-text-fill: white; -fx-background-radius: 12; -fx-border-color: rgba(167,139,250,0.35); -fx-border-radius: 12; -fx-padding: 0 12;"/>
+                    <Label style="-fx-text-fill: #9b8bb8; -fx-font-size: 10px;" text="Description"/>
+                    <TextArea fx:id="fieldEvDesc" prefHeight="72" prefWidth="260" promptText="Courte description..."
+                              wrapText="true"
+                              style="-fx-background-color: rgba(8,4,18,0.9); -fx-text-fill: white; -fx-control-inner-background: rgba(8,4,18,0.9); -fx-background-radius: 12; -fx-border-color: rgba(167,139,250,0.35); -fx-border-radius: 12; -fx-padding: 8 12;"/>
+                </VBox>
+
+                <Button fx:id="saveBtn" onAction="#onSave" prefHeight="42" prefWidth="260"
+                        style="-fx-background-color: linear-gradient(to right, #fafafa, #e9e9ef); -fx-text-fill: #1e0b3a; -fx-font-size: 13px; -fx-font-weight: bold; -fx-background-radius: 999; -fx-cursor: hand;"
+                        text="Enregistrer le sponsor"/>
+                <Button onAction="#onClearForm" prefHeight="36" prefWidth="260"
+                        style="-fx-background-color: rgba(124,58,237,0.22); -fx-text-fill: #e9d5ff; -fx-font-size: 11px; -fx-font-weight: bold; -fx-border-color: rgba(167,139,250,0.35); -fx-border-radius: 999; -fx-background-radius: 999; -fx-cursor: hand;"
+                        text="Vider le formulaire"/>
+                <Label fx:id="formFeedback"
+                       style="-fx-text-fill: #c084fc; -fx-font-size: 11px;"
+                       text="" wrapText="true"/>
+            </VBox>
+        </VBox>
+    </HBox>
+</HBox>
