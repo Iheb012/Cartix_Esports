@@ -209,6 +209,63 @@ public class AdminController implements Initializable {
     }
 
     // ═══════════════════════════════════════════════════════════════
+    //  CLOCK
+    // ═══════════════════════════════════════════════════════════════
+    private void startClock() {
+        DateTimeFormatter fmt = DateTimeFormatter.ofPattern("dd/MM/yyyy · HH:mm:ss");
+        Timeline clock = new Timeline(new KeyFrame(Duration.seconds(1),
+                e -> clockLabel.setText(LocalDateTime.now().format(fmt))));
+        clock.setCycleCount(Animation.INDEFINITE);
+        clock.play();
+        clockLabel.setText(LocalDateTime.now().format(fmt));
+    }
+
+    // ═══════════════════════════════════════════════════════════════
+    //  SEED STATIC DATA
+    // ═══════════════════════════════════════════════════════════════
+    private void seedStaticData() {
+        allUsers.addAll(
+                new UserModel(1,  "ShadowRift",  "iheb@cartix.gg",     "Pro",  "Valorant", "Jan 12 2024", "Active"),
+                new UserModel(2,  "NightTrace",  "alex@cartix.gg",     "Pro",  "CS2",      "Feb 5 2024",  "Active"),
+                new UserModel(3,  "PhantomX",    "sami@cartix.gg",     "Pro",  "LoL",      "Mar 3 2024",  "Active"),
+                new UserModel(4,  "VoidZero",    "lucas@cartix.gg",    "Pro",  "Valorant", "Apr 1 2024",  "Active"),
+                new UserModel(5,  "CrimsonFox",  "omar@cartix.gg",     "Pro",  "CS2",      "Apr 14 2024", "Active"),
+                new UserModel(6,  "BladeStorm",  "chen@cartix.gg",     "Pro",  "Valorant", "May 2 2024",  "Inactive"),
+                new UserModel(7,  "ArcLight",    "yuki@cartix.gg",     "User", "LoL",      "May 18 2024", "Active"),
+                new UserModel(8,  "NeonPulse",   "sara@cartix.gg",     "User", "CS2",      "Jun 7 2024",  "Active"),
+                new UserModel(9,  "GhostFrame",  "dmitri@cartix.gg",   "User", "Valorant", "Jun 22 2024", "Banned"),
+                new UserModel(10, "FrostByte",   "mohammed@cartix.gg", "User", "LoL",      "Jul 3 2024",  "Active")
+        );
+        allPlayers.addAll(
+                new PlayerModel(1,  "ShadowRift", "Iheb Tarhouni",  "Valorant", "Team Nexus",   4.8, "72%", 312, 98.2, "Active"),
+                new PlayerModel(2,  "NightTrace", "Alex Morel",     "CS2",      "Iron Wolves",  4.5, "68%", 289, 96.5, "Active"),
+                new PlayerModel(3,  "PhantomX",   "Sami Belkaid",   "LoL",      "Red Grid",     4.2, "65%", 256, 94.1, "Active"),
+                new PlayerModel(4,  "VoidZero",   "Lucas Ferreira", "Valorant", "Dark Knights", 3.9, "63%", 241, 91.8, "Active"),
+                new PlayerModel(5,  "CrimsonFox", "Omar Benali",    "CS2",      "Storm Pulse",  3.7, "60%", 218, 89.3, "Active"),
+                new PlayerModel(6,  "BladeStorm", "Chen Wei",       "Valorant", "Team Nexus",   3.5, "58%", 198, 87.0, "Inactive"),
+                new PlayerModel(7,  "ArcLight",   "Yuki Tanaka",    "LoL",      "Iron Wolves",  3.4, "57%", 187, 85.2, "Active"),
+                new PlayerModel(8,  "NeonPulse",  "Sara Dupont",    "CS2",      "Red Grid",     3.2, "55%", 174, 82.7, "Active"),
+                new PlayerModel(9,  "GhostFrame", "Dmitri Volkov",  "Valorant", "Storm Pulse",  3.0, "53%", 161, 80.1, "Inactive"),
+                new PlayerModel(10, "FrostByte",  "Mohammed A.",    "LoL",      "Dark Knights", 2.9, "51%", 148, 77.4, "Active")
+        );
+        allTournaments.addAll(
+                new TournamentModel(1, "VCT Champions 2025", "Valorant", 32, "$1,000,000", "Apr 1 2025",  "Live"),
+                new TournamentModel(2, "IEM Cologne 2025",   "CS2",      16, "$500,000",   "Apr 12 2025", "Upcoming"),
+                new TournamentModel(3, "MSI 2025",           "LoL",      24, "$800,000",   "Apr 20 2025", "Upcoming"),
+                new TournamentModel(4, "ESL Pro League S20", "CS2",      16, "$750,000",   "Mar 28 2025", "Completed"),
+                new TournamentModel(5, "Nexus Cup Spring",   "Valorant",  8, "$10,000",    "Apr 15 2025", "Upcoming"),
+                new TournamentModel(6, "Valorant Open 2025", "Valorant", 64, "$50,000",    "May 1 2025",  "Upcoming")
+        );
+        allReports.addAll(
+                new ReportModel(1, "Player",     "GhostFrame", "NightTrace", "Cheating / Aimbot",      "Apr 7 2025", "High"),
+                new ReportModel(2, "Player",     "BladeStorm", "CrimsonFox", "Harassment in chat",     "Apr 6 2025", "Medium"),
+                new ReportModel(3, "Tournament", "Nexus Cup",  "VoidZero",   "Unfair bracket seeding", "Apr 5 2025", "Low"),
+                new ReportModel(4, "Match",      "Match #4",   "NeonPulse",  "Score manipulation",     "Apr 4 2025", "High"),
+                new ReportModel(5, "Player",     "FrostByte",  "ShadowRift", "Hate speech",            "Apr 3 2025", "High")
+        );
+    }
+
+    // ═══════════════════════════════════════════════════════════════
     //  LOAD REAL MATCH DATA FROM DB
     // ═══════════════════════════════════════════════════════════════
     private void loadRealMatchData() {
@@ -217,11 +274,9 @@ public class AdminController implements Initializable {
             List<Match>  matches = matchService.getAll();
             List<Equipe> equipes = equipeService.getAll();
 
-            // Build ID→name map
             java.util.Map<Integer,String> teamNames = new java.util.HashMap<>();
             for (Equipe e : equipes) teamNames.put(e.getId(), e.getNom());
 
-            int rank = 1;
             for (Match m : matches) {
                 String t1    = teamNames.getOrDefault(m.getEquipe1Id(), "Team " + m.getEquipe1Id());
                 String t2    = teamNames.getOrDefault(m.getEquipe2Id(), "Team " + m.getEquipe2Id());
@@ -261,7 +316,6 @@ public class AdminController implements Initializable {
 
             int rank = 1;
             for (Equipe e : equipes) {
-                // Count matches and wins
                 long played = matches.stream()
                         .filter(m -> m.getEquipe1Id() == e.getId() || m.getEquipe2Id() == e.getId())
                         .count();
@@ -275,12 +329,11 @@ public class AdminController implements Initializable {
                 }
                 String winRate = played > 0 ? String.format("%.0f%%", wins * 100.0 / played) : "0%";
                 String game    = e.getJeu()   != null ? e.getJeu()   : "—";
-                String status  = "Active";
 
                 allTeamModels.add(new TeamAdminModel(
                         rank++, e.getId(), e.getNom(), game,
                         e.getNbMembres(), (int) played, (int) wins,
-                        winRate, "—", status));
+                        winRate, "—", "Active"));
             }
         } catch (Exception e) {
             System.out.println("⚠️ Could not load teams: " + e.getMessage());
@@ -288,619 +341,8 @@ public class AdminController implements Initializable {
     }
 
     // ═══════════════════════════════════════════════════════════════
-    //  MATCHES TABLE — with moderation + filter + stats + report panel
+    //  COMBO BOXES
     // ═══════════════════════════════════════════════════════════════
-    private void setupMatchesTable() {
-        // ── Inject stats + filters above the table ────────────────
-        if (pageMatches != null && pageMatches.getContent() instanceof VBox vbox) {
-            injectMatchHeader(vbox);
-        }
-
-        colMatchId.setCellValueFactory(new PropertyValueFactory<>("id"));
-        colMatchGame.setCellValueFactory(new PropertyValueFactory<>("game"));
-        colTeam1.setCellValueFactory(new PropertyValueFactory<>("team1"));
-        colScore.setCellValueFactory(new PropertyValueFactory<>("score"));
-        colTeam2.setCellValueFactory(new PropertyValueFactory<>("team2"));
-        colMatchDate.setCellValueFactory(new PropertyValueFactory<>("dateTime"));
-        colMatchStatus.setCellValueFactory(new PropertyValueFactory<>("status"));
-
-        colMatchStatus.setCellFactory(col -> new TableCell<>() {
-            @Override protected void updateItem(String item, boolean empty) {
-                super.updateItem(item, empty);
-                if (empty || item == null) { setGraphic(null); return; }
-                setGraphic(makeBadge(item)); setText(null);
-            }
-        });
-
-        // Score column with color
-        colScore.setCellFactory(col -> new TableCell<>() {
-            @Override protected void updateItem(String item, boolean empty) {
-                super.updateItem(item, empty);
-                if (empty || item == null) { setGraphic(null); return; }
-                Label lbl = new Label(item);
-                lbl.setStyle("-fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 13px;" +
-                        "-fx-background-color: #1c2038; -fx-padding: 2 10; -fx-background-radius: 7;");
-                setGraphic(lbl); setText(null);
-            }
-        });
-
-        colMatchActions.setCellFactory(col -> new TableCell<>() {
-            private final Button viewBtn    = makeSmallBtn("View",    "#4d78ff");
-            private final Button reportBtn  = makeSmallBtn("Report",  "#ffb347");
-            private final Button cancelBtn  = makeSmallBtn("Cancel",  "#ff4d6d");
-            private final HBox   box        = new HBox(5, viewBtn, reportBtn, cancelBtn);
-            {
-                box.setAlignment(Pos.CENTER_LEFT);
-                viewBtn.setOnAction(e -> onViewMatch(getTableView().getItems().get(getIndex())));
-                reportBtn.setOnAction(e -> onReportMatch(getTableView().getItems().get(getIndex())));
-                cancelBtn.setOnAction(e -> onCancelMatch(getTableView().getItems().get(getIndex())));
-            }
-            @Override protected void updateItem(Void item, boolean empty) {
-                super.updateItem(item, empty);
-                setGraphic(empty ? null : box);
-            }
-        });
-
-        styleTable(matchesTable);
-        matchesTable.setItems(allMatchModels);
-    }
-
-    private void injectMatchHeader(VBox container) {
-        // ── Stats row ─────────────────────────────────────────────
-        HBox statsRow = new HBox(12);
-        statsRow.setPadding(new Insets(0, 0, 14, 0));
-
-        matchStatTotal     = new Label("0");
-        matchStatLive      = new Label("0");
-        matchStatUpcoming  = new Label("0");
-        matchStatDone      = new Label("0");
-        matchStatCancelled = new Label("0");
-
-        statsRow.getChildren().addAll(
-                makeAdminStatCard("Total",     matchStatTotal,     "#4d78ff"),
-                makeAdminStatCard("🔴 Live",   matchStatLive,      "#ff4d6d"),
-                makeAdminStatCard("🟡 Upcoming", matchStatUpcoming, "#ffb347"),
-                makeAdminStatCard("✅ Done",   matchStatDone,      "#22d98a"),
-                makeAdminStatCard("❌ Cancelled", matchStatCancelled,"#9aa3c7")
-        );
-
-        // ── Filter row ────────────────────────────────────────────
-        HBox filterRow = new HBox(10);
-        filterRow.setAlignment(Pos.CENTER_LEFT);
-        filterRow.setPadding(new Insets(0, 0, 12, 0));
-
-        matchSearch = new TextField();
-        matchSearch.setPromptText("🔍  Search teams, game...");
-        matchSearch.setPrefWidth(220);
-        matchSearch.setPrefHeight(32);
-        matchSearch.setStyle("-fx-background-color: #1c2038; -fx-text-fill: white;" +
-                "-fx-background-radius: 8; -fx-border-color: #2e3460;" +
-                "-fx-border-radius: 8; -fx-padding: 0 10;");
-        matchSearch.textProperty().addListener((o, a, n) -> applyMatchFilters());
-
-        matchStatusFilter = new ComboBox<>();
-        matchStatusFilter.setItems(FXCollections.observableArrayList(
-                "All Status", "Live", "Upcoming", "Completed", "Cancelled"));
-        matchStatusFilter.setValue("All Status");
-        matchStatusFilter.setPrefHeight(32);
-        matchStatusFilter.setStyle("-fx-background-color: #1c2038; -fx-background-radius: 8;");
-        matchStatusFilter.setOnAction(e -> applyMatchFilters());
-
-        matchGameFilter = new ComboBox<>();
-        matchGameFilter.setItems(FXCollections.observableArrayList(
-                "All Games", "Valorant", "CS2", "LoL", "Dota 2", "R6 Siege", "—"));
-        matchGameFilter.setValue("All Games");
-        matchGameFilter.setPrefHeight(32);
-        matchGameFilter.setStyle("-fx-background-color: #1c2038; -fx-background-radius: 8;");
-        matchGameFilter.setOnAction(e -> applyMatchFilters());
-
-        Button exportBtn = makeSmallBtn("📥 Export CSV", "#22d98a");
-        exportBtn.setOnAction(e -> exportMatchesCSV());
-
-        Button refreshBtn = makeSmallBtn("🔄 Refresh", "#4d78ff");
-        refreshBtn.setOnAction(e -> { loadRealMatchData(); applyMatchFilters(); refreshMatchStats(); });
-
-        Region sp = new Region(); HBox.setHgrow(sp, Priority.ALWAYS);
-        filterRow.getChildren().addAll(matchSearch, matchStatusFilter, matchGameFilter, sp, exportBtn, refreshBtn);
-
-        // ── Report summary panel ──────────────────────────────────
-        matchReportPanel = buildMatchReportPanel();
-
-        container.getChildren().addAll(0, List.of(statsRow, filterRow));
-        container.getChildren().add(matchReportPanel);
-
-        refreshMatchStats();
-    }
-
-    private void refreshMatchStats() {
-        if (matchStatTotal == null) return;
-        matchStatTotal.setText(String.valueOf(allMatchModels.size()));
-        matchStatLive.setText(String.valueOf(allMatchModels.stream().filter(m -> "Live".equals(m.getStatus())).count()));
-        matchStatUpcoming.setText(String.valueOf(allMatchModels.stream().filter(m -> "Upcoming".equals(m.getStatus())).count()));
-        matchStatDone.setText(String.valueOf(allMatchModels.stream().filter(m -> "Completed".equals(m.getStatus())).count()));
-        matchStatCancelled.setText(String.valueOf(allMatchModels.stream().filter(m -> "Cancelled".equals(m.getStatus())).count()));
-    }
-
-    private VBox buildMatchReportPanel() {
-        VBox panel = new VBox(10);
-        panel.setPadding(new Insets(14, 0, 14, 0));
-
-        Label hdr = new Label("📊  Match Report Summary");
-        hdr.setStyle("-fx-text-fill: #4d78ff; -fx-font-size: 14px; -fx-font-weight: bold;");
-
-        // Distribution bar
-        HBox distRow = new HBox(6);
-        distRow.setAlignment(Pos.CENTER_LEFT);
-
-        // Win-rate distribution chart (top 5 teams by wins)
-        VBox chartBox = new VBox(6);
-        chartBox.setStyle("-fx-background-color: #111524; -fx-background-radius: 10; -fx-padding: 12;");
-        Label chartHdr = new Label("⚔  Teams by Match Count");
-        chartHdr.setStyle("-fx-text-fill: #9aa3c7; -fx-font-size: 11px; -fx-font-weight: bold;");
-        chartBox.getChildren().add(chartHdr);
-
-        List<TeamAdminModel> top5 = allTeamModels.stream()
-                .sorted((a, b) -> b.getMatchCount() - a.getMatchCount())
-                .limit(5).collect(Collectors.toList());
-        int maxMatches = top5.stream().mapToInt(TeamAdminModel::getMatchCount).max().orElse(1);
-        for (TeamAdminModel t : top5) {
-            HBox row = new HBox(8); row.setAlignment(Pos.CENTER_LEFT);
-            Label name = new Label(t.getName());
-            name.setStyle("-fx-text-fill: white; -fx-font-size: 10px; -fx-min-width: 100;");
-            double pct = maxMatches > 0 ? (double) t.getMatchCount() / maxMatches : 0;
-            ProgressBar pb = new ProgressBar(pct);
-            pb.setPrefWidth(180); pb.setPrefHeight(8);
-            pb.setStyle("-fx-accent: #4d78ff;");
-            Label cnt = new Label(t.getMatchCount() + " matches");
-            cnt.setStyle("-fx-text-fill: #6b7394; -fx-font-size: 10px;");
-            row.getChildren().addAll(name, pb, cnt);
-            chartBox.getChildren().add(row);
-        }
-
-        // Recent flagged matches
-        VBox flaggedBox = new VBox(6);
-        flaggedBox.setStyle("-fx-background-color: #111524; -fx-background-radius: 10; -fx-padding: 12;");
-        Label flaggedHdr = new Label("🚩  Flagged Matches");
-        flaggedHdr.setStyle("-fx-text-fill: #ff4d6d; -fx-font-size: 11px; -fx-font-weight: bold;");
-        flaggedBox.getChildren().add(flaggedHdr);
-
-        // Show cancelled + any matches flagged in reports
-        allMatchModels.stream()
-                .filter(m -> "Cancelled".equals(m.getStatus()))
-                .limit(4)
-                .forEach(m -> {
-                    HBox row = new HBox(8); row.setAlignment(Pos.CENTER_LEFT);
-                    row.setStyle("-fx-background-color: rgba(255,77,109,0.06);" +
-                            "-fx-background-radius: 7; -fx-padding: 6 8;");
-                    Label badge = makeBadge("Cancelled");
-                    Label info = new Label("Match #" + m.getId() + "  " + m.getTeam1() + " vs " + m.getTeam2());
-                    info.setStyle("-fx-text-fill: #9aa3c7; -fx-font-size: 10px;");
-                    HBox.setHgrow(info, Priority.ALWAYS);
-                    Button resolve = makeSmallBtn("Review", "#4d78ff");
-                    resolve.setOnAction(e -> onViewMatch(m));
-                    row.getChildren().addAll(badge, info, resolve);
-                    flaggedBox.getChildren().add(row);
-                });
-
-        if (flaggedBox.getChildren().size() == 1) {
-            Label none = new Label("No flagged matches.");
-            none.setStyle("-fx-text-fill: #555; -fx-font-size: 11px;");
-            flaggedBox.getChildren().add(none);
-        }
-
-        HBox.setHgrow(chartBox,  Priority.ALWAYS);
-        HBox.setHgrow(flaggedBox, Priority.ALWAYS);
-        distRow.getChildren().addAll(chartBox, flaggedBox);
-        panel.getChildren().addAll(hdr, distRow);
-        return panel;
-    }
-
-    private void applyMatchFilters() {
-        String q      = matchSearch      != null ? matchSearch.getText().toLowerCase().trim() : "";
-        String status = matchStatusFilter != null ? matchStatusFilter.getValue() : "All Status";
-        String game   = matchGameFilter   != null ? matchGameFilter.getValue()   : "All Games";
-
-        FilteredList<MatchAdminModel> f = new FilteredList<>(allMatchModels, m ->
-                ("All Status".equals(status) || status.equals(m.getStatus())) &&
-                        ("All Games".equals(game)   || game.equals(m.getGame()))       &&
-                        (q.isEmpty() ||
-                                m.getTeam1().toLowerCase().contains(q) ||
-                                m.getTeam2().toLowerCase().contains(q) ||
-                                m.getGame().toLowerCase().contains(q)  ||
-                                String.valueOf(m.getId()).contains(q))
-        );
-        matchesTable.setItems(f);
-    }
-
-    private void exportMatchesCSV() {
-        StringBuilder sb = new StringBuilder("ID,Game,Team1,Score,Team2,Date,Status\n");
-        for (MatchAdminModel m : matchesTable.getItems())
-            sb.append(m.getId()).append(",").append(m.getGame()).append(",")
-                    .append(m.getTeam1()).append(",").append(m.getScore()).append(",")
-                    .append(m.getTeam2()).append(",").append(m.getDateTime()).append(",")
-                    .append(m.getStatus()).append("\n");
-        try {
-            java.nio.file.Files.writeString(
-                    java.nio.file.Path.of(System.getProperty("user.home"), "cartix_matches_export.csv"), sb);
-            setStatus("✅ Exported to ~/cartix_matches_export.csv");
-            showInfo("Export", "Matches exported to your home folder as cartix_matches_export.csv");
-        } catch (Exception e) { setStatus("❌ Export failed: " + e.getMessage()); }
-    }
-
-    // ═══════════════════════════════════════════════════════════════
-    //  TEAMS TABLE — real DB + moderation + filter + report panel
-    // ═══════════════════════════════════════════════════════════════
-    private void setupTeamsTable() {
-        if (pageTeams != null && pageTeams.getContent() instanceof VBox vbox) {
-            injectTeamHeader(vbox);
-        }
-
-        colTeamRank.setCellValueFactory(new PropertyValueFactory<>("rank"));
-        colTeamName.setCellValueFactory(new PropertyValueFactory<>("name"));
-        colTeamGame.setCellValueFactory(new PropertyValueFactory<>("game"));
-        colTeamPlayers.setCellValueFactory(new PropertyValueFactory<>("players"));
-        colTeamWins.setCellValueFactory(new PropertyValueFactory<>("wins"));
-        colTeamWinRate.setCellValueFactory(new PropertyValueFactory<>("winRate"));
-        colTeamPrize.setCellValueFactory(new PropertyValueFactory<>("prize"));
-        colTeamStatus.setCellValueFactory(new PropertyValueFactory<>("status"));
-
-        // Win rate colored column
-        colTeamWinRate.setCellFactory(col -> new TableCell<>() {
-            @Override protected void updateItem(String item, boolean empty) {
-                super.updateItem(item, empty);
-                if (empty || item == null) { setGraphic(null); return; }
-                int pct = 0;
-                try { pct = Integer.parseInt(item.replace("%", "")); } catch (Exception ignored) {}
-                String color = pct >= 65 ? "#22d98a" : pct >= 45 ? "#ffb347" : "#ff4d6d";
-                Label lbl = new Label(item);
-                lbl.setStyle("-fx-text-fill:" + color + "; -fx-font-weight:bold;" +
-                        "-fx-background-color:" + color + "22; -fx-padding:2 8;" +
-                        "-fx-background-radius:10;");
-                setGraphic(lbl); setText(null);
-            }
-        });
-
-        colTeamStatus.setCellFactory(col -> new TableCell<>() {
-            @Override protected void updateItem(String item, boolean empty) {
-                super.updateItem(item, empty);
-                if (empty || item == null) { setGraphic(null); return; }
-                setGraphic(makeBadge(item)); setText(null);
-            }
-        });
-
-        colTeamActions.setCellFactory(col -> new TableCell<>() {
-            private final Button viewBtn     = makeSmallBtn("View",     "#4d78ff");
-            private final Button reportBtn   = makeSmallBtn("Report",   "#ffb347");
-            private final Button dissolveBtn = makeSmallBtn("Dissolve", "#ff4d6d");
-            private final HBox   box         = new HBox(5, viewBtn, reportBtn, dissolveBtn);
-            {
-                box.setAlignment(Pos.CENTER_LEFT);
-                viewBtn.setOnAction(e     -> onViewTeam(getTableView().getItems().get(getIndex())));
-                reportBtn.setOnAction(e   -> onReportTeam(getTableView().getItems().get(getIndex())));
-                dissolveBtn.setOnAction(e -> onDissolveTeam(getTableView().getItems().get(getIndex())));
-            }
-            @Override protected void updateItem(Void item, boolean empty) {
-                super.updateItem(item, empty);
-                setGraphic(empty ? null : box);
-            }
-        });
-
-        styleTable(teamsTable);
-        teamsTable.setItems(allTeamModels);
-    }
-
-    private void injectTeamHeader(VBox container) {
-        // ── Stats row ─────────────────────────────────────────────
-        HBox statsRow = new HBox(12);
-        statsRow.setPadding(new Insets(0, 0, 14, 0));
-
-        teamStatTotal      = new Label("0");
-        teamStatActive     = new Label("0");
-        teamStatRecruiting = new Label("0");
-        teamStatInactive   = new Label("0");
-
-        statsRow.getChildren().addAll(
-                makeAdminStatCard("Total Teams",  teamStatTotal,      "#4d78ff"),
-                makeAdminStatCard("✅ Active",    teamStatActive,     "#22d98a"),
-                makeAdminStatCard("📢 Recruiting", teamStatRecruiting,"#ffb347"),
-                makeAdminStatCard("💤 Inactive",  teamStatInactive,   "#9aa3c7")
-        );
-
-        // ── Filter row ────────────────────────────────────────────
-        HBox filterRow = new HBox(10);
-        filterRow.setAlignment(Pos.CENTER_LEFT);
-        filterRow.setPadding(new Insets(0, 0, 12, 0));
-
-        teamSearch = new TextField();
-        teamSearch.setPromptText("🔍  Search team name...");
-        teamSearch.setPrefWidth(220); teamSearch.setPrefHeight(32);
-        teamSearch.setStyle("-fx-background-color: #1c2038; -fx-text-fill: white;" +
-                "-fx-background-radius: 8; -fx-border-color: #2e3460;" +
-                "-fx-border-radius: 8; -fx-padding: 0 10;");
-        teamSearch.textProperty().addListener((o, a, n) -> applyTeamFilters());
-
-        teamGameFilter = new ComboBox<>();
-        teamGameFilter.setItems(FXCollections.observableArrayList(
-                "All Games", "Valorant", "CS2", "LoL", "Dota 2", "R6 Siege", "—"));
-        teamGameFilter.setValue("All Games");
-        teamGameFilter.setPrefHeight(32);
-        teamGameFilter.setStyle("-fx-background-color: #1c2038; -fx-background-radius: 8;");
-        teamGameFilter.setOnAction(e -> applyTeamFilters());
-
-        Button exportBtn  = makeSmallBtn("📥 Export CSV", "#22d98a");
-        exportBtn.setOnAction(e -> exportTeamsCSV());
-        Button refreshBtn = makeSmallBtn("🔄 Refresh", "#4d78ff");
-        refreshBtn.setOnAction(e -> { loadRealTeamData(); applyTeamFilters(); refreshTeamStats(); });
-
-        Region sp = new Region(); HBox.setHgrow(sp, Priority.ALWAYS);
-        filterRow.getChildren().addAll(teamSearch, teamGameFilter, sp, exportBtn, refreshBtn);
-
-        teamReportPanel = buildTeamReportPanel();
-
-        container.getChildren().addAll(0, List.of(statsRow, filterRow));
-        container.getChildren().add(teamReportPanel);
-
-        refreshTeamStats();
-    }
-
-    private void refreshTeamStats() {
-        if (teamStatTotal == null) return;
-        teamStatTotal.setText(String.valueOf(allTeamModels.size()));
-        teamStatActive.setText(String.valueOf(allTeamModels.stream().filter(t -> "Active".equals(t.getStatus())).count()));
-        teamStatRecruiting.setText(String.valueOf(allTeamModels.stream().filter(t -> "Recruiting".equals(t.getStatus())).count()));
-        teamStatInactive.setText(String.valueOf(allTeamModels.stream().filter(t -> "Inactive".equals(t.getStatus())).count()));
-    }
-
-    private VBox buildTeamReportPanel() {
-        VBox panel = new VBox(10);
-        panel.setPadding(new Insets(14, 0, 14, 0));
-
-        Label hdr = new Label("📊  Team Report Summary");
-        hdr.setStyle("-fx-text-fill: #22d98a; -fx-font-size: 14px; -fx-font-weight: bold;");
-
-        HBox row = new HBox(12);
-
-        // Top teams by win rate
-        VBox winBox = new VBox(6);
-        winBox.setStyle("-fx-background-color: #111524; -fx-background-radius: 10; -fx-padding: 12;");
-        Label winHdr = new Label("🏆  Top Teams by Win Rate");
-        winHdr.setStyle("-fx-text-fill: #9aa3c7; -fx-font-size: 11px; -fx-font-weight: bold;");
-        winBox.getChildren().add(winHdr);
-
-        allTeamModels.stream()
-                .sorted((a, b) -> {
-                    int wa = parseWinPct(a.getWinRate()), wb = parseWinPct(b.getWinRate());
-                    return wb - wa;
-                })
-                .limit(5)
-                .forEach(t -> {
-                    HBox r = new HBox(8); r.setAlignment(Pos.CENTER_LEFT);
-                    Label nm = new Label(t.getName());
-                    nm.setStyle("-fx-text-fill: white; -fx-font-size: 10px; -fx-min-width: 100;");
-                    double pct = parseWinPct(t.getWinRate()) / 100.0;
-                    ProgressBar pb = new ProgressBar(pct); pb.setPrefWidth(160); pb.setPrefHeight(8);
-                    String clr = pct >= 0.65 ? "#22d98a" : pct >= 0.45 ? "#ffb347" : "#ff4d6d";
-                    pb.setStyle("-fx-accent: " + clr + ";");
-                    Label wr = new Label(t.getWinRate());
-                    wr.setStyle("-fx-text-fill:" + clr + "; -fx-font-size:10px; -fx-font-weight:bold;");
-                    r.getChildren().addAll(nm, pb, wr);
-                    winBox.getChildren().add(r);
-                });
-
-        // Team size distribution
-        VBox sizeBox = new VBox(6);
-        sizeBox.setStyle("-fx-background-color: #111524; -fx-background-radius: 10; -fx-padding: 12;");
-        Label sizeHdr = new Label("👥  Team Size Distribution");
-        sizeHdr.setStyle("-fx-text-fill: #9aa3c7; -fx-font-size: 11px; -fx-font-weight: bold;");
-        sizeBox.getChildren().add(sizeHdr);
-
-        allTeamModels.stream().limit(6).forEach(t -> {
-            HBox r = new HBox(8); r.setAlignment(Pos.CENTER_LEFT);
-            Label nm = new Label(t.getName());
-            nm.setStyle("-fx-text-fill: white; -fx-font-size: 10px; -fx-min-width: 100;");
-            Label cnt = new Label(t.getPlayers() + " members");
-            cnt.setStyle("-fx-text-fill: #4d78ff; -fx-font-size: 10px; -fx-font-weight: bold;" +
-                    "-fx-background-color: rgba(77,120,255,0.1); -fx-padding: 2 6; -fx-background-radius: 6;");
-            r.getChildren().addAll(nm, cnt);
-            sizeBox.getChildren().add(r);
-        });
-
-        HBox.setHgrow(winBox,  Priority.ALWAYS);
-        HBox.setHgrow(sizeBox, Priority.ALWAYS);
-        row.getChildren().addAll(winBox, sizeBox);
-        panel.getChildren().addAll(hdr, row);
-        return panel;
-    }
-
-    private void applyTeamFilters() {
-        String q    = teamSearch     != null ? teamSearch.getText().toLowerCase().trim() : "";
-        String game = teamGameFilter != null ? teamGameFilter.getValue() : "All Games";
-
-        FilteredList<TeamAdminModel> f = new FilteredList<>(allTeamModels, t ->
-                ("All Games".equals(game) || game.equals(t.getGame())) &&
-                        (q.isEmpty() || t.getName().toLowerCase().contains(q)  ||
-                                t.getGame().toLowerCase().contains(q))
-        );
-        teamsTable.setItems(f);
-    }
-
-    private void exportTeamsCSV() {
-        StringBuilder sb = new StringBuilder("Rank,Name,Game,Players,Matches,Wins,WinRate,Status\n");
-        for (TeamAdminModel t : teamsTable.getItems())
-            sb.append(t.getRank()).append(",").append(t.getName()).append(",")
-                    .append(t.getGame()).append(",").append(t.getPlayers()).append(",")
-                    .append(t.getMatchCount()).append(",").append(t.getWins()).append(",")
-                    .append(t.getWinRate()).append(",").append(t.getStatus()).append("\n");
-        try {
-            java.nio.file.Files.writeString(
-                    java.nio.file.Path.of(System.getProperty("user.home"), "cartix_teams_export.csv"), sb);
-            setStatus("✅ Exported to ~/cartix_teams_export.csv");
-            showInfo("Export", "Teams exported to your home folder as cartix_teams_export.csv");
-        } catch (Exception e) { setStatus("❌ Export failed: " + e.getMessage()); }
-    }
-
-    // ═══════════════════════════════════════════════════════════════
-    //  MATCH ROW ACTIONS
-    // ═══════════════════════════════════════════════════════════════
-    private void onViewMatch(MatchAdminModel m) {
-        showInfo("Match #" + m.getId(),
-                "Game: " + m.getGame() +
-                        "\nTeams: " + m.getTeam1() + " vs " + m.getTeam2() +
-                        "\nScore: " + m.getScore() +
-                        "\nDate: " + m.getDateTime() +
-                        "\nStatus: " + m.getStatus());
-    }
-
-    private void onReportMatch(MatchAdminModel m) {
-        allReports.add(new ReportModel(
-                allReports.size() + 1, "Match",
-                "Match #" + m.getId() + " (" + m.getTeam1() + " vs " + m.getTeam2() + ")",
-                "Admin", "Flagged for review",
-                LocalDateTime.now().format(DateTimeFormatter.ofPattern("MMM d yyyy")),
-                "Medium"
-        ));
-        setStatus("🚩 Match #" + m.getId() + " reported.");
-        showInfo("Reported", "Match #" + m.getId() + " has been added to moderation queue.");
-    }
-
-    private void onCancelMatch(MatchAdminModel m) {
-        Alert confirm = new Alert(Alert.AlertType.CONFIRMATION);
-        confirm.setTitle("Cancel Match"); confirm.setHeaderText(null);
-        confirm.setContentText("Cancel match #" + m.getId() + " (" + m.getTeam1() + " vs " + m.getTeam2() + ")?");
-        confirm.showAndWait().ifPresent(btn -> {
-            if (btn == ButtonType.OK) {
-                try {
-                    models.Match dbMatch = matchService.getById(m.getId());
-                    if (dbMatch != null) {
-                        dbMatch.setStatut("annule");
-                        matchService.update(dbMatch);
-                    }
-                    loadRealMatchData();
-                    applyMatchFilters();
-                    refreshMatchStats();
-                    setStatus("❌ Match #" + m.getId() + " cancelled.");
-                } catch (Exception e) { setStatus("❌ Error: " + e.getMessage()); }
-            }
-        });
-    }
-
-    // ═══════════════════════════════════════════════════════════════
-    //  TEAM ROW ACTIONS
-    // ═══════════════════════════════════════════════════════════════
-    private void onViewTeam(TeamAdminModel t) {
-        showInfo("Team: " + t.getName(),
-                "Game: " + t.getGame() +
-                        "\nMembers: " + t.getPlayers() +
-                        "\nMatches played: " + t.getMatchCount() +
-                        "\nWins: " + t.getWins() +
-                        "\nWin Rate: " + t.getWinRate() +
-                        "\nStatus: " + t.getStatus());
-    }
-
-    private void onReportTeam(TeamAdminModel t) {
-        allReports.add(new ReportModel(
-                allReports.size() + 1, "Team",
-                t.getName(), "Admin", "Flagged for review",
-                LocalDateTime.now().format(DateTimeFormatter.ofPattern("MMM d yyyy")),
-                "Medium"
-        ));
-        setStatus("🚩 Team " + t.getName() + " reported.");
-        showInfo("Reported", "Team \"" + t.getName() + "\" has been added to moderation queue.");
-    }
-
-    private void onDissolveTeam(TeamAdminModel t) {
-        Alert confirm = new Alert(Alert.AlertType.CONFIRMATION);
-        confirm.setTitle("Dissolve Team"); confirm.setHeaderText(null);
-        confirm.setContentText("Dissolve team \"" + t.getName() + "\"? This will delete it from the DB.");
-        confirm.showAndWait().ifPresent(btn -> {
-            if (btn == ButtonType.OK) {
-                try {
-                    equipeService.delete(t.getDbId());
-                    loadRealTeamData();
-                    applyTeamFilters();
-                    refreshTeamStats();
-                    setStatus("🗑 Team \"" + t.getName() + "\" dissolved.");
-                } catch (Exception e) { setStatus("❌ Error: " + e.getMessage()); }
-            }
-        });
-    }
-
-    // ═══════════════════════════════════════════════════════════════
-    //  HELPER: stat card
-    // ═══════════════════════════════════════════════════════════════
-    private VBox makeAdminStatCard(String label, Label valueLabel, String color) {
-        VBox card = new VBox(4);
-        card.setPadding(new Insets(12, 16, 12, 16));
-        card.setStyle("-fx-background-color: #111524; -fx-background-radius: 10;" +
-                "-fx-border-color: " + color + "33; -fx-border-radius: 10; -fx-border-width: 1;");
-        card.setPrefWidth(140);
-
-        valueLabel.setStyle("-fx-text-fill: " + color + "; -fx-font-size: 24px; -fx-font-weight: bold;");
-        Label lbl = new Label(label);
-        lbl.setStyle("-fx-text-fill: #6b7394; -fx-font-size: 11px;");
-        card.getChildren().addAll(valueLabel, lbl);
-        return card;
-    }
-
-    private int parseWinPct(String wr) {
-        try { return Integer.parseInt(wr.replace("%", "").trim()); }
-        catch (Exception e) { return 0; }
-    }
-
-    // ═══════════════════════════════════════════════════════════════
-    //  ALL ORIGINAL SETUP METHODS (unchanged)
-    // ═══════════════════════════════════════════════════════════════
-    private void startClock() {
-        DateTimeFormatter fmt = DateTimeFormatter.ofPattern("dd/MM/yyyy · HH:mm:ss");
-        Timeline clock = new Timeline(new KeyFrame(Duration.seconds(1),
-                e -> clockLabel.setText(LocalDateTime.now().format(fmt))));
-        clock.setCycleCount(Animation.INDEFINITE);
-        clock.play();
-        clockLabel.setText(LocalDateTime.now().format(fmt));
-    }
-
-    private void seedStaticData() {
-        allUsers.addAll(
-                new UserModel(1,"ShadowRift","iheb@cartix.gg","Pro","Valorant","Jan 12 2024","Active"),
-                new UserModel(2,"NightTrace","alex@cartix.gg","Pro","CS2","Feb 5 2024","Active"),
-                new UserModel(3,"PhantomX","sami@cartix.gg","Pro","LoL","Mar 3 2024","Active"),
-                new UserModel(4,"VoidZero","lucas@cartix.gg","Pro","Valorant","Apr 1 2024","Active"),
-                new UserModel(5,"CrimsonFox","omar@cartix.gg","Pro","CS2","Apr 14 2024","Active"),
-                new UserModel(6,"BladeStorm","chen@cartix.gg","Pro","Valorant","May 2 2024","Inactive"),
-                new UserModel(7,"ArcLight","yuki@cartix.gg","User","LoL","May 18 2024","Active"),
-                new UserModel(8,"NeonPulse","sara@cartix.gg","User","CS2","Jun 7 2024","Active"),
-                new UserModel(9,"GhostFrame","dmitri@cartix.gg","User","Valorant","Jun 22 2024","Banned"),
-                new UserModel(10,"FrostByte","mohammed@cartix.gg","User","LoL","Jul 3 2024","Active")
-        );
-        allPlayers.addAll(
-                new PlayerModel(1,"ShadowRift","Iheb Tarhouni","Valorant","Team Nexus",4.8,"72%",312,98.2,"Active"),
-                new PlayerModel(2,"NightTrace","Alex Morel","CS2","Iron Wolves",4.5,"68%",289,96.5,"Active"),
-                new PlayerModel(3,"PhantomX","Sami Belkaid","LoL","Red Grid",4.2,"65%",256,94.1,"Active"),
-                new PlayerModel(4,"VoidZero","Lucas Ferreira","Valorant","Dark Knights",3.9,"63%",241,91.8,"Active"),
-                new PlayerModel(5,"CrimsonFox","Omar Benali","CS2","Storm Pulse",3.7,"60%",218,89.3,"Active"),
-                new PlayerModel(6,"BladeStorm","Chen Wei","Valorant","Team Nexus",3.5,"58%",198,87.0,"Inactive"),
-                new PlayerModel(7,"ArcLight","Yuki Tanaka","LoL","Iron Wolves",3.4,"57%",187,85.2,"Active"),
-                new PlayerModel(8,"NeonPulse","Sara Dupont","CS2","Red Grid",3.2,"55%",174,82.7,"Active"),
-                new PlayerModel(9,"GhostFrame","Dmitri Volkov","Valorant","Storm Pulse",3.0,"53%",161,80.1,"Inactive"),
-                new PlayerModel(10,"FrostByte","Mohammed A.","LoL","Dark Knights",2.9,"51%",148,77.4,"Active")
-        );
-        allTournaments.addAll(
-                new TournamentModel(1,"VCT Champions 2025","Valorant",32,"$1,000,000","Apr 1 2025","Live"),
-                new TournamentModel(2,"IEM Cologne 2025","CS2",16,"$500,000","Apr 12 2025","Upcoming"),
-                new TournamentModel(3,"MSI 2025","LoL",24,"$800,000","Apr 20 2025","Upcoming"),
-                new TournamentModel(4,"ESL Pro League S20","CS2",16,"$750,000","Mar 28 2025","Completed"),
-                new TournamentModel(5,"Nexus Cup Spring","Valorant",8,"$10,000","Apr 15 2025","Upcoming"),
-                new TournamentModel(6,"Valorant Open 2025","Valorant",64,"$50,000","May 1 2025","Upcoming")
-        );
-        allReports.addAll(
-                new ReportModel(1,"Player","GhostFrame","NightTrace","Cheating / Aimbot","Apr 7 2025","High"),
-                new ReportModel(2,"Player","BladeStorm","CrimsonFox","Harassment in chat","Apr 6 2025","Medium"),
-                new ReportModel(3,"Tournament","Nexus Cup","VoidZero","Unfair bracket seeding","Apr 5 2025","Low"),
-                new ReportModel(4,"Match","Match #4","NeonPulse","Score manipulation","Apr 4 2025","High"),
-                new ReportModel(5,"Player","FrostByte","ShadowRift","Hate speech","Apr 3 2025","High")
-        );
-    }
-
     private void setupComboBoxes() {
         filterRole.setItems(FXCollections.observableArrayList("All Roles","Admin","Pro","User"));
         filterStatus.setItems(FXCollections.observableArrayList("All Status","Active","Inactive","Banned"));
@@ -912,6 +354,9 @@ public class AdminController implements Initializable {
         filterPlayerGame.getSelectionModel().selectFirst();
     }
 
+    // ═══════════════════════════════════════════════════════════════
+    //  USERS TABLE
+    // ═══════════════════════════════════════════════════════════════
     private void setupUsersTable() {
         colUserId.setCellValueFactory(new PropertyValueFactory<>("id"));
         colUserName.setCellValueFactory(new PropertyValueFactory<>("username"));
@@ -942,6 +387,9 @@ public class AdminController implements Initializable {
         if (userCountLabel != null) userCountLabel.setText(allUsers.size() + " users");
     }
 
+    // ═══════════════════════════════════════════════════════════════
+    //  PLAYERS TABLE
+    // ═══════════════════════════════════════════════════════════════
     private void setupPlayersTable() {
         colRank.setCellValueFactory(new PropertyValueFactory<>("rank"));
         colHandle.setCellValueFactory(new PropertyValueFactory<>("handle"));
@@ -984,6 +432,373 @@ public class AdminController implements Initializable {
         playersTable.setItems(allPlayers);
     }
 
+    // ═══════════════════════════════════════════════════════════════
+    //  MATCHES TABLE — with moderation + filter + stats + report panel
+    // ═══════════════════════════════════════════════════════════════
+    private void setupMatchesTable() {
+        if (pageMatches != null && pageMatches.getContent() instanceof VBox vbox) {
+            injectMatchHeader(vbox);
+        }
+        colMatchId.setCellValueFactory(new PropertyValueFactory<>("id"));
+        colMatchGame.setCellValueFactory(new PropertyValueFactory<>("game"));
+        colTeam1.setCellValueFactory(new PropertyValueFactory<>("team1"));
+        colScore.setCellValueFactory(new PropertyValueFactory<>("score"));
+        colTeam2.setCellValueFactory(new PropertyValueFactory<>("team2"));
+        colMatchDate.setCellValueFactory(new PropertyValueFactory<>("dateTime"));
+        colMatchStatus.setCellValueFactory(new PropertyValueFactory<>("status"));
+        colMatchStatus.setCellFactory(col -> new TableCell<>() {
+            @Override protected void updateItem(String item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty || item == null) { setGraphic(null); return; }
+                setGraphic(makeBadge(item)); setText(null);
+            }
+        });
+        colScore.setCellFactory(col -> new TableCell<>() {
+            @Override protected void updateItem(String item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty || item == null) { setGraphic(null); return; }
+                Label lbl = new Label(item);
+                lbl.setStyle("-fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 13px;" +
+                        "-fx-background-color: #1c2038; -fx-padding: 2 10; -fx-background-radius: 7;");
+                setGraphic(lbl); setText(null);
+            }
+        });
+        colMatchActions.setCellFactory(col -> new TableCell<>() {
+            private final Button viewBtn    = makeSmallBtn("View",    "#4d78ff");
+            private final Button reportBtn  = makeSmallBtn("Report",  "#ffb347");
+            private final Button cancelBtn  = makeSmallBtn("Cancel",  "#ff4d6d");
+            private final HBox   box        = new HBox(5, viewBtn, reportBtn, cancelBtn);
+            {
+                box.setAlignment(Pos.CENTER_LEFT);
+                viewBtn.setOnAction(e   -> onViewMatch(getTableView().getItems().get(getIndex())));
+                reportBtn.setOnAction(e -> onReportMatch(getTableView().getItems().get(getIndex())));
+                cancelBtn.setOnAction(e -> onCancelMatch(getTableView().getItems().get(getIndex())));
+            }
+            @Override protected void updateItem(Void item, boolean empty) {
+                super.updateItem(item, empty); setGraphic(empty ? null : box); }
+        });
+        styleTable(matchesTable);
+        matchesTable.setItems(allMatchModels);
+    }
+
+    private void injectMatchHeader(VBox container) {
+        HBox statsRow = new HBox(12);
+        statsRow.setPadding(new Insets(0, 0, 14, 0));
+        matchStatTotal     = new Label("0");
+        matchStatLive      = new Label("0");
+        matchStatUpcoming  = new Label("0");
+        matchStatDone      = new Label("0");
+        matchStatCancelled = new Label("0");
+        statsRow.getChildren().addAll(
+                makeAdminStatCard("Total",        matchStatTotal,     "#4d78ff"),
+                makeAdminStatCard("🔴 Live",       matchStatLive,      "#ff4d6d"),
+                makeAdminStatCard("🟡 Upcoming",   matchStatUpcoming,  "#ffb347"),
+                makeAdminStatCard("✅ Done",       matchStatDone,      "#22d98a"),
+                makeAdminStatCard("❌ Cancelled",  matchStatCancelled, "#9aa3c7")
+        );
+        HBox filterRow = new HBox(10);
+        filterRow.setAlignment(Pos.CENTER_LEFT);
+        filterRow.setPadding(new Insets(0, 0, 12, 0));
+        matchSearch = new TextField();
+        matchSearch.setPromptText("🔍  Search teams, game...");
+        matchSearch.setPrefWidth(220); matchSearch.setPrefHeight(32);
+        matchSearch.setStyle("-fx-background-color: #1c2038; -fx-text-fill: white;" +
+                "-fx-background-radius: 8; -fx-border-color: #2e3460; -fx-border-radius: 8; -fx-padding: 0 10;");
+        matchSearch.textProperty().addListener((o, a, n) -> applyMatchFilters());
+        matchStatusFilter = new ComboBox<>();
+        matchStatusFilter.setItems(FXCollections.observableArrayList("All Status","Live","Upcoming","Completed","Cancelled"));
+        matchStatusFilter.setValue("All Status"); matchStatusFilter.setPrefHeight(32);
+        matchStatusFilter.setStyle("-fx-background-color: #1c2038; -fx-background-radius: 8;");
+        matchStatusFilter.setOnAction(e -> applyMatchFilters());
+        matchGameFilter = new ComboBox<>();
+        matchGameFilter.setItems(FXCollections.observableArrayList("All Games","Valorant","CS2","LoL","Dota 2","R6 Siege","—"));
+        matchGameFilter.setValue("All Games"); matchGameFilter.setPrefHeight(32);
+        matchGameFilter.setStyle("-fx-background-color: #1c2038; -fx-background-radius: 8;");
+        matchGameFilter.setOnAction(e -> applyMatchFilters());
+        Button exportBtn  = makeSmallBtn("📥 Export CSV", "#22d98a");
+        exportBtn.setOnAction(e -> exportMatchesCSV());
+        Button refreshBtn = makeSmallBtn("🔄 Refresh", "#4d78ff");
+        refreshBtn.setOnAction(e -> { loadRealMatchData(); applyMatchFilters(); refreshMatchStats(); });
+        Region sp = new Region(); HBox.setHgrow(sp, Priority.ALWAYS);
+        filterRow.getChildren().addAll(matchSearch, matchStatusFilter, matchGameFilter, sp, exportBtn, refreshBtn);
+        matchReportPanel = buildMatchReportPanel();
+        container.getChildren().addAll(0, List.of(statsRow, filterRow));
+        container.getChildren().add(matchReportPanel);
+        refreshMatchStats();
+    }
+
+    private void refreshMatchStats() {
+        if (matchStatTotal == null) return;
+        matchStatTotal.setText(String.valueOf(allMatchModels.size()));
+        matchStatLive.setText(String.valueOf(allMatchModels.stream().filter(m -> "Live".equals(m.getStatus())).count()));
+        matchStatUpcoming.setText(String.valueOf(allMatchModels.stream().filter(m -> "Upcoming".equals(m.getStatus())).count()));
+        matchStatDone.setText(String.valueOf(allMatchModels.stream().filter(m -> "Completed".equals(m.getStatus())).count()));
+        matchStatCancelled.setText(String.valueOf(allMatchModels.stream().filter(m -> "Cancelled".equals(m.getStatus())).count()));
+    }
+
+    private VBox buildMatchReportPanel() {
+        VBox panel = new VBox(10);
+        panel.setPadding(new Insets(14, 0, 14, 0));
+        Label hdr = new Label("📊  Match Report Summary");
+        hdr.setStyle("-fx-text-fill: #4d78ff; -fx-font-size: 14px; -fx-font-weight: bold;");
+        HBox distRow = new HBox(6);
+        distRow.setAlignment(Pos.CENTER_LEFT);
+        VBox chartBox = new VBox(6);
+        chartBox.setStyle("-fx-background-color: #111524; -fx-background-radius: 10; -fx-padding: 12;");
+        Label chartHdr = new Label("⚔  Teams by Match Count");
+        chartHdr.setStyle("-fx-text-fill: #9aa3c7; -fx-font-size: 11px; -fx-font-weight: bold;");
+        chartBox.getChildren().add(chartHdr);
+        List<TeamAdminModel> top5 = allTeamModels.stream()
+                .sorted((a, b) -> b.getMatchCount() - a.getMatchCount())
+                .limit(5).collect(Collectors.toList());
+        int maxMatches = top5.stream().mapToInt(TeamAdminModel::getMatchCount).max().orElse(1);
+        for (TeamAdminModel t : top5) {
+            HBox row = new HBox(8); row.setAlignment(Pos.CENTER_LEFT);
+            Label name = new Label(t.getName());
+            name.setStyle("-fx-text-fill: white; -fx-font-size: 10px; -fx-min-width: 100;");
+            double pct = maxMatches > 0 ? (double) t.getMatchCount() / maxMatches : 0;
+            ProgressBar pb = new ProgressBar(pct); pb.setPrefWidth(180); pb.setPrefHeight(8);
+            pb.setStyle("-fx-accent: #4d78ff;");
+            Label cnt = new Label(t.getMatchCount() + " matches");
+            cnt.setStyle("-fx-text-fill: #6b7394; -fx-font-size: 10px;");
+            row.getChildren().addAll(name, pb, cnt);
+            chartBox.getChildren().add(row);
+        }
+        VBox flaggedBox = new VBox(6);
+        flaggedBox.setStyle("-fx-background-color: #111524; -fx-background-radius: 10; -fx-padding: 12;");
+        Label flaggedHdr = new Label("🚩  Flagged Matches");
+        flaggedHdr.setStyle("-fx-text-fill: #ff4d6d; -fx-font-size: 11px; -fx-font-weight: bold;");
+        flaggedBox.getChildren().add(flaggedHdr);
+        allMatchModels.stream().filter(m -> "Cancelled".equals(m.getStatus())).limit(4).forEach(m -> {
+            HBox row = new HBox(8); row.setAlignment(Pos.CENTER_LEFT);
+            row.setStyle("-fx-background-color: rgba(255,77,109,0.06); -fx-background-radius: 7; -fx-padding: 6 8;");
+            Label badge = makeBadge("Cancelled");
+            Label info = new Label("Match #" + m.getId() + "  " + m.getTeam1() + " vs " + m.getTeam2());
+            info.setStyle("-fx-text-fill: #9aa3c7; -fx-font-size: 10px;");
+            HBox.setHgrow(info, Priority.ALWAYS);
+            Button resolve = makeSmallBtn("Review", "#4d78ff");
+            resolve.setOnAction(e -> onViewMatch(m));
+            row.getChildren().addAll(badge, info, resolve);
+            flaggedBox.getChildren().add(row);
+        });
+        if (flaggedBox.getChildren().size() == 1) {
+            Label none = new Label("No flagged matches.");
+            none.setStyle("-fx-text-fill: #555; -fx-font-size: 11px;");
+            flaggedBox.getChildren().add(none);
+        }
+        HBox.setHgrow(chartBox,   Priority.ALWAYS);
+        HBox.setHgrow(flaggedBox, Priority.ALWAYS);
+        distRow.getChildren().addAll(chartBox, flaggedBox);
+        panel.getChildren().addAll(hdr, distRow);
+        return panel;
+    }
+
+    private void applyMatchFilters() {
+        String q      = matchSearch       != null ? matchSearch.getText().toLowerCase().trim() : "";
+        String status = matchStatusFilter != null ? matchStatusFilter.getValue() : "All Status";
+        String game   = matchGameFilter   != null ? matchGameFilter.getValue()   : "All Games";
+        FilteredList<MatchAdminModel> f = new FilteredList<>(allMatchModels, m ->
+                ("All Status".equals(status) || status.equals(m.getStatus())) &&
+                ("All Games".equals(game)    || game.equals(m.getGame()))     &&
+                (q.isEmpty() || m.getTeam1().toLowerCase().contains(q)
+                             || m.getTeam2().toLowerCase().contains(q)
+                             || m.getGame().toLowerCase().contains(q)
+                             || String.valueOf(m.getId()).contains(q))
+        );
+        matchesTable.setItems(f);
+    }
+
+    private void exportMatchesCSV() {
+        StringBuilder sb = new StringBuilder("ID,Game,Team1,Score,Team2,Date,Status\n");
+        for (MatchAdminModel m : matchesTable.getItems())
+            sb.append(m.getId()).append(",").append(m.getGame()).append(",")
+              .append(m.getTeam1()).append(",").append(m.getScore()).append(",")
+              .append(m.getTeam2()).append(",").append(m.getDateTime()).append(",")
+              .append(m.getStatus()).append("\n");
+        try {
+            java.nio.file.Files.writeString(
+                    java.nio.file.Path.of(System.getProperty("user.home"), "cartix_matches_export.csv"), sb);
+            setStatus("✅ Exported to ~/cartix_matches_export.csv");
+            showInfo("Export", "Matches exported to your home folder as cartix_matches_export.csv");
+        } catch (Exception e) { setStatus("❌ Export failed: " + e.getMessage()); }
+    }
+
+    // ═══════════════════════════════════════════════════════════════
+    //  TEAMS TABLE — real DB + moderation + filter + report panel
+    // ═══════════════════════════════════════════════════════════════
+    private void setupTeamsTable() {
+        if (pageTeams != null && pageTeams.getContent() instanceof VBox vbox) {
+            injectTeamHeader(vbox);
+        }
+        colTeamRank.setCellValueFactory(new PropertyValueFactory<>("rank"));
+        colTeamName.setCellValueFactory(new PropertyValueFactory<>("name"));
+        colTeamGame.setCellValueFactory(new PropertyValueFactory<>("game"));
+        colTeamPlayers.setCellValueFactory(new PropertyValueFactory<>("players"));
+        colTeamWins.setCellValueFactory(new PropertyValueFactory<>("wins"));
+        colTeamWinRate.setCellValueFactory(new PropertyValueFactory<>("winRate"));
+        colTeamPrize.setCellValueFactory(new PropertyValueFactory<>("prize"));
+        colTeamStatus.setCellValueFactory(new PropertyValueFactory<>("status"));
+        colTeamWinRate.setCellFactory(col -> new TableCell<>() {
+            @Override protected void updateItem(String item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty || item == null) { setGraphic(null); return; }
+                int pct = 0;
+                try { pct = Integer.parseInt(item.replace("%", "")); } catch (Exception ignored) {}
+                String color = pct >= 65 ? "#22d98a" : pct >= 45 ? "#ffb347" : "#ff4d6d";
+                Label lbl = new Label(item);
+                lbl.setStyle("-fx-text-fill:" + color + "; -fx-font-weight:bold;" +
+                        "-fx-background-color:" + color + "22; -fx-padding:2 8; -fx-background-radius:10;");
+                setGraphic(lbl); setText(null);
+            }
+        });
+        colTeamStatus.setCellFactory(col -> new TableCell<>() {
+            @Override protected void updateItem(String item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty || item == null) { setGraphic(null); return; }
+                setGraphic(makeBadge(item)); setText(null);
+            }
+        });
+        colTeamActions.setCellFactory(col -> new TableCell<>() {
+            private final Button viewBtn     = makeSmallBtn("View",     "#4d78ff");
+            private final Button reportBtn   = makeSmallBtn("Report",   "#ffb347");
+            private final Button dissolveBtn = makeSmallBtn("Dissolve", "#ff4d6d");
+            private final HBox   box         = new HBox(5, viewBtn, reportBtn, dissolveBtn);
+            {
+                box.setAlignment(Pos.CENTER_LEFT);
+                viewBtn.setOnAction(e     -> onViewTeam(getTableView().getItems().get(getIndex())));
+                reportBtn.setOnAction(e   -> onReportTeam(getTableView().getItems().get(getIndex())));
+                dissolveBtn.setOnAction(e -> onDissolveTeam(getTableView().getItems().get(getIndex())));
+            }
+            @Override protected void updateItem(Void item, boolean empty) {
+                super.updateItem(item, empty); setGraphic(empty ? null : box); }
+        });
+        styleTable(teamsTable);
+        teamsTable.setItems(allTeamModels);
+    }
+
+    private void injectTeamHeader(VBox container) {
+        HBox statsRow = new HBox(12);
+        statsRow.setPadding(new Insets(0, 0, 14, 0));
+        teamStatTotal      = new Label("0");
+        teamStatActive     = new Label("0");
+        teamStatRecruiting = new Label("0");
+        teamStatInactive   = new Label("0");
+        statsRow.getChildren().addAll(
+                makeAdminStatCard("Total Teams",   teamStatTotal,      "#4d78ff"),
+                makeAdminStatCard("✅ Active",     teamStatActive,     "#22d98a"),
+                makeAdminStatCard("📢 Recruiting", teamStatRecruiting, "#ffb347"),
+                makeAdminStatCard("💤 Inactive",   teamStatInactive,   "#9aa3c7")
+        );
+        HBox filterRow = new HBox(10);
+        filterRow.setAlignment(Pos.CENTER_LEFT);
+        filterRow.setPadding(new Insets(0, 0, 12, 0));
+        teamSearch = new TextField();
+        teamSearch.setPromptText("🔍  Search team name...");
+        teamSearch.setPrefWidth(220); teamSearch.setPrefHeight(32);
+        teamSearch.setStyle("-fx-background-color: #1c2038; -fx-text-fill: white;" +
+                "-fx-background-radius: 8; -fx-border-color: #2e3460; -fx-border-radius: 8; -fx-padding: 0 10;");
+        teamSearch.textProperty().addListener((o, a, n) -> applyTeamFilters());
+        teamGameFilter = new ComboBox<>();
+        teamGameFilter.setItems(FXCollections.observableArrayList("All Games","Valorant","CS2","LoL","Dota 2","R6 Siege","—"));
+        teamGameFilter.setValue("All Games"); teamGameFilter.setPrefHeight(32);
+        teamGameFilter.setStyle("-fx-background-color: #1c2038; -fx-background-radius: 8;");
+        teamGameFilter.setOnAction(e -> applyTeamFilters());
+        Button exportBtn  = makeSmallBtn("📥 Export CSV", "#22d98a");
+        exportBtn.setOnAction(e -> exportTeamsCSV());
+        Button refreshBtn = makeSmallBtn("🔄 Refresh", "#4d78ff");
+        refreshBtn.setOnAction(e -> { loadRealTeamData(); applyTeamFilters(); refreshTeamStats(); });
+        Region sp = new Region(); HBox.setHgrow(sp, Priority.ALWAYS);
+        filterRow.getChildren().addAll(teamSearch, teamGameFilter, sp, exportBtn, refreshBtn);
+        teamReportPanel = buildTeamReportPanel();
+        container.getChildren().addAll(0, List.of(statsRow, filterRow));
+        container.getChildren().add(teamReportPanel);
+        refreshTeamStats();
+    }
+
+    private void refreshTeamStats() {
+        if (teamStatTotal == null) return;
+        teamStatTotal.setText(String.valueOf(allTeamModels.size()));
+        teamStatActive.setText(String.valueOf(allTeamModels.stream().filter(t -> "Active".equals(t.getStatus())).count()));
+        teamStatRecruiting.setText(String.valueOf(allTeamModels.stream().filter(t -> "Recruiting".equals(t.getStatus())).count()));
+        teamStatInactive.setText(String.valueOf(allTeamModels.stream().filter(t -> "Inactive".equals(t.getStatus())).count()));
+    }
+
+    private VBox buildTeamReportPanel() {
+        VBox panel = new VBox(10);
+        panel.setPadding(new Insets(14, 0, 14, 0));
+        Label hdr = new Label("📊  Team Report Summary");
+        hdr.setStyle("-fx-text-fill: #22d98a; -fx-font-size: 14px; -fx-font-weight: bold;");
+        HBox row = new HBox(12);
+        VBox winBox = new VBox(6);
+        winBox.setStyle("-fx-background-color: #111524; -fx-background-radius: 10; -fx-padding: 12;");
+        Label winHdr = new Label("🏆  Top Teams by Win Rate");
+        winHdr.setStyle("-fx-text-fill: #9aa3c7; -fx-font-size: 11px; -fx-font-weight: bold;");
+        winBox.getChildren().add(winHdr);
+        allTeamModels.stream()
+                .sorted((a, b) -> parseWinPct(b.getWinRate()) - parseWinPct(a.getWinRate()))
+                .limit(5).forEach(t -> {
+                    HBox r = new HBox(8); r.setAlignment(Pos.CENTER_LEFT);
+                    Label nm = new Label(t.getName());
+                    nm.setStyle("-fx-text-fill: white; -fx-font-size: 10px; -fx-min-width: 100;");
+                    double pct = parseWinPct(t.getWinRate()) / 100.0;
+                    ProgressBar pb = new ProgressBar(pct); pb.setPrefWidth(160); pb.setPrefHeight(8);
+                    String clr = pct >= 0.65 ? "#22d98a" : pct >= 0.45 ? "#ffb347" : "#ff4d6d";
+                    pb.setStyle("-fx-accent: " + clr + ";");
+                    Label wr = new Label(t.getWinRate());
+                    wr.setStyle("-fx-text-fill:" + clr + "; -fx-font-size:10px; -fx-font-weight:bold;");
+                    r.getChildren().addAll(nm, pb, wr);
+                    winBox.getChildren().add(r);
+                });
+        VBox sizeBox = new VBox(6);
+        sizeBox.setStyle("-fx-background-color: #111524; -fx-background-radius: 10; -fx-padding: 12;");
+        Label sizeHdr = new Label("👥  Team Size Distribution");
+        sizeHdr.setStyle("-fx-text-fill: #9aa3c7; -fx-font-size: 11px; -fx-font-weight: bold;");
+        sizeBox.getChildren().add(sizeHdr);
+        allTeamModels.stream().limit(6).forEach(t -> {
+            HBox r = new HBox(8); r.setAlignment(Pos.CENTER_LEFT);
+            Label nm = new Label(t.getName());
+            nm.setStyle("-fx-text-fill: white; -fx-font-size: 10px; -fx-min-width: 100;");
+            Label cnt = new Label(t.getPlayers() + " members");
+            cnt.setStyle("-fx-text-fill: #4d78ff; -fx-font-size: 10px; -fx-font-weight: bold;" +
+                    "-fx-background-color: rgba(77,120,255,0.1); -fx-padding: 2 6; -fx-background-radius: 6;");
+            r.getChildren().addAll(nm, cnt);
+            sizeBox.getChildren().add(r);
+        });
+        HBox.setHgrow(winBox,  Priority.ALWAYS);
+        HBox.setHgrow(sizeBox, Priority.ALWAYS);
+        row.getChildren().addAll(winBox, sizeBox);
+        panel.getChildren().addAll(hdr, row);
+        return panel;
+    }
+
+    private void applyTeamFilters() {
+        String q    = teamSearch     != null ? teamSearch.getText().toLowerCase().trim() : "";
+        String game = teamGameFilter != null ? teamGameFilter.getValue() : "All Games";
+        FilteredList<TeamAdminModel> f = new FilteredList<>(allTeamModels, t ->
+                ("All Games".equals(game) || game.equals(t.getGame())) &&
+                (q.isEmpty() || t.getName().toLowerCase().contains(q) || t.getGame().toLowerCase().contains(q))
+        );
+        teamsTable.setItems(f);
+    }
+
+    private void exportTeamsCSV() {
+        StringBuilder sb = new StringBuilder("Rank,Name,Game,Players,Matches,Wins,WinRate,Status\n");
+        for (TeamAdminModel t : teamsTable.getItems())
+            sb.append(t.getRank()).append(",").append(t.getName()).append(",")
+              .append(t.getGame()).append(",").append(t.getPlayers()).append(",")
+              .append(t.getMatchCount()).append(",").append(t.getWins()).append(",")
+              .append(t.getWinRate()).append(",").append(t.getStatus()).append("\n");
+        try {
+            java.nio.file.Files.writeString(
+                    java.nio.file.Path.of(System.getProperty("user.home"), "cartix_teams_export.csv"), sb);
+            setStatus("✅ Exported to ~/cartix_teams_export.csv");
+            showInfo("Export", "Teams exported to your home folder as cartix_teams_export.csv");
+        } catch (Exception e) { setStatus("❌ Export failed: " + e.getMessage()); }
+    }
+
+    // ═══════════════════════════════════════════════════════════════
+    //  TOURNAMENTS TABLE
+    // ═══════════════════════════════════════════════════════════════
     private void setupTournamentsTable() {
         colTournId.setCellValueFactory(new PropertyValueFactory<>("id"));
         colTournName.setCellValueFactory(new PropertyValueFactory<>("name"));
@@ -1000,9 +815,9 @@ public class AdminController implements Initializable {
             }
         });
         colTournActions.setCellFactory(col -> new TableCell<>() {
-            private final Button viewBtn   = makeSmallBtn("View","#4d78ff");
-            private final Button editBtn   = makeSmallBtn("Edit","#22d98a");
-            private final Button cancelBtn = makeSmallBtn("Cancel","#ff4d6d");
+            private final Button viewBtn   = makeSmallBtn("View",   "#4d78ff");
+            private final Button editBtn   = makeSmallBtn("Edit",   "#22d98a");
+            private final Button cancelBtn = makeSmallBtn("Cancel", "#ff4d6d");
             private final HBox   box       = new HBox(4, viewBtn, editBtn, cancelBtn);
             { box.setAlignment(Pos.CENTER_LEFT); }
             @Override protected void updateItem(Void item, boolean empty) {
@@ -1012,6 +827,9 @@ public class AdminController implements Initializable {
         tournamentsTable.setItems(allTournaments);
     }
 
+    // ═══════════════════════════════════════════════════════════════
+    //  MODERATION TABLE
+    // ═══════════════════════════════════════════════════════════════
     private void setupModerationTable() {
         colRepId.setCellValueFactory(new PropertyValueFactory<>("id"));
         colRepType.setCellValueFactory(new PropertyValueFactory<>("type"));
@@ -1026,7 +844,7 @@ public class AdminController implements Initializable {
                 if (empty || item == null) { setGraphic(null); return; }
                 String color = "High".equals(item) ? "#ff4d6d" : "Medium".equals(item) ? "#ffb347" : "#22d98a";
                 String bg    = "High".equals(item) ? "rgba(255,77,109,0.12)"
-                        : "Medium".equals(item) ? "rgba(255,179,71,0.12)" : "rgba(34,217,138,0.1)";
+                             : "Medium".equals(item) ? "rgba(255,179,71,0.12)" : "rgba(34,217,138,0.1)";
                 Label lbl = new Label(item);
                 lbl.setStyle("-fx-text-fill:" + color + "; -fx-background-color:" + bg +
                         "; -fx-padding:2 8; -fx-background-radius:10; -fx-font-weight:bold; -fx-font-size:10;");
@@ -1046,6 +864,9 @@ public class AdminController implements Initializable {
         moderationTable.setItems(allReports);
     }
 
+    // ═══════════════════════════════════════════════════════════════
+    //  DASHBOARD POPULATION
+    // ═══════════════════════════════════════════════════════════════
     private void populateDashboard() {
         XYChart.Series<String, Number> series = new XYChart.Series<>();
         series.setName("Registrations");
@@ -1128,7 +949,70 @@ public class AdminController implements Initializable {
     }
 
     // ═══════════════════════════════════════════════════════════════
-    //  NAV
+    //  MATCH ROW ACTIONS
+    // ═══════════════════════════════════════════════════════════════
+    private void onViewMatch(MatchAdminModel m) {
+        showInfo("Match #" + m.getId(),
+                "Game: " + m.getGame() + "\nTeams: " + m.getTeam1() + " vs " + m.getTeam2() +
+                "\nScore: " + m.getScore() + "\nDate: " + m.getDateTime() + "\nStatus: " + m.getStatus());
+    }
+    private void onReportMatch(MatchAdminModel m) {
+        allReports.add(new ReportModel(allReports.size() + 1, "Match",
+                "Match #" + m.getId() + " (" + m.getTeam1() + " vs " + m.getTeam2() + ")",
+                "Admin", "Flagged for review",
+                LocalDateTime.now().format(DateTimeFormatter.ofPattern("MMM d yyyy")), "Medium"));
+        setStatus("🚩 Match #" + m.getId() + " reported.");
+        showInfo("Reported", "Match #" + m.getId() + " has been added to moderation queue.");
+    }
+    private void onCancelMatch(MatchAdminModel m) {
+        Alert confirm = new Alert(Alert.AlertType.CONFIRMATION);
+        confirm.setTitle("Cancel Match"); confirm.setHeaderText(null);
+        confirm.setContentText("Cancel match #" + m.getId() + " (" + m.getTeam1() + " vs " + m.getTeam2() + ")?");
+        confirm.showAndWait().ifPresent(btn -> {
+            if (btn == ButtonType.OK) {
+                try {
+                    models.Match dbMatch = matchService.getById(m.getId());
+                    if (dbMatch != null) { dbMatch.setStatut("annule"); matchService.update(dbMatch); }
+                    loadRealMatchData(); applyMatchFilters(); refreshMatchStats();
+                    setStatus("❌ Match #" + m.getId() + " cancelled.");
+                } catch (Exception e) { setStatus("❌ Error: " + e.getMessage()); }
+            }
+        });
+    }
+
+    // ═══════════════════════════════════════════════════════════════
+    //  TEAM ROW ACTIONS
+    // ═══════════════════════════════════════════════════════════════
+    private void onViewTeam(TeamAdminModel t) {
+        showInfo("Team: " + t.getName(),
+                "Game: " + t.getGame() + "\nMembers: " + t.getPlayers() +
+                "\nMatches played: " + t.getMatchCount() + "\nWins: " + t.getWins() +
+                "\nWin Rate: " + t.getWinRate() + "\nStatus: " + t.getStatus());
+    }
+    private void onReportTeam(TeamAdminModel t) {
+        allReports.add(new ReportModel(allReports.size() + 1, "Team",
+                t.getName(), "Admin", "Flagged for review",
+                LocalDateTime.now().format(DateTimeFormatter.ofPattern("MMM d yyyy")), "Medium"));
+        setStatus("🚩 Team " + t.getName() + " reported.");
+        showInfo("Reported", "Team \"" + t.getName() + "\" has been added to moderation queue.");
+    }
+    private void onDissolveTeam(TeamAdminModel t) {
+        Alert confirm = new Alert(Alert.AlertType.CONFIRMATION);
+        confirm.setTitle("Dissolve Team"); confirm.setHeaderText(null);
+        confirm.setContentText("Dissolve team \"" + t.getName() + "\"? This will delete it from the DB.");
+        confirm.showAndWait().ifPresent(btn -> {
+            if (btn == ButtonType.OK) {
+                try {
+                    equipeService.delete(t.getDbId());
+                    loadRealTeamData(); applyTeamFilters(); refreshTeamStats();
+                    setStatus("🗑 Team \"" + t.getName() + "\" dissolved.");
+                } catch (Exception e) { setStatus("❌ Error: " + e.getMessage()); }
+            }
+        });
+    }
+
+    // ═══════════════════════════════════════════════════════════════
+    //  NAVIGATION
     // ═══════════════════════════════════════════════════════════════
     @FXML private void onNavDashboard()   { showPage("Dashboard",   "Platform overview · Season 2025",   pageDashboard,   navDashboard,   "+ New Entry"); }
     @FXML private void onNavUsers()       { showPage("Users",       "Manage all registered accounts",    pageUsers,       navUsers,       "+ New User"); }
@@ -1142,7 +1026,7 @@ public class AdminController implements Initializable {
 
     private void showPage(String title, String subtitle, ScrollPane page, HBox nav, String btnText) {
         List.of(pageDashboard, pageUsers, pagePlayers, pageMatches,
-                        pageTeams, pageTournaments, pageModeration, pageSettings)
+                pageTeams, pageTournaments, pageModeration, pageSettings)
                 .forEach(p -> { p.setVisible(false); p.setManaged(false); });
         page.setVisible(true); page.setManaged(true);
         pageTitle.setText(title); pageSubtitle.setText(subtitle); actionBtn.setText(btnText);
@@ -1153,6 +1037,9 @@ public class AdminController implements Initializable {
         setStatus("Viewing: " + title);
     }
 
+    // ═══════════════════════════════════════════════════════════════
+    //  HOVER / SEARCH / FILTER
+    // ═══════════════════════════════════════════════════════════════
     @FXML private void onNavHoverEnter(MouseEvent e) {
         HBox nav = (HBox) e.getSource();
         if (nav != currentNav) nav.setStyle("-fx-padding:9 10; -fx-background-radius:8; -fx-background-color:#161a2e; -fx-cursor:hand;");
@@ -1161,7 +1048,6 @@ public class AdminController implements Initializable {
         HBox nav = (HBox) e.getSource();
         if (nav != currentNav) nav.setStyle("-fx-padding:9 10; -fx-background-radius:8; -fx-background-color:transparent; -fx-cursor:hand;");
     }
-
     @FXML private void onSearch() {
         String q = searchField.getText().toLowerCase().trim();
         FilteredList<UserModel> f = new FilteredList<>(allUsers,
@@ -1169,23 +1055,24 @@ public class AdminController implements Initializable {
         usersTable.setItems(f);
         if (userCountLabel != null) userCountLabel.setText(f.size() + " users");
     }
-
     @FXML private void onFilterChange() {
-        String role = filterRole != null && filterRole.getValue() != null ? filterRole.getValue() : "All Roles";
-        String status = filterStatus != null && filterStatus.getValue() != null ? filterStatus.getValue() : "All Status";
-        String game = filterGame != null && filterGame.getValue() != null ? filterGame.getValue() : "All Games";
+        String role       = filterRole       != null && filterRole.getValue()       != null ? filterRole.getValue()       : "All Roles";
+        String status     = filterStatus     != null && filterStatus.getValue()     != null ? filterStatus.getValue()     : "All Status";
+        String game       = filterGame       != null && filterGame.getValue()       != null ? filterGame.getValue()       : "All Games";
         String playerGame = filterPlayerGame != null && filterPlayerGame.getValue() != null ? filterPlayerGame.getValue() : "All Games";
         FilteredList<UserModel> fu = new FilteredList<>(allUsers,
-                u -> ("All Roles".equals(role) || role.equals(u.getRole()))
-                        && ("All Status".equals(status) || status.equals(u.getStatus()))
-                        && ("All Games".equals(game) || game.equals(u.getGame())));
+                u -> ("All Roles".equals(role)   || role.equals(u.getRole()))
+                  && ("All Status".equals(status) || status.equals(u.getStatus()))
+                  && ("All Games".equals(game)    || game.equals(u.getGame())));
         usersTable.setItems(fu);
         if (userCountLabel != null) userCountLabel.setText(fu.size() + " users");
-        FilteredList<PlayerModel> fp = new FilteredList<>(allPlayers,
-                p -> "All Games".equals(playerGame) || playerGame.equals(p.getGame()));
-        playersTable.setItems(fp);
+        playersTable.setItems(new FilteredList<>(allPlayers,
+                p -> "All Games".equals(playerGame) || playerGame.equals(p.getGame())));
     }
 
+    // ═══════════════════════════════════════════════════════════════
+    //  QUICK ACTIONS
+    // ═══════════════════════════════════════════════════════════════
     @FXML private void onActionBtn()          { setStatus("Action: " + actionBtn.getText()); showInfo("Action", actionBtn.getText() + " — coming soon."); }
     @FXML private void onCreateTournament()   { setStatus("Create Tournament wizard opened"); showInfo("Create Tournament","Tournament wizard — coming soon."); }
     @FXML private void onBanUser()            { setStatus("Ban User dialog opened"); showInfo("Ban User","Select a user to ban from the Users table."); }
@@ -1202,20 +1089,40 @@ public class AdminController implements Initializable {
         setStatus("Settings reset to defaults ✓");
     }
 
+    // ═══════════════════════════════════════════════════════════════
+    //  ROW ACTIONS
+    // ═══════════════════════════════════════════════════════════════
     private void onEditUser(UserModel u)        { showInfo("Edit User","Editing: " + u.getUsername()); }
     private void onBanUserRow(UserModel u)       { u.setStatus("Banned"); usersTable.refresh(); setStatus("Banned: " + u.getUsername()); }
     private void onViewPlayer(PlayerModel p)     { showInfo("Player Profile","Viewing: " + p.getHandle() + " · Rating: " + p.getRating()); }
     private void onSuspendPlayer(PlayerModel p)  { p.setStatus("Inactive"); playersTable.refresh(); setStatus("Suspended: " + p.getHandle()); }
 
+    // ═══════════════════════════════════════════════════════════════
+    //  HELPERS
+    // ═══════════════════════════════════════════════════════════════
+    private VBox makeAdminStatCard(String label, Label valueLabel, String color) {
+        VBox card = new VBox(4);
+        card.setPadding(new Insets(12, 16, 12, 16));
+        card.setStyle("-fx-background-color: #111524; -fx-background-radius: 10;" +
+                "-fx-border-color: " + color + "33; -fx-border-radius: 10; -fx-border-width: 1;");
+        card.setPrefWidth(140);
+        valueLabel.setStyle("-fx-text-fill: " + color + "; -fx-font-size: 24px; -fx-font-weight: bold;");
+        Label lbl = new Label(label);
+        lbl.setStyle("-fx-text-fill: #6b7394; -fx-font-size: 11px;");
+        card.getChildren().addAll(valueLabel, lbl);
+        return card;
+    }
+    private int parseWinPct(String wr) {
+        try { return Integer.parseInt(wr.replace("%", "").trim()); }
+        catch (Exception e) { return 0; }
+    }
     private void setStatus(String msg) { if (statusLabel != null) statusLabel.setText(msg); }
-
     private void showInfo(String title, String msg) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle(title); alert.setHeaderText(null); alert.setContentText(msg);
         alert.getDialogPane().setStyle("-fx-background-color:#111524; -fx-border-color:rgba(77,120,255,0.3); -fx-border-radius:12;");
         alert.showAndWait();
     }
-
     private Label makeBadge(String text) {
         Label lbl = new Label(text);
         String style = switch (text) {
@@ -1232,7 +1139,6 @@ public class AdminController implements Initializable {
         lbl.setStyle(style + " -fx-padding:2 8; -fx-background-radius:10; -fx-font-size:10; -fx-font-weight:bold;");
         return lbl;
     }
-
     private Button makeSmallBtn(String text, String color) {
         Button btn = new Button(text);
         btn.setFocusTraversable(false);
@@ -1240,7 +1146,6 @@ public class AdminController implements Initializable {
                 "-fx-font-weight:bold; -fx-background-radius:8; -fx-padding:4 10; -fx-cursor:hand; -fx-border-width:0;");
         return btn;
     }
-
     private void styleTable(TableView<?> table) {
         table.setColumnResizePolicy(TableView.UNCONSTRAINED_RESIZE_POLICY);
         table.setFixedCellSize(42);
@@ -1249,14 +1154,10 @@ public class AdminController implements Initializable {
     // ═══════════════════════════════════════════════════════════════
     //  DATA MODELS
     // ═══════════════════════════════════════════════════════════════
-
-    // ─── MatchAdminModel (replaces MatchModel, uses real DB) ──────
     public static final class MatchAdminModel {
         private final int id; private final String game, team1, score, team2, dateTime, status;
         public MatchAdminModel(int id, String game, String team1, String score, String team2, String dateTime, String status) {
-            this.id = id; this.game = game; this.team1 = team1; this.score = score;
-            this.team2 = team2; this.dateTime = dateTime; this.status = status;
-        }
+            this.id=id; this.game=game; this.team1=team1; this.score=score; this.team2=team2; this.dateTime=dateTime; this.status=status; }
         public int getId()         { return id; }
         public String getGame()    { return game; }
         public String getTeam1()   { return team1; }
@@ -1265,18 +1166,14 @@ public class AdminController implements Initializable {
         public String getDateTime(){ return dateTime; }
         public String getStatus()  { return status; }
     }
-
-    // ─── TeamAdminModel (replaces TeamModel, uses real DB) ────────
     public static final class TeamAdminModel {
         private final int rank, dbId, players, matchCount, wins;
         private final String name, game, winRate, prize;
         private String status;
         public TeamAdminModel(int rank, int dbId, String name, String game, int players,
                               int matchCount, int wins, String winRate, String prize, String status) {
-            this.rank = rank; this.dbId = dbId; this.name = name; this.game = game;
-            this.players = players; this.matchCount = matchCount; this.wins = wins;
-            this.winRate = winRate; this.prize = prize; this.status = status;
-        }
+            this.rank=rank; this.dbId=dbId; this.name=name; this.game=game; this.players=players;
+            this.matchCount=matchCount; this.wins=wins; this.winRate=winRate; this.prize=prize; this.status=status; }
         public int getRank()       { return rank; }
         public int getDbId()       { return dbId; }
         public String getName()    { return name; }
@@ -1289,8 +1186,6 @@ public class AdminController implements Initializable {
         public String getStatus()  { return status; }
         public void setStatus(String s) { this.status = s; }
     }
-
-    // ─── Remaining static models (unchanged) ─────────────────────
     public static final class UserModel {
         public final int id; public final String username, email, role, game, joined; public String status;
         private UserModel(int id, String username, String email, String role, String game, String joined, String status) {
@@ -1301,9 +1196,12 @@ public class AdminController implements Initializable {
         public String getStatus(){ return status; } public void setStatus(String s){ this.status=s; }
     }
     public static final class PlayerModel {
-        public final int rank, matches; public final String handle, fullName, game, team, winRate; public final double kda, rating; public String status;
-        private PlayerModel(int rank, String handle, String fullName, String game, String team, double kda, String winRate, int matches, double rating, String status) {
-            this.rank=rank; this.handle=handle; this.fullName=fullName; this.game=game; this.team=team; this.kda=kda; this.winRate=winRate; this.matches=matches; this.rating=rating; this.status=status; }
+        public final int rank, matches; public final String handle, fullName, game, team, winRate;
+        public final double kda, rating; public String status;
+        private PlayerModel(int rank, String handle, String fullName, String game, String team,
+                            double kda, String winRate, int matches, double rating, String status) {
+            this.rank=rank; this.handle=handle; this.fullName=fullName; this.game=game; this.team=team;
+            this.kda=kda; this.winRate=winRate; this.matches=matches; this.rating=rating; this.status=status; }
         public int getRank(){ return rank; } public String getHandle(){ return handle; }
         public String getFullName(){ return fullName; } public String getGame(){ return game; }
         public String getTeam(){ return team; } public double getKda(){ return kda; }

@@ -83,6 +83,16 @@
                     <Label style="-fx-text-fill: #6b7394; -fx-font-size: 13;" text="Tournaments" />
                 </HBox>
 
+                <HBox fx:id="navSponsorsHub" alignment="CENTER_LEFT" onMouseClicked="#onNavSponsorsHub" onMouseEntered="#onNavHoverEnter" onMouseExited="#onNavHoverExit" spacing="10" style="-fx-padding: 9 10; -fx-background-radius: 8; -fx-background-color: transparent; -fx-cursor: hand;">
+                    <Label style="-fx-text-fill: #6b7394; -fx-font-size: 13;" text="✦" />
+                    <Label style="-fx-text-fill: #6b7394; -fx-font-size: 13;" text="Sponsors" />
+                </HBox>
+
+                <HBox fx:id="navEventsHub" alignment="CENTER_LEFT" onMouseClicked="#onNavEventsHub" onMouseEntered="#onNavHoverEnter" onMouseExited="#onNavHoverExit" spacing="10" style="-fx-padding: 9 10; -fx-background-radius: 8; -fx-background-color: transparent; -fx-cursor: hand;">
+                    <Label style="-fx-text-fill: #6b7394; -fx-font-size: 13;" text="📅" />
+                    <Label style="-fx-text-fill: #6b7394; -fx-font-size: 13;" text="Événements" />
+                </HBox>
+
                 <Label style="-fx-text-fill: #4a5070; -fx-font-size: 9; -fx-letter-spacing: 2; -fx-padding: 14 10 6 10;" text="ADMIN TOOLS" />
 
                 <HBox fx:id="navReports" alignment="CENTER_LEFT" onMouseClicked="#onNavReports" onMouseEntered="#onNavHoverEnter" onMouseExited="#onNavHoverExit" spacing="10" style="-fx-padding: 9 10; -fx-background-radius: 8; -fx-background-color: transparent; -fx-cursor: hand;">
@@ -415,7 +425,7 @@
 
                 <!-- ─── MODERATION PAGE ─── -->
                 <ScrollPane fx:id="pageModeration" fitToWidth="true" managed="false" style="-fx-background-color: transparent; -fx-background: transparent; -fx-border-width: 0;" visible="false">
-                    <VBox spacing="16" style="-fx-padding: 20 28 28 28; -fx-background-color: #08090f;">
+                    <VBox fx:id="moderationRootVBox" spacing="16" style="-fx-padding: 20 28 28 28; -fx-background-color: #08090f;">
                         <VBox style="-fx-background-color: #111524; -fx-border-color: rgba(255,77,109,0.2); -fx-border-radius: 12; -fx-background-radius: 12; -fx-padding: 18;">
                             <HBox alignment="CENTER_LEFT" style="-fx-padding: 0 0 14 0;">
                                 <Label style="-fx-text-fill: #e8eaf6; -fx-font-size: 13; -fx-font-weight: bold;" text="🛡  Moderation Queue" />
@@ -439,6 +449,15 @@
                             </TableView>
                         </VBox>
                     </VBox>
+                </ScrollPane>
+
+                <!-- ─── SPONSORS (même modèle que Événements · PremiumSponsorHub) ─── -->
+                <ScrollPane fx:id="pageSponsorsHub" fitToWidth="true" managed="false" style="-fx-background-color: transparent; -fx-background: transparent; -fx-border-width: 0;" visible="false">
+                    <VBox fx:id="sponsorsRootVBox" spacing="0" style="-fx-padding: 0; -fx-background-color: #08090f;" />
+                </ScrollPane>
+
+                <ScrollPane fx:id="pageEventsHub" fitToWidth="true" managed="false" style="-fx-background-color: transparent; -fx-background: transparent; -fx-border-width: 0;" visible="false">
+                    <VBox fx:id="eventsRootVBox" spacing="0" style="-fx-padding: 0; -fx-background-color: #08090f;" />
                 </ScrollPane>
 
                 <!-- ─── SETTINGS PAGE ─── -->
